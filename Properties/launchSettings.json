@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CalendarWinUI3 (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "CalendarWinUI3 (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

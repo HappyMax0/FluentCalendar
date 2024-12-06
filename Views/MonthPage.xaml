@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="CalendarWinUI3.Views.MonthPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CalendarWinUI3.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:CalendarWinUI3.Models"
+    xmlns:converters="using:CalendarWinUI3.Views.Converter" 
+    xmlns:system="using:System"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        
+        <converters:WidthConverter x:Key="WidthConverter"/>
+        <DataTemplate x:Key="WeekTemplate" x:DataType="models:Week">
+            <Border x:Name="weekBlockBorder" HorizontalAlignment="Stretch">
+                <Grid>
+                    <TextBlock Text="{x:Bind WeekNo}" FontSize="14"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="CurrentMonthDayTemplate" x:DataType="models:Day">
+            <Border x:Name="dayBlockBorder" HorizontalAlignment="Stretch">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Ellipse Fill="{StaticResource AccentColor}" Width="40" Height="40"  Visibility="{x:Bind IsToday}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                    <TextBlock Text="{x:Bind DayNo}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                    <TextBlock Grid.Row="1" Text="{x:Bind LunarDay}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                    <ListView Grid.Row="2"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="NotCurrentMonthDayTemplate" x:DataType="models:Day">
+            <Border x:Name="dayBlockBorder" HorizontalAlignment="Stretch" Opacity="0.5" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{x:Bind MonthNo}" FontSize="12" FontWeight="Bold" HorizontalAlignment="Left"/>
+
+                    <TextBlock Grid.Row="1" Text="{x:Bind DayNo}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                    <TextBlock Grid.Row="2" Text="{x:Bind LunarDay}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                    <ListView Grid.Row="3"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+        <converters:DayGridDataTemplateSelector x:Key="DayGridDataTemplateSelector"
+            NotCurrentMonth="{StaticResource NotCurrentMonthDayTemplate}" CurrentMonth="{StaticResource CurrentMonthDayTemplate}" />
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <GridView x:Name="weekGridView" ItemTemplate="{StaticResource WeekTemplate}" HorizontalAlignment="Stretch">
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid x:Name="weekGridViewItemsWrapGrid"
+                    MaximumRowsOrColumns="7" 
+                     Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+        </GridView>
+
+        <GridView x:Name="monthGridView" Grid.Row="1" ItemTemplateSelector="{StaticResource DayGridDataTemplateSelector}"
+           HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid x:Name="monthGridViewItemsWrapGrid"
+                MaximumRowsOrColumns="7"
+                Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+        </GridView>
+
+    </Grid>
+
+</Page>
