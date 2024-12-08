@@ -47,13 +47,18 @@ namespace CalendarWinUI3.Models.Utils
                 int lunarMonth = chineseCalendar.GetMonth(dateTime);
                 int lunarDay = chineseCalendar.GetDayOfMonth(dateTime);
 
-                dayList.Add(new Day(dateTime.Year, dateTime.Month, dateTime.Day) { LunarDay = Helper.ConvertToLunarDay(lunarDay) });
+                string lunarDayStr = Helper.GetLunarFestival(dateTime);
+                if (string.IsNullOrEmpty(lunarDayStr))
+                    lunarDayStr = Helper.ConvertToLunarDay(lunarDay);
+
+                dayList.Add(new Day(dateTime.Year, dateTime.Month, dateTime.Day) { LunarDay = lunarDayStr });
             }
 
             for (int day = 1; day <= daysCount; day++)
             {
                 Calendar cal = new Calendar();
-                cal.SetDateTime(new DateTime(year, month, day));
+                var dateTime = new DateTime(year, month, day);
+                cal.SetDateTime(dateTime);
                 DayOfWeek week = cal.DayOfWeek;
 
                 bool isToday = day == today.Day && month == today.Month;
@@ -64,7 +69,11 @@ namespace CalendarWinUI3.Models.Utils
                 int lunarMonth = chineseCalendar.GetMonth(cal.GetDateTime().DateTime);
                 int lunarDay = chineseCalendar.GetDayOfMonth(cal.GetDateTime().DateTime);
 
-                dayList.Add(new Day(year, month, day) { Week = week, IsToday = isToday, IsCurrentMonth = true, LunarDay = Helper.ConvertToLunarDay(lunarDay) });
+                string lunarDayStr = Helper.GetLunarFestival(dateTime);
+                if (string.IsNullOrEmpty(lunarDayStr))
+                    lunarDayStr = Helper.ConvertToLunarDay(lunarDay);
+
+                dayList.Add(new Day(year, month, day) { Week = week, IsToday = isToday, IsCurrentMonth = true, LunarDay = lunarDayStr });
             }
 
             for (int i = 1; i < 35 - (dayList.Count - 1); i++)
@@ -78,7 +87,11 @@ namespace CalendarWinUI3.Models.Utils
                 int lunarDay = chineseCalendar.GetDayOfMonth(dateTime);
                 string str = chineseCalendar.ToString();
 
-                dayList.Add(new Day(dateTime.Year, dateTime.Month, dateTime.Day) { LunarDay = Helper.ConvertToLunarDay(lunarDay) });
+                string lunarDayStr = Helper.GetLunarFestival(dateTime);
+                if (string.IsNullOrEmpty(lunarDayStr))
+                    lunarDayStr = Helper.ConvertToLunarDay(lunarDay);
+
+                dayList.Add(new Day(dateTime.Year, dateTime.Month, dateTime.Day) { LunarDay = lunarDayStr });
             }
 
 
@@ -184,5 +197,23 @@ namespace CalendarWinUI3.Models.Utils
            
             return lunarDay;
         }
-    }
+
+        public static string GetLunarFestival(DateTime date)
+        {
+            ChineseLunisolarCalendar chineseCalendar = new ChineseLunisolarCalendar(); 
+            int year = chineseCalendar.GetYear(date); 
+            int month = chineseCalendar.GetMonth(date); 
+            int day = chineseCalendar.GetDayOfMonth(date); 
+            bool isLeapMonth = chineseCalendar.IsLeapMonth(year, month); 
+            // 农历节日判断逻辑
+            if (month == 1 && day == 1) { return "春节"; } 
+            else if (month == 1 && day == 15) { return "元宵节"; } 
+            else if (month == 5 && day == 5) { return "端午节"; } 
+            else if (month == 8 && day == 15) { return "中秋节"; } 
+            else if (month == 7 && day == 7) { return "七夕节"; } 
+            else if (month == 9 && day == 9) { return "重阳节"; } 
+            else if (month == 12 && day == 8) { return "腊八节"; } 
+            else if (month == 12 && day == 23) { return "小年"; } 
+            else { return string.Empty; } }
+        }
 }

@@ -29,11 +29,13 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Ellipse Fill="{StaticResource AccentColor}" Width="40" Height="40"  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Ellipse Fill="{StaticResource AccentColor}" Width="40" Height="40"  VerticalAlignment="Center" HorizontalAlignment="Center" />
 
-                    <TextBlock Text="{x:Bind DayNo}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
+                    <TextBlock Text="{x:Bind DayNo}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"
+                               Foreground="White"/>
 
-                    <TextBlock Grid.Row="1" Text="{x:Bind LunarDay}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Row="1" Text="{x:Bind LunarDay}" FontSize="20" 
+                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
                     <ListView Grid.Row="2"/>
                 </Grid>
