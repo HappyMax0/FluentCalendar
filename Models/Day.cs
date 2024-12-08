@@ -11,7 +11,7 @@ namespace CalendarWinUI3.Models
 
         public int LunarYear {  get; set; }
         public int LunarMonth { get; set; }
-        public int LunarDay { get; set; }
+        public string LunarDay { get; set; }
 
         public DayOfWeek Week { get; set; }
 

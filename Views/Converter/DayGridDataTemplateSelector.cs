@@ -13,12 +13,16 @@ namespace CalendarWinUI3.Views.Converter
     {
         public DataTemplate CurrentMonth { get; set; }
         public DataTemplate NotCurrentMonth { get; set; }
+        public DataTemplate CurrentDay { get; set; }
 
         protected override DataTemplate SelectTemplateCore(object obj)
         {
             if (obj is Day day)
             {
-                return day .IsCurrentMonth? CurrentMonth : NotCurrentMonth;
+                if (day.IsToday)
+                    return CurrentDay;
+                else
+                    return day .IsCurrentMonth? CurrentMonth : NotCurrentMonth;
             }
             else
             {

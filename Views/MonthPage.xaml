@@ -21,6 +21,24 @@
                 </Grid>
             </Border>
         </DataTemplate>
+        <DataTemplate x:Key="CurrentDayTemplate" x:DataType="models:Day">
+            <Border x:Name="dayBlockBorder" HorizontalAlignment="Stretch">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Ellipse Fill="{StaticResource AccentColor}" Width="40" Height="40"  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                    <TextBlock Text="{x:Bind DayNo}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
+
+                    <TextBlock Grid.Row="1" Text="{x:Bind LunarDay}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                    <ListView Grid.Row="2"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
         <DataTemplate x:Key="CurrentMonthDayTemplate" x:DataType="models:Day">
             <Border x:Name="dayBlockBorder" HorizontalAlignment="Stretch">
                 <Grid>
@@ -29,8 +47,7 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Ellipse Fill="{StaticResource AccentColor}" Width="40" Height="40"  Visibility="{x:Bind IsToday}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-
+                    
                     <TextBlock Text="{x:Bind DayNo}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
                     <TextBlock Grid.Row="1" Text="{x:Bind LunarDay}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -59,7 +76,8 @@
             </Border>
         </DataTemplate>
         <converters:DayGridDataTemplateSelector x:Key="DayGridDataTemplateSelector"
-            NotCurrentMonth="{StaticResource NotCurrentMonthDayTemplate}" CurrentMonth="{StaticResource CurrentMonthDayTemplate}" />
+            NotCurrentMonth="{StaticResource NotCurrentMonthDayTemplate}" CurrentMonth="{StaticResource CurrentMonthDayTemplate}" 
+                                                CurrentDay="{StaticResource CurrentDayTemplate}"/>
     </Page.Resources>
 
     <Grid>

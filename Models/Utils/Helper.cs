@@ -11,6 +11,8 @@ namespace CalendarWinUI3.Models.Utils
 {
     public static class Helper
     {
+
+
         public static List<Day> GetDayList(Calendar calendar)
         {
             DateTime time = calendar.GetDateTime().DateTime;
@@ -45,7 +47,7 @@ namespace CalendarWinUI3.Models.Utils
                 int lunarMonth = chineseCalendar.GetMonth(dateTime);
                 int lunarDay = chineseCalendar.GetDayOfMonth(dateTime);
 
-                dayList.Add(new Day(dateTime.Year, dateTime.Month, dateTime.Day) { LunarDay = lunarDay });
+                dayList.Add(new Day(dateTime.Year, dateTime.Month, dateTime.Day) { LunarDay = Helper.ConvertToLunarDay(lunarDay) });
             }
 
             for (int day = 1; day <= daysCount; day++)
@@ -53,16 +55,16 @@ namespace CalendarWinUI3.Models.Utils
                 Calendar cal = new Calendar();
                 cal.SetDateTime(new DateTime(year, month, day));
                 DayOfWeek week = cal.DayOfWeek;
-                
+
                 bool isToday = day == today.Day && month == today.Month;
 
                 // 创建农历日历实例
                 ChineseLunisolarCalendar chineseCalendar = new();
-                int lunarYear = chineseCalendar.GetYear(cal.GetDateTime().DateTime); 
-                int lunarMonth = chineseCalendar.GetMonth(cal.GetDateTime().DateTime); 
+                int lunarYear = chineseCalendar.GetYear(cal.GetDateTime().DateTime);
+                int lunarMonth = chineseCalendar.GetMonth(cal.GetDateTime().DateTime);
                 int lunarDay = chineseCalendar.GetDayOfMonth(cal.GetDateTime().DateTime);
 
-                dayList.Add(new Day(year, month, day) { Week = week, IsToday = isToday, IsCurrentMonth = true, LunarDay = lunarDay });
+                dayList.Add(new Day(year, month, day) { Week = week, IsToday = isToday, IsCurrentMonth = true, LunarDay = Helper.ConvertToLunarDay(lunarDay) });
             }
 
             for (int i = 1; i < 35 - (dayList.Count - 1); i++)
@@ -76,7 +78,7 @@ namespace CalendarWinUI3.Models.Utils
                 int lunarDay = chineseCalendar.GetDayOfMonth(dateTime);
                 string str = chineseCalendar.ToString();
 
-                dayList.Add(new Day(dateTime.Year, dateTime.Month, dateTime.Day) { LunarDay = lunarDay });
+                dayList.Add(new Day(dateTime.Year, dateTime.Month, dateTime.Day) { LunarDay = Helper.ConvertToLunarDay(lunarDay) });
             }
 
 
@@ -156,5 +158,31 @@ namespace CalendarWinUI3.Models.Utils
             return null;
         }
 
+        public static string ConvertToLunarDate(DateTime date)
+        {
+            ChineseLunisolarCalendar chineseCalendar = new ChineseLunisolarCalendar();
+            int year = chineseCalendar.GetYear(date);
+            int month = chineseCalendar.GetMonth(date);
+            int day = chineseCalendar.GetDayOfMonth(date);
+            bool isLeapMonth = chineseCalendar.IsLeapMonth(year, month);
+            string[] chineseMonths = { "正", "二", "三", "四", "五", "六", "七", "八", "九", "十", "冬", "腊" };
+            string[] chineseDays = { "初一", "初二", "初三", "初四", "初五", "初六", "初七", "初八", "初九", "初十", "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "二十", "廿一", "廿二", "廿三", "廿四", "廿五", "廿六", "廿七", "廿八", "廿九", "三十" };
+            string lunarMonth = chineseMonths[month - 1];
+            string lunarDay = chineseDays[day - 1];
+            if (isLeapMonth) { lunarMonth = "闰" + lunarMonth; }
+            return $"农历{year}年{lunarMonth}月{lunarDay}";
+        }
+
+        public static string ConvertToLunarDay(int day)
+        {
+            ChineseLunisolarCalendar chineseCalendar = new ChineseLunisolarCalendar();
+           
+            string[] chineseMonths = { "正", "二", "三", "四", "五", "六", "七", "八", "九", "十", "冬", "腊" };
+            string[] chineseDays = { "初一", "初二", "初三", "初四", "初五", "初六", "初七", "初八", "初九", "初十", "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "二十", "廿一", "廿二", "廿三", "廿四", "廿五", "廿六", "廿七", "廿八", "廿九", "三十" };
+          
+            string lunarDay = chineseDays[day - 1];
+           
+            return lunarDay;
+        }
     }
 }
