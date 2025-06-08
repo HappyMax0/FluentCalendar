@@ -19,8 +19,8 @@
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{x:Bind TimeNo, Converter={StaticResource TimeConverter}}" FontSize="14"/>
-                    <TextBlock Grid.Column="1" Text="{x:Bind Event}" FontSize="12"/>
+                    <TextBlock Text="{x:Bind StartTime, Converter={StaticResource TimeConverter}}" FontSize="14"/>
+                    <TextBlock Grid.Column="1" Text="{x:Bind Description}" FontSize="12"/>
                 </Grid>
             </Border>
         </DataTemplate>

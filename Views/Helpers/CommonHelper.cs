@@ -15,6 +15,10 @@ namespace CalendarWinUI3.Views.Helpers
             {
                 throw new InvalidOperationException("Generic parameter 'TEnum' must be an enum.");
             }
+
+            if(text ==null)
+                return default(TEnum);
+
             return (TEnum)Enum.Parse(typeof(TEnum), text);
         }
     }

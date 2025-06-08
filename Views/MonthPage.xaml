@@ -12,8 +12,16 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
-        
+        <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
         <converters:WidthConverter x:Key="WidthConverter"/>
+        <converters:HeightConverter x:Key="HeightConverter"/>
+        <converters:BoolToSolidColorBrushConverter x:Key="BoolToSolidColorBrushConverter"/>
+        <converters:BoolToOpacityConverter x:Key="BoolToOpacityConverter"/>
+        <Style x:Key="WeekGridView_ItemContainerStyle"
+            TargetType="GridViewItem">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
         <DataTemplate x:Key="WeekTemplate" x:DataType="models:Week">
             <Border x:Name="weekBlockBorder" HorizontalAlignment="Stretch">
                 <Grid>
@@ -21,93 +29,78 @@
                 </Grid>
             </Border>
         </DataTemplate>
-        <DataTemplate x:Key="CurrentDayTemplate" x:DataType="models:Day">
-            <Border x:Name="dayBlockBorder" HorizontalAlignment="Stretch">
+        <DataTemplate x:Key="MonthTemplate" x:DataType="models:Day">
+            <Border x:Name="dayBlockBorder" HorizontalAlignment="Center">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="15"/>
                     </Grid.RowDefinitions>
-                    <Ellipse Fill="{StaticResource AccentColor}" Width="40" Height="40"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                   
+                    <Border Grid.Row="0" BorderBrush="{x:Bind IsToday, Converter={StaticResource BoolToSolidColorBrushConverter}}" 
+                            BorderThickness="5" Background="{x:Bind IsToday, Converter={StaticResource BoolToSolidColorBrushConverter}}" CornerRadius="20">
+                        <TextBlock Text="{x:Bind DayNo}" Opacity="{x:Bind IsCurrentMonth, Converter={StaticResource BoolToOpacityConverter}}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
 
-                    <TextBlock Text="{x:Bind DayNo}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"
-                               Foreground="White"/>
+                    <TextBlock Grid.Row="1" Text="{x:Bind LunarDay}"
+                               Opacity="{x:Bind IsCurrentMonth, Converter={StaticResource BoolToOpacityConverter}}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-                    <TextBlock Grid.Row="1" Text="{x:Bind LunarDay}" FontSize="20" 
-                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
-
-                    <ListView Grid.Row="2"/>
+                    <Ellipse Grid.Row="2" Width="10" Height="10" Fill="{StaticResource AccentColor}" 
+                             Visibility="{x:Bind EventList.Count, Converter={StaticResource IntToVisibilityConverter}}"/>
                 </Grid>
             </Border>
         </DataTemplate>
-        <DataTemplate x:Key="CurrentMonthDayTemplate" x:DataType="models:Day">
-            <Border x:Name="dayBlockBorder" HorizontalAlignment="Stretch">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    
-                    <TextBlock Text="{x:Bind DayNo}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-
-                    <TextBlock Grid.Row="1" Text="{x:Bind LunarDay}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-
-                    <ListView Grid.Row="2"/>
-                </Grid>
-            </Border>
-        </DataTemplate>
-        <DataTemplate x:Key="NotCurrentMonthDayTemplate" x:DataType="models:Day">
-            <Border x:Name="dayBlockBorder" HorizontalAlignment="Stretch" Opacity="0.5" >
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="{x:Bind MonthNo}" FontSize="12" FontWeight="Bold" HorizontalAlignment="Left"/>
-
-                    <TextBlock Grid.Row="1" Text="{x:Bind DayNo}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-
-                    <TextBlock Grid.Row="2" Text="{x:Bind LunarDay}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-
-                    <ListView Grid.Row="3"/>
-                </Grid>
-            </Border>
-        </DataTemplate>
-        <converters:DayGridDataTemplateSelector x:Key="DayGridDataTemplateSelector"
-            NotCurrentMonth="{StaticResource NotCurrentMonthDayTemplate}" CurrentMonth="{StaticResource CurrentMonthDayTemplate}" 
-                                                CurrentDay="{StaticResource CurrentDayTemplate}"/>
+       
     </Page.Resources>
-
-    <Grid>
+    
+    <Grid x:Name="rootGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <GridView x:Name="weekGridView" ItemTemplate="{StaticResource WeekTemplate}" HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="350"/>
+        </Grid.ColumnDefinitions>
+        <GridView x:Name="weekGridView" 
+                  ItemTemplate="{StaticResource WeekTemplate}" 
+                  ItemContainerStyle="{StaticResource WeekGridView_ItemContainerStyle}"
+                  HorizontalAlignment="Stretch">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid x:Name="weekGridViewItemsWrapGrid"
-                    MaximumRowsOrColumns="7" 
-                     Orientation="Horizontal"/>
+                    <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="7" 
+                           HorizontalAlignment="Stretch"/>
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
         </GridView>
 
-        <GridView x:Name="monthGridView" Grid.Row="1" ItemTemplateSelector="{StaticResource DayGridDataTemplateSelector}"
-           HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <GridView x:Name="monthGridView" Grid.Row="1" 
+                  ItemTemplate="{StaticResource MonthTemplate}"
+                  VerticalAlignment="Stretch">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid x:Name="monthGridViewItemsWrapGrid"
-                MaximumRowsOrColumns="7"
+                    <ItemsWrapGrid
+              MaximumRowsOrColumns="7" HorizontalAlignment="Stretch"
                 Orientation="Horizontal"/>
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
         </GridView>
 
+        <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Width="1" Background="Gray" Margin="10"/>
+
+        <ListView x:Name="eventListView" Grid.Row="0" Grid.RowSpan="2" Grid.Column="2">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:Time">
+                    <StackPanel Margin="5">
+                        <TextBlock Text="{x:Bind StartTime}" FontSize="14"/>
+                        <TextBlock Text="{x:Bind Summary}" FontSize="18"/>
+                        <TextBlock Text="{x:Bind Description}" FontSize="12" TextWrapping="WrapWholeWords"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 
 </Page>

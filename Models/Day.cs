@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Windows.Globalization;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CalendarWinUI3.Models
 {
@@ -19,7 +19,7 @@ namespace CalendarWinUI3.Models
 
         public bool IsCurrentMonth { get; set; }
 
-        public List<Time> EventList { get; set; }
+        public List<Time> EventList { get; set; } = new List<Time>();
 
         public Day(int year, int month, int day)
         {

@@ -46,11 +46,11 @@ namespace CalendarWinUI3.Views
         {
             base.OnNavigatedTo(e);
 
-            if (e.Parameter is Calendar calendar)
+            if (e.Parameter is DateTime time)
             {
-                weekGridView.ItemsSource = Helper.GetWeeks(calendar);
+                weekGridView.ItemsSource = Helper.GetWeeks(time);
 
-                Day day = Helper.GetDay(calendar);
+                Day day = Helper.GetDay(time);
 
                 timeListView.ItemsSource = day.EventList;
             }

@@ -2,20 +2,9 @@ using CalendarWinUI3.Models;
 using CalendarWinUI3.Models.Utils;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Globalization;
-using DayOfWeek = System.DayOfWeek;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -27,9 +16,15 @@ namespace CalendarWinUI3.Views
     /// </summary>
     public sealed partial class MonthPage : Page
     {
+        
         public MonthPage()
         {
             this.InitializeComponent();
+            
+            monthGridView.SelectionChanged += MonthGridView_SelectionChanged;
+
+            //monthGridView.SizeChanged += MonthGridView_SizeChanged;
+
             this.SizeChanged += MonthPage_SizeChanged;
         }
 
@@ -42,27 +37,39 @@ namespace CalendarWinUI3.Views
                 //weekGridViewItemsWrapGrid.ItemHeight = 30f;
             }
 
+            //monthGridView.ItemContainerStyle?.Setters.Add(new Setter(WidthProperty, monthGridView.ActualWidth / 7f));
+            //monthGridView.ItemContainerStyle?.Setters.Add(new Setter(HeightProperty, monthGridView.ActualHeight / 6f));
+
             ItemsWrapGrid monthGridViewItemsWrapGrid = Helper.FindVisualChild<ItemsWrapGrid>(monthGridView);
             if (monthGridViewItemsWrapGrid != null)
             {
-                monthGridViewItemsWrapGrid.ItemWidth = this.ActualWidth / 7f;
-                monthGridViewItemsWrapGrid.ItemHeight = monthGridView.ActualHeight / 5f;
+                monthGridViewItemsWrapGrid.ItemWidth = monthGridView.ActualWidth / 7f;
+                monthGridViewItemsWrapGrid.ItemHeight = monthGridView.ActualHeight / 6f;
             }
-       
+        }
+
+        private void MonthGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is GridView gridView) 
+            {
+                var selectedDay = gridView.SelectedValue as Day;
+                eventListView.ItemsSource = selectedDay.EventList;
+            }
+            
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            if (e.Parameter is Calendar calendar)
-            {
-                
+            if (e.Parameter is DateTime time)
+            {               
                 //weekGridView.ItemsSource = Enum.GetValues(typeof(System.DayOfWeek)).Cast<System.DayOfWeek>().ToList();
 
-                weekGridView.ItemsSource = Helper.GetWeeks(calendar);
+                weekGridView.ItemsSource = Helper.GetWeeks(time);
 
-                monthGridView.ItemsSource = Helper.GetDayList(calendar);
+                monthGridView.ItemsSource = Helper.GetDayList(time);
+
             }
               
         }

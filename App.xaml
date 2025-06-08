@@ -10,7 +10,12 @@
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <!-- Other merged dictionaries here -->
                 <ResourceDictionary Source="Views/Styles/Colors.xaml"/>
+                <ResourceDictionary Source="/Views/Styles/Style.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary Source="/Views/Styles/DarkTheme.xaml" x:Key="Dark"/>
+                <ResourceDictionary Source="/Views/Styles/LightTheme.xaml" x:Key="Light"/>
+            </ResourceDictionary.ThemeDictionaries>
             <!-- Other app resources here -->
         </ResourceDictionary>
     </Application.Resources>

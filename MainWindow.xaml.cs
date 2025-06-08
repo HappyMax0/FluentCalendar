@@ -1,5 +1,8 @@
+using CalendarWinUI3.Models;
+using CalendarWinUI3.Models.Utils;
 using CalendarWinUI3.Views;
 using CalendarWinUI3.Views.Helpers;
+using CalendarWinUI3.Views.Styles;
 using Microsoft.UI;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
@@ -11,11 +14,14 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.ViewManagement;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -30,6 +36,8 @@ namespace CalendarWinUI3
     {
         private UISettings _settings;
         public Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue;
+
+        public ObservableCollection<Subscription> Subscriptions { get; set; } = new ObservableCollection<Subscription>();
 
         public MainWindow()
         {
@@ -50,8 +58,30 @@ namespace CalendarWinUI3
             {
                 TitleBarHelper.SetCaptionButtonColors(this, Colors.Black);
             }
+
+            GetSubscriptions();
+
+            this.Activated += (s, e) =>
+            {
+                navigationView.SelectedItem = navigationView.MenuItems.FirstOrDefault();
+
+            };
         }
 
+        public async void GetSubscriptions()
+        {      
+            List<StorageFile> files = await iCalendarHelper.GetLocalFolderFilesAsync();
+            foreach (StorageFile file in files)
+            {
+                Subscription subscription = new Subscription
+                {
+                    Name = file.Name,
+                };
+                Subscriptions.Add(subscription);
+            }
+
+            subscriptionListView.ItemsSource = Subscriptions;
+        }
 
         // this handles updating the caption button colors correctly when indows system theme is changed
         // while the app is open
@@ -64,7 +94,7 @@ namespace CalendarWinUI3
             });
         }
 
-        private void navigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        private async void navigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             if (args.IsSettingsSelected)
             {
@@ -85,6 +115,58 @@ namespace CalendarWinUI3
                             {
                                 contentFrame.Navigate(typeof(MainPage));
                             }
+                        }
+                        else if (navigationViewItem.Tag.Equals("Add"))
+                        {
+                            ContentDialog dialog = new ContentDialog();
+
+                            // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
+                            dialog.XamlRoot = this.Content.XamlRoot;
+                            dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+                            dialog.Title = "Add Subscription";
+                            dialog.PrimaryButtonText = "Add";
+                            dialog.CloseButtonText = "Cancel";
+                            dialog.DefaultButton = ContentDialogButton.Primary;
+                            dialog.Content = new AddSubscriptionDialogControl();
+
+                            var result = await dialog.ShowAsync();
+
+                            if(result == ContentDialogResult.Primary)
+                            {
+                                // Handle the addition of the subscription here
+                                // You can access the dialog's content and retrieve the necessary data
+                                var addSubscriptionControl = dialog.Content as AddSubscriptionDialogControl;
+                                if (addSubscriptionControl != null)
+                                {
+                                    // Example: addSubscriptionControl.SubscriptionName
+                                    string url = addSubscriptionControl.SubscriptionUrl;
+                                    if(!string.IsNullOrEmpty(url))
+                                    {
+                                        string fileName = iCalendarHelper.DownloadAndSaveFileAsync(url).Result;
+                                        if(!string.IsNullOrEmpty(fileName))
+                                        {
+                                            // Successfully downloaded and saved the file
+                                            // You can create a new Subscription object and add it to your list or database
+                                            Subscription newSubscription = new Subscription
+                                            {
+                                                Name = fileName,
+                                                Url = url // Assuming you have a Url property in your Subscription model
+                                            };
+                                            Subscriptions.Add(newSubscription);
+
+                                            iCalendarHelper.AddCalendar(fileName);
+                                        }
+                                        else
+                                        {
+                                            // Handle the case where the file could not be saved
+                                            // Show an error message or take appropriate action
+                                        }
+                                    }
+                                  
+                                }
+                            }
+
+                            navigationView.SelectedItem = navigationView.MenuItems.FirstOrDefault();
                         }
                     }
                 }

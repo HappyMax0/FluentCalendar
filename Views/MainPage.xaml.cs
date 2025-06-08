@@ -1,21 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using CalendarWinUI3.Models;
-using System.Reflection;
-using Windows.Globalization;
 using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Navigation;
+using System;
+using Windows.Globalization;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -27,20 +15,19 @@ namespace CalendarWinUI3.Views
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public Calendar Time { get; set; } = new();
+        public DateTime Time { get; set; } = DateTime.Now;
 
         public MainPage()
         {
             this.InitializeComponent();
-            //Time = new Calendar();
-            Time.SetDateTime(DateTime.Now);
+             
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            YearTB.Text = Time.GetDateTime().ToString("yyyy/MM");
+            YearTB.Text = Time.ToString("yyyy/MM");
 
             if (contentFrame != null)
                 contentFrame.Navigate(typeof(MonthPage), Time);
@@ -48,7 +35,7 @@ namespace CalendarWinUI3.Views
 
         private void YearRadioBtn_Checked(object sender, RoutedEventArgs e)
         {
-            YearTB.Text = Time.GetDateTime().ToString("yyyy");
+            YearTB.Text = Time.ToString("yyyy");
 
             if (contentFrame != null)
                 contentFrame.Navigate(typeof(YearPage), Time);
@@ -56,7 +43,7 @@ namespace CalendarWinUI3.Views
 
         private void MonthRadioBtn_Checked(object sender, RoutedEventArgs e)
         {
-            YearTB.Text = Time.GetDateTime().ToString("yyyy/MM");
+            YearTB.Text = Time.ToString("yyyy/MM");
 
             if (contentFrame != null)
                 contentFrame.Navigate(typeof(MonthPage), Time, new EntranceNavigationTransitionInfo());
@@ -64,7 +51,7 @@ namespace CalendarWinUI3.Views
 
         private void WeekRadioBtn_Checked(object sender, RoutedEventArgs e)
         {
-            YearTB.Text = Time.GetDateTime().ToString("yyyy/MM");
+            YearTB.Text = Time.ToString("yyyy/MM");
 
             if (contentFrame != null)
                 contentFrame.Navigate(typeof(WeekPage), Time, new EntranceNavigationTransitionInfo());
@@ -72,7 +59,7 @@ namespace CalendarWinUI3.Views
 
         private void DayRadioBtn_Checked(object sender, RoutedEventArgs e)
         {
-            YearTB.Text = Time.GetDateTime().ToString("yyyy/MM/dd");
+            YearTB.Text = Time.ToString("yyyy/MM/dd");
 
             if (contentFrame != null)
                 contentFrame.Navigate(typeof(DayPage), Time, new EntranceNavigationTransitionInfo());
@@ -86,9 +73,16 @@ namespace CalendarWinUI3.Views
                 {
                     if(MonthRadioBtn.IsChecked.Value)
                     {
-                        Time.AddMonths(-1);
+                        if(Time.Month == 1)
+                        {
+                            Time = new DateTime(Time.Year - 1, 12, 1);
+                        }                    
+                        else
+                        {
+                            Time = new DateTime(Time.Year, Time.Month - 1, 1);
+                        }             
 
-                        YearTB.Text = Time.GetDateTime().ToString("yyyy/MM");
+                        YearTB.Text = Time.ToString("yyyy/MM");
 
                         if (contentFrame != null)
                             contentFrame.Navigate(typeof(MonthPage), Time, new SlideNavigationTransitionInfo()
@@ -107,7 +101,7 @@ namespace CalendarWinUI3.Views
                     {
                         Time.AddDays(-7);
 
-                        YearTB.Text = Time.GetDateTime().ToString("yyyy/MM");
+                        YearTB.Text = Time.ToString("yyyy/MM");
 
                         if (contentFrame != null)
                             contentFrame.Navigate(typeof(WeekPage), Time, new SlideNavigationTransitionInfo()
@@ -126,7 +120,7 @@ namespace CalendarWinUI3.Views
                     {
                         Time.AddDays(-1);
 
-                        YearTB.Text = Time.GetDateTime().ToString("yyyy/MM/dd");
+                        YearTB.Text = Time.ToString("yyyy/MM/dd");
 
                         if (contentFrame != null)
                             contentFrame.Navigate(typeof(DayPage), Time, new SlideNavigationTransitionInfo()
@@ -146,9 +140,16 @@ namespace CalendarWinUI3.Views
                 {
                     if (MonthRadioBtn.IsChecked.Value)
                     {
-                        Time.AddMonths(1);
+                        if (Time.Month == 12)
+                        {
+                            Time = new DateTime(Time.Year + 1, 1, 1);
+                        }
+                        else
+                        {
+                            Time = new DateTime(Time.Year, Time.Month + 1, 1);
+                        }
 
-                        YearTB.Text = Time.GetDateTime().ToString("yyyy/MM");
+                        YearTB.Text = Time.ToString("yyyy/MM");
 
                         if (contentFrame != null)
                             contentFrame.Navigate(typeof(MonthPage), Time, new SlideNavigationTransitionInfo()
@@ -167,7 +168,7 @@ namespace CalendarWinUI3.Views
                     {
                         Time.AddDays(7);
 
-                        YearTB.Text = Time.GetDateTime().ToString("yyyy/MM");
+                        YearTB.Text = Time.ToString("yyyy/MM");
 
                         if (contentFrame != null)
                             contentFrame.Navigate(typeof(WeekPage), Time, new SlideNavigationTransitionInfo()
@@ -186,7 +187,7 @@ namespace CalendarWinUI3.Views
                     {
                         Time.AddDays(1);
 
-                        YearTB.Text = Time.GetDateTime().ToString("yyyy/MM/dd");
+                        YearTB.Text = Time.ToString("yyyy/MM/dd");
 
                         if (contentFrame != null)
                             contentFrame.Navigate(typeof(DayPage), Time, new SlideNavigationTransitionInfo()
@@ -200,8 +201,7 @@ namespace CalendarWinUI3.Views
 
         private void HomeBtn_Click(object sender, RoutedEventArgs e)
         {
-            Time = new Calendar();
-            Time.SetDateTime(DateTime.Now);
+            Time = DateTime.Now;
 
             if (MonthRadioBtn != null)
             {
@@ -209,7 +209,7 @@ namespace CalendarWinUI3.Views
                 {
                     if (MonthRadioBtn.IsChecked.Value)
                     {
-                        YearTB.Text = Time.GetDateTime().ToString("yyyy/MM");
+                        YearTB.Text = Time.ToString("yyyy/MM");
 
                         if (contentFrame != null)
                             contentFrame.Navigate(typeof(MonthPage), Time, new DrillInNavigationTransitionInfo());
@@ -225,7 +225,7 @@ namespace CalendarWinUI3.Views
                 {
                     if (WeekRadioBtn.IsChecked.Value)
                     {
-                        YearTB.Text = Time.GetDateTime().ToString("yyyy/MM");
+                        YearTB.Text = Time.ToString("yyyy/MM");
 
                         if (contentFrame != null)
                             contentFrame.Navigate(typeof(WeekPage), Time, new DrillInNavigationTransitionInfo());
@@ -241,7 +241,7 @@ namespace CalendarWinUI3.Views
                 {
                     if (DayRadioBtn.IsChecked.Value)
                     {
-                        YearTB.Text = Time.GetDateTime().ToString("yyyy/MM/dd");
+                        YearTB.Text = Time.ToString("yyyy/MM/dd");
 
                         if (contentFrame != null)
                             contentFrame.Navigate(typeof(DayPage), Time, new DrillInNavigationTransitionInfo());

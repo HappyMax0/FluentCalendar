@@ -3,44 +3,33 @@ using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Windows.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
 using Calendar = Windows.Globalization.Calendar;
-using DayOfWeek = Windows.Globalization.DayOfWeek;
 
 namespace CalendarWinUI3.Models.Utils
 {
     public static class Helper
     {
-
-
-        public static List<Day> GetDayList(Calendar calendar)
-        {
-            DateTime time = calendar.GetDateTime().DateTime;
-
+        public static List<Day> GetDayList(DateTime time)
+        {         
             List<Day> dayList = new List<Day>();
 
-            DateTime today = DateTime.Today;
+            int currentMonth = time.Month;
+            int currentYear = time.Year;
+            int daysCount = DateTime.DaysInMonth(currentYear, currentMonth);
 
-            int month = calendar.Month;
-            int year = calendar.Year;
-            int daysCount = calendar.NumberOfDaysInThisMonth;
-
-            DateTime firstDay = new DateTime(year, month, 1);
-            int firstDayWeek = (int)firstDay.DayOfWeek;
-
-            //lastMonth
-            int lastMonth = calendar.LastMonthInThisYear;
-            int lastMonthYear = month > 1 ? year : year - 1;
-            int lastMounthDaysCount = DateTime.DaysInMonth(lastMonthYear, lastMonth);
-
-            //nextMonth
-            int nextMonth = month < 12 ? month + 1 : 1;
-            int nextMonthYear = month < 12 ? year : year + 1;
-
-            for (int i = 0; i < firstDayWeek; i++)
+            //LastMonth
+            DateTime firstDayOfCurrentMonth = new DateTime(currentYear, currentMonth, 1);
+            DayOfWeek startDayOfWeek = firstDayOfCurrentMonth.DayOfWeek;
+            int previousMonth = currentMonth == 1 ? 12 : currentMonth - 1;
+            int previousYear = currentMonth == 1 ? currentYear - 1 : currentYear;
+            int daysInPreviousMonth = DateTime.DaysInMonth(previousYear, previousMonth);
+  
+            for (int i = daysInPreviousMonth - (int)startDayOfWeek + 1; i <= daysInPreviousMonth; i++)
             {
                 Calendar cal = new Calendar();
-                cal.SetDateTime(new DateTime(lastMonthYear, month - 1 > 0 ? month - 1 : 12, lastMounthDaysCount - (firstDayWeek - i) + 1));
+                cal.SetDateTime(new DateTime(previousYear, previousMonth, i));
                 DateTime dateTime = cal.GetDateTime().DateTime;
                 ChineseLunisolarCalendar chineseCalendar = new();
                 int lunarYear = chineseCalendar.GetYear(dateTime);
@@ -51,36 +40,68 @@ namespace CalendarWinUI3.Models.Utils
                 if (string.IsNullOrEmpty(lunarDayStr))
                     lunarDayStr = Helper.ConvertToLunarDay(lunarDay);
 
-                dayList.Add(new Day(dateTime.Year, dateTime.Month, dateTime.Day) { LunarDay = lunarDayStr });
+                var singleDay = new Day(dateTime.Year, dateTime.Month, dateTime.Day) { LunarDay = lunarDayStr };
+
+                foreach (var calendar in iCalendarHelper.Calendars)
+                {
+                    var evetItems = calendar.Events.Where(it => it.Start.AsSystemLocal >= dateTime && it.End.AsSystemLocal <= dateTime.AddDays(1));
+                    if (evetItems != null && evetItems.Count() > 0)
+                    {
+                        foreach (var evetItem in evetItems)
+                        {
+                            singleDay.EventList.Add(new Time() { StartTime = evetItem.Start.AsSystemLocal, Summary = evetItem.Summary, Description = evetItem.Description });
+                        }
+                    }
+                }
+
+                dayList.Add(singleDay);
             }
 
+            //CurrentMonth
+            DateTime today = DateTime.Today;
             for (int day = 1; day <= daysCount; day++)
             {
-                Calendar cal = new Calendar();
-                var dateTime = new DateTime(year, month, day);
-                cal.SetDateTime(dateTime);
-                DayOfWeek week = cal.DayOfWeek;
+                var dateTime = new DateTime(currentYear, currentMonth, day);
+                
+                DayOfWeek week = dateTime.DayOfWeek;
 
-                bool isToday = day == today.Day && month == today.Month;
+                bool isToday = day == today.Day && currentMonth == today.Month;
 
                 // 创建农历日历实例
                 ChineseLunisolarCalendar chineseCalendar = new();
-                int lunarYear = chineseCalendar.GetYear(cal.GetDateTime().DateTime);
-                int lunarMonth = chineseCalendar.GetMonth(cal.GetDateTime().DateTime);
-                int lunarDay = chineseCalendar.GetDayOfMonth(cal.GetDateTime().DateTime);
+                int lunarYear = chineseCalendar.GetYear(dateTime);
+                int lunarMonth = chineseCalendar.GetMonth(dateTime);
+                int lunarDay = chineseCalendar.GetDayOfMonth(dateTime);
 
                 string lunarDayStr = Helper.GetLunarFestival(dateTime);
                 if (string.IsNullOrEmpty(lunarDayStr))
                     lunarDayStr = Helper.ConvertToLunarDay(lunarDay);
 
-                dayList.Add(new Day(year, month, day) { Week = week, IsToday = isToday, IsCurrentMonth = true, LunarDay = lunarDayStr });
+                var singleDay = new Day(currentYear, currentMonth, day) { Week = week, IsToday = isToday, IsCurrentMonth = true, LunarDay = lunarDayStr };
+            
+                foreach (var calendar in iCalendarHelper.Calendars)
+                {
+                    var evetItems = calendar.Events.Where(it => it.Start.AsSystemLocal >= dateTime && it.End.AsSystemLocal <= dateTime.AddDays(1));
+                    if (evetItems != null && evetItems.Count() > 0)
+                    {
+                        foreach (var evetItem in evetItems)
+                        {
+                            singleDay.EventList.Add(new Time() { StartTime = evetItem.Start.AsSystemLocal, Summary = evetItem.Summary, Description = evetItem.Description });
+                        }
+                    }
+                }
+
+                dayList.Add(singleDay);
             }
 
-            for (int i = 1; i < 35 - (dayList.Count - 1); i++)
+            //NextMonth
+            int nextMonth = currentMonth == 12 ? 1 : currentMonth + 1;
+            int nextYear = currentMonth == 12 ? currentYear + 1 : currentYear;
+            int daysInCurrentMonth = DateTime.DaysInMonth(nextYear, nextMonth);
+            int remainingDays = 42 - (dayList.Count);
+            for (int i = 1; i <= remainingDays; i++)
             {
-                Calendar cal = new Calendar();
-                cal.SetDateTime(new DateTime(nextMonthYear, nextMonth, i));
-                DateTime dateTime = cal.GetDateTime().DateTime;
+                DateTime dateTime = new DateTime(nextYear, nextMonth, i);
                 ChineseLunisolarCalendar chineseCalendar = new();
                 int lunarYear = chineseCalendar.GetYear(dateTime);
                 int lunarMonth = chineseCalendar.GetMonth(dateTime);
@@ -91,20 +112,29 @@ namespace CalendarWinUI3.Models.Utils
                 if (string.IsNullOrEmpty(lunarDayStr))
                     lunarDayStr = Helper.ConvertToLunarDay(lunarDay);
 
-                dayList.Add(new Day(dateTime.Year, dateTime.Month, dateTime.Day) { LunarDay = lunarDayStr });
+                Day singleDay = new Day(dateTime.Year, dateTime.Month, dateTime.Day) { LunarDay = lunarDayStr };
+
+                foreach (var calendar in iCalendarHelper.Calendars)
+                {
+                    var evetItems = calendar.Events.Where(it => it.Start.AsSystemLocal >= dateTime && it.End.AsSystemLocal <= dateTime.AddDays(1));
+                    if (evetItems != null && evetItems.Count() > 0)
+                    {
+                        foreach (var evetItem in evetItems)
+                        {
+                            singleDay.EventList.Add(new Time() { StartTime = evetItem.Start.AsSystemLocal, Summary = evetItem.Summary, Description = evetItem.Description });
+                        }
+                    }
+                }
+
+                dayList.Add(singleDay);
             }
 
-
             return dayList;
-
         }
 
 
-        public static List<Week> GetWeeks(Calendar calendar)
+        public static List<Week> GetWeeks(DateTime time)
         {
-            DateTime time = calendar.GetDateTime().DateTime;
-
-
             DateTime today = DateTime.Today;
 
             int timeDay = time.Day;
@@ -128,16 +158,14 @@ namespace CalendarWinUI3.Models.Utils
             return weekList;
         }
 
-        public static Day GetDay(Calendar calendar)
-        {
-            DateTime time = calendar.GetDateTime().DateTime;
-
+        public static Day GetDay(DateTime time)
+        {      
             Day day = new Day();
 
-            day.YearNo = calendar.Year;
-            day.MonthNo = calendar.Month;
-            day.DayNo = calendar.Day;
-            day.Week = calendar.DayOfWeek;
+            day.YearNo = time.Year;
+            day.MonthNo = time.Month;
+            day.DayNo = time.Day;
+            day.Week = time.DayOfWeek;
 
             List<Time> timeList = new List<Time>();
 
@@ -145,7 +173,7 @@ namespace CalendarWinUI3.Models.Utils
 
             for (int i = 0; i < 24; i++)
             {
-                timeList.Add(new Time() { TimeNo = dateTime.AddHours(i), Event = String.Empty });
+                timeList.Add(new Time() { StartTime = dateTime.AddHours(i), Description = String.Empty });
             }
 
             day.EventList = timeList;
@@ -215,5 +243,5 @@ namespace CalendarWinUI3.Models.Utils
             else if (month == 12 && day == 8) { return "腊八节"; } 
             else if (month == 12 && day == 23) { return "小年"; } 
             else { return string.Empty; } }
-        }
+    }
 }

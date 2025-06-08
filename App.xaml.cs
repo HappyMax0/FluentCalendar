@@ -1,4 +1,5 @@
-﻿using CalendarWinUI3.Views;
+﻿using CalendarWinUI3.Models.Utils;
+using CalendarWinUI3.Views;
 using CalendarWinUI3.Views.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -38,6 +39,13 @@ namespace CalendarWinUI3
         public App()
         {
             this.InitializeComponent();
+
+            GetCalendar();
+        }
+
+        private async void GetCalendar()
+        {
+            await iCalendarHelper.GetICS();
         }
 
         public static TEnum GetEnum<TEnum>(string text) where TEnum : struct
@@ -61,7 +69,7 @@ namespace CalendarWinUI3
             m_window.Activate();
 
             var theme = ThemeHelper.GetSavedTheme();
-            if (!theme.Equals("Default"))
+            if (!"Default".Equals(theme))
                 ThemeHelper.RootTheme = CommonHelper.GetEnum<ElementTheme>(theme);
 
         }

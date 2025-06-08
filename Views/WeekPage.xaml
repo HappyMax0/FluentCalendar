@@ -37,7 +37,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{x:Bind TimeNo, Converter={StaticResource TimeConverter}}" FontSize="14"/>
+                    <TextBlock Text="{x:Bind StartTime, Converter={StaticResource TimeConverter}}" FontSize="14"/>
                     
                 </Grid>
             </Border>
