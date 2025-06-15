@@ -24,10 +24,12 @@
                 <TextBlock x:Name="YearTB" FontSize="24" FontWeight="Bold" />
             </Button>
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-                <!--<RadioButton x:Name="YearRadioBtn" GroupName="ShowType" Content="Y" Checked="YearRadioBtn_Checked"/>-->
-                <RadioButton x:Name="MonthRadioBtn" GroupName="ShowType" Content="M" IsChecked="True" Checked="MonthRadioBtn_Checked"/>
-                <RadioButton x:Name="WeekRadioBtn" GroupName="ShowType" Content="W" Checked="WeekRadioBtn_Checked"/>
-                <RadioButton x:Name="DayRadioBtn" GroupName="ShowType" Content="D" Checked="DayRadioBtn_Checked"/>
+                <RadioButton x:Name="YearRadioBtn" GroupName="ShowType" Content="Y" Checked="YearRadioBtn_Checked"
+                             Visibility="Collapsed" />
+                <RadioButton x:Name="MonthRadioBtn" GroupName="ShowType" Content="Month" IsChecked="True" Checked="MonthRadioBtn_Checked"/>
+                <RadioButton x:Name="WeekRadioBtn" GroupName="ShowType" Content="Week" Checked="WeekRadioBtn_Checked"/>
+                <RadioButton x:Name="DayRadioBtn" GroupName="ShowType" Content="D" Checked="DayRadioBtn_Checked"
+                             Visibility="Collapsed"/>
             </StackPanel>
             <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 20 0">
                 <Button x:Name="preBtn" FontFamily="Segoe MDL2 Assets" Content="&#xE76B;" Click="preBtn_Click"/>

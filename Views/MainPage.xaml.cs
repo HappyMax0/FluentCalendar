@@ -1,3 +1,4 @@
+using CalendarWinUI3.Models;
 using CalendarWinUI3.Models.Utils;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -28,7 +29,7 @@ namespace CalendarWinUI3.Views
         {
             await iCalendarHelper.GetICS();
 
-            YearTB.Text = Time.ToString("yyyy/MM");
+            YearTB.Text = Time.ToString("yyyy/MM/dd");
 
             NavView_Navigate(typeof(MonthPage));
         }
@@ -42,14 +43,14 @@ namespace CalendarWinUI3.Views
 
         private void MonthRadioBtn_Checked(object sender, RoutedEventArgs e)
         {
-            YearTB.Text = Time.ToString("yyyy/MM");
+            YearTB.Text = Time.ToString("yyyy/MM/dd");
 
             NavView_Navigate(typeof(MonthPage));
         }
 
         private void WeekRadioBtn_Checked(object sender, RoutedEventArgs e)
         {
-            YearTB.Text = Time.ToString("yyyy/MM");
+            YearTB.Text = Time.ToString("yyyy/MM/dd");
 
             NavView_Navigate(typeof(WeekPage));
         }
@@ -63,189 +64,153 @@ namespace CalendarWinUI3.Views
 
         private void preBtn_Click(object sender, RoutedEventArgs e)
         {
-            if(MonthRadioBtn != null)
+            if (MonthRadioBtn.IsChecked.HasValue && MonthRadioBtn.IsChecked.Value)
             {
-                if (MonthRadioBtn.IsChecked.HasValue)
+                if (Time.Month == 1)
                 {
-                    if(MonthRadioBtn.IsChecked.Value)
+                    Time = new DateTime(Time.Year - 1, 12, 1);
+                }
+                else
+                {
+                    Time = new DateTime(Time.Year, Time.Month - 1, 1);
+                }
+
+                YearTB.Text = Time.ToString("yyyy/MM/dd");
+
+                contentFrame?.Navigate(typeof(MonthPage), Time, new SlideNavigationTransitionInfo()
+                    { Effect = SlideNavigationTransitionEffect.FromLeft });
+
+                return;
+            }
+
+            if (WeekRadioBtn.IsChecked.HasValue && WeekRadioBtn.IsChecked.Value)
+            {           
+                if (Time.Day - 7 < 1)
+                {
+                    if (Time.Month == 1)
                     {
-                        if(Time.Month == 1)
-                        {
-                            Time = new DateTime(Time.Year - 1, 12, 1);
-                        }                    
-                        else
-                        {
-                            Time = new DateTime(Time.Year, Time.Month - 1, 1);
-                        }             
-
-                        YearTB.Text = Time.ToString("yyyy/MM");
-
-                        if (contentFrame != null)
-                            contentFrame.Navigate(typeof(MonthPage), Time, new SlideNavigationTransitionInfo()
-                            { Effect = SlideNavigationTransitionEffect.FromLeft });
-
-                        return;
+                        Time = new DateTime(Time.Year - 1, 12, 28);
+                    }
+                    else
+                    {
+                        Time = new DateTime(Time.Year, Time.Month - 1, 28);
                     }               
                 }
+                else
+                {
+                    Time = new DateTime(Time.Year, Time.Month, Time.Day - 7);
+                }
+
+                YearTB.Text = Time.ToString("yyyy/MM/dd");
+
+                contentFrame?.Navigate(typeof(WeekPage), Time, new SlideNavigationTransitionInfo()
+                    { Effect = SlideNavigationTransitionEffect.FromLeft });
+
+                return;
             }
 
-            if (WeekRadioBtn != null)
+            if (DayRadioBtn.IsChecked.HasValue && DayRadioBtn.IsChecked.Value)
             {
-                if (WeekRadioBtn.IsChecked.HasValue)
-                {
-                    if (WeekRadioBtn.IsChecked.Value)
-                    {
-                        Time.AddDays(-7);
+                Time = Time.AddDays(-1);
 
-                        YearTB.Text = Time.ToString("yyyy/MM");
+                YearTB.Text = Time.ToString("yyyy/MM/dd");
 
-                        if (contentFrame != null)
-                            contentFrame.Navigate(typeof(WeekPage), Time, new SlideNavigationTransitionInfo()
-                            { Effect = SlideNavigationTransitionEffect.FromLeft });
+                contentFrame?.Navigate(typeof(DayPage), Time, new SlideNavigationTransitionInfo()
+                    { Effect = SlideNavigationTransitionEffect.FromLeft });
 
-                        return;
-                    }
-                }
-            }
-
-            if (DayRadioBtn != null)
-            {
-                if (DayRadioBtn.IsChecked.HasValue)
-                {
-                    if (DayRadioBtn.IsChecked.Value)
-                    {
-                        Time.AddDays(-1);
-
-                        YearTB.Text = Time.ToString("yyyy/MM/dd");
-
-                        if (contentFrame != null)
-                            contentFrame.Navigate(typeof(DayPage), Time, new SlideNavigationTransitionInfo()
-                            { Effect = SlideNavigationTransitionEffect.FromLeft });
-
-                        return;
-                    }
-                }
+                return;
             }
         }
 
         private void nextBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (MonthRadioBtn != null)
+            if (MonthRadioBtn.IsChecked.HasValue && MonthRadioBtn.IsChecked.Value)
             {
-                if (MonthRadioBtn.IsChecked.HasValue)
+                if (Time.Month == 12)
                 {
-                    if (MonthRadioBtn.IsChecked.Value)
-                    {
-                        if (Time.Month == 12)
-                        {
-                            Time = new DateTime(Time.Year + 1, 1, 1);
-                        }
-                        else
-                        {
-                            Time = new DateTime(Time.Year, Time.Month + 1, 1);
-                        }
-
-                        YearTB.Text = Time.ToString("yyyy/MM");
-
-                        if (contentFrame != null)
-                            contentFrame.Navigate(typeof(MonthPage), Time, new SlideNavigationTransitionInfo()
-                            { Effect = SlideNavigationTransitionEffect.FromRight });
-
-                        return;
-                    }
+                    Time = new DateTime(Time.Year + 1, 1, 1);
                 }
+                else
+                {
+                    Time = new DateTime(Time.Year, Time.Month + 1, 1);
+                }
+
+                YearTB.Text = Time.ToString("yyyy/MM/dd");
+
+                contentFrame?.Navigate(typeof(MonthPage), Time, new SlideNavigationTransitionInfo()
+                    { Effect = SlideNavigationTransitionEffect.FromRight });
+
+                return;
             }
 
-            if (WeekRadioBtn != null)
+            if (WeekRadioBtn.IsChecked.HasValue && WeekRadioBtn.IsChecked.Value)
             {
-                if (WeekRadioBtn.IsChecked.HasValue)
+                int daysCount = DateTime.DaysInMonth(Time.Year, Time.Month);
+                if (Time.Day + 7 > daysCount)
                 {
-                    if (WeekRadioBtn.IsChecked.Value)
+                    if (Time.Month == 12)
                     {
-                        Time.AddDays(7);
-
-                        YearTB.Text = Time.ToString("yyyy/MM");
-
-                        if (contentFrame != null)
-                            contentFrame.Navigate(typeof(WeekPage), Time, new SlideNavigationTransitionInfo()
-                            { Effect = SlideNavigationTransitionEffect.FromRight });
-
-                        return;
+                        Time = new DateTime(Time.Year + 1, 1, 1);
+                    }
+                    else
+                    {
+                        Time = new DateTime(Time.Year, Time.Month + 1, 1);
                     }
                 }
-            }
-
-            if (DayRadioBtn != null)
-            {
-                if (DayRadioBtn.IsChecked.HasValue)
+                else
                 {
-                    if (DayRadioBtn.IsChecked.Value)
-                    {
-                        Time.AddDays(1);
-
-                        YearTB.Text = Time.ToString("yyyy/MM/dd");
-
-                        if (contentFrame != null)
-                            contentFrame.Navigate(typeof(DayPage), Time, new SlideNavigationTransitionInfo()
-                            { Effect = SlideNavigationTransitionEffect.FromRight });
-
-                        return;
-                    }
+                    Time = new DateTime(Time.Year, Time.Month, Time.Day + 7);
                 }
+
+                YearTB.Text = Time.ToString("yyyy/MM/dd");
+
+                contentFrame?.Navigate(typeof(WeekPage), Time, new SlideNavigationTransitionInfo()
+                    { Effect = SlideNavigationTransitionEffect.FromRight });
+
+                return;
             }
+
+            if (DayRadioBtn.IsChecked.HasValue && DayRadioBtn.IsChecked.Value)
+            {
+                Time = Time.AddDays(1);
+
+                YearTB.Text = Time.ToString("yyyy/MM/dd");
+
+                contentFrame?.Navigate(typeof(DayPage), Time, new SlideNavigationTransitionInfo()
+                    { Effect = SlideNavigationTransitionEffect.FromRight });
+
+                return;
+            }
+
         }
 
         private void HomeBtn_Click(object sender, RoutedEventArgs e)
         {
             Time = DateTime.Now;
 
-            if (MonthRadioBtn != null)
-            {
-                if (MonthRadioBtn.IsChecked.HasValue)
-                {
-                    if (MonthRadioBtn.IsChecked.Value)
-                    {
-                        YearTB.Text = Time.ToString("yyyy/MM");
+            YearTB.Text = Time.ToString("yyyy/MM/dd");
 
-                        if (contentFrame != null)
-                            contentFrame.Navigate(typeof(MonthPage), Time, new DrillInNavigationTransitionInfo());
+            if (MonthRadioBtn.IsChecked.HasValue && MonthRadioBtn.IsChecked.Value)
+            {         
+                contentFrame?.Navigate(typeof(MonthPage), Time, new DrillInNavigationTransitionInfo());
 
-                        return;
-                    }
-                }
+                return;
             }
 
-            if (WeekRadioBtn != null)
+            if (WeekRadioBtn.IsChecked.HasValue && WeekRadioBtn.IsChecked.Value)
             {
-                if (WeekRadioBtn.IsChecked.HasValue)
-                {
-                    if (WeekRadioBtn.IsChecked.Value)
-                    {
-                        YearTB.Text = Time.ToString("yyyy/MM");
+                contentFrame?.Navigate(typeof(WeekPage), Time, new DrillInNavigationTransitionInfo());
 
-                        if (contentFrame != null)
-                            contentFrame.Navigate(typeof(WeekPage), Time, new DrillInNavigationTransitionInfo());
-
-                        return;
-                    }
-                }
+                return;
             }
 
-            if (DayRadioBtn != null)
+            if (DayRadioBtn.IsChecked.HasValue && DayRadioBtn.IsChecked.Value)
             {
-                if (DayRadioBtn.IsChecked.HasValue)
-                {
-                    if (DayRadioBtn.IsChecked.Value)
-                    {
-                        YearTB.Text = Time.ToString("yyyy/MM/dd");
+                contentFrame?.Navigate(typeof(DayPage), Time, new DrillInNavigationTransitionInfo());
 
-                        if (contentFrame != null)
-                            contentFrame.Navigate(typeof(DayPage), Time, new DrillInNavigationTransitionInfo());
-
-                        return;
-                    }
-                }
+                return;
             }
+
         }
 
         private void NavView_Navigate(

@@ -70,7 +70,7 @@ namespace CalendarWinUI3
             {
                 Subscription subscription = new Subscription
                 {
-                    Name = file.Name,
+                    Name = file.Name.Split(".").FirstOrDefault(),
                 };
                 Subscriptions.Add(subscription);
             }
@@ -156,6 +156,11 @@ namespace CalendarWinUI3
 
                         navigationView.SelectedItem = navigationView.MenuItems.FirstOrDefault();
                     }
+                    else if (navigationViewItem.Tag.Equals("Sync"))
+                    {
+
+                        navigationView.SelectedItem = navigationView.MenuItems.FirstOrDefault();
+                    }
                 }
             }
         }
@@ -171,6 +176,10 @@ namespace CalendarWinUI3
                 if(args.InvokedItemContainer.Tag.Equals("Calendar"))
                 {
                     NavView_Navigate(typeof(MainPage), args.RecommendedNavigationTransitionInfo);
+                }
+                else if (args.InvokedItemContainer.Tag.Equals("Account"))
+                {
+                    NavView_Navigate(typeof(AccountPage), args.RecommendedNavigationTransitionInfo);
                 }
             }
         }

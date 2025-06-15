@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Ical.Net.DataTypes;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
@@ -139,21 +140,42 @@ namespace CalendarWinUI3.Models.Utils
 
             int timeDay = time.Day;
 
-            int timeWeek = (int)time.DayOfWeek;
+            int dayOfWeek = (int)time.DayOfWeek;
 
-            int daysCount = DateTime.DaysInMonth(time.Year, time.Month);
+            int startDay = timeDay - dayOfWeek;
+
+            if(startDay < 1)
+            {
+                startDay = 1;
+            }
+
+            //int daysCount = DateTime.DaysInMonth(time.Year, time.Month);
 
             List<Week> weekList = new List<Week>();
             for (int i = 0; i < 7; i++)
             {
                 DayOfWeek week = (DayOfWeek)i;
 
-                int day = timeDay - timeWeek + i;
+                int day = startDay + i;
 
-                if (day > daysCount)
-                    day = day - daysCount;
+                var weekObj = new Week() { WeekNo = week, DayNo = day, IsToday = day == today.Day };
+                weekObj.Events = new();
 
-                weekList.Add(new Week() { WeekNo = week, DayNo = day, IsToday = day == today.Day });
+                var dateTime = new DateTime(time.Year, time.Month, day);
+
+                foreach (var calendar in iCalendarHelper.Calendars)
+                {
+                    var evetItems = calendar.Events.Where(it => it.Start.AsSystemLocal >= dateTime && it.End.AsSystemLocal <= dateTime.AddDays(1));
+                    if (evetItems != null && evetItems.Count() > 0)
+                    {
+                        foreach (var evetItem in evetItems)
+                        {
+                            weekObj.Events.Add(new Time() { StartTime = evetItem.Start.AsSystemLocal, Summary = evetItem.Summary, Description = evetItem.Description });
+                        }
+                    }
+                }
+
+                weekList.Add(weekObj);
             }
             return weekList;
         }

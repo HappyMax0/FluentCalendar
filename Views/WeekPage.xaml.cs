@@ -29,18 +29,7 @@ namespace CalendarWinUI3.Views
         public WeekPage()
         {
             this.InitializeComponent();
-            this.SizeChanged += WeekPage_SizeChanged;
             
-        }
-
-        private void WeekPage_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            ItemsWrapGrid weekGridViewItemsWrapGrid = Helper.FindVisualChild<ItemsWrapGrid>(weekGridView);
-            if (weekGridViewItemsWrapGrid != null)
-            {
-                weekGridViewItemsWrapGrid.ItemWidth = weekGridView.ActualWidth / 7f;
-                //weekGridViewItemsWrapGrid.ItemHeight = 30f;
-            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -50,10 +39,6 @@ namespace CalendarWinUI3.Views
             if (e.Parameter is DateTime time)
             {
                 weekGridView.ItemsSource = Helper.GetWeeks(time);
-
-                Day day = Helper.GetDay(time);
-
-                timeListView.ItemsSource = day.EventList;
             }
 
         }

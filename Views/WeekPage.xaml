@@ -11,56 +11,53 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
+        <converter:BoolToSolidColorBrushConverter x:Key="BoolToSolidColorBrushConverter"/>
         <converter:TimeConverter x:Key="TimeConverter"/>
         <DataTemplate x:Key="WeekTemplate" x:DataType="models:Week">
-            <Border x:Name="weekBlockBorder" HorizontalAlignment="Stretch">
-                <StackPanel>
-                    <TextBlock Text="{x:Bind WeekNo}" FontSize="14"/>
-                    <Grid>
-                        <Ellipse Fill="{StaticResource AccentColor}" Width="20" Height="20"  Visibility="{x:Bind IsToday}" HorizontalAlignment="Left"/>
-                        <TextBlock Text="{x:Bind DayNo}" FontSize="14" Margin="2,0,0,0"/>
-                    </Grid>
-                    
-                </StackPanel>
-            </Border>
-        </DataTemplate>
-        <DataTemplate x:Key="TimeListTemplate" x:DataType="models:Time">
-            <Border x:Name="timeBlockBorder" HorizontalAlignment="Stretch" MinHeight="80" BorderBrush="{StaticResource AccentColor}" BorderThickness="0,0,0,2">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="{x:Bind StartTime, Converter={StaticResource TimeConverter}}" FontSize="14"/>
-                    
+            <Border x:Name="weekBlockBorder" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Grid 
+                      MaxWidth="250">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{x:Bind WeekNo}" FontSize="14" HorizontalAlignment="Center"/>
+
+                    <Border Grid.Row="1" Width="30" Height="30"
+                            BorderBrush="{x:Bind IsToday, Converter={StaticResource BoolToSolidColorBrushConverter}}" 
+         BorderThickness="5" Background="{x:Bind IsToday, Converter={StaticResource BoolToSolidColorBrushConverter}}" CornerRadius="20">
+                        <TextBlock Text="{x:Bind DayNo}" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                   
+                    <Border Grid.Row="2" BorderThickness="1" BorderBrush="{StaticResource AccentColor}" 
+                            VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                        <ListView ItemsSource="{x:Bind Events}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Time">
+                                    <StackPanel Margin="5">
+                                        <TextBlock Text="{x:Bind StartTime}" FontSize="14"/>
+                                        <TextBlock Text="{x:Bind Summary}" FontSize="18"/>
+                                        <TextBlock Text="{x:Bind Description}" FontSize="12" TextWrapping="WrapWholeWords"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Border>
                 </Grid>
             </Border>
         </DataTemplate>
     </Page.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="80"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <GridView x:Name="weekGridView" Grid.Column="1" Grid.ColumnSpan="7" ItemTemplate="{StaticResource WeekTemplate}" HorizontalAlignment="Stretch">
+    <ScrollViewer x:Name="scrollViewer" HorizontalScrollBarVisibility="Visible">
+        <GridView x:Name="weekGridView" 
+                  ItemTemplate="{StaticResource WeekTemplate}" HorizontalAlignment="Stretch"
+                  VerticalAlignment="Top">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ItemsWrapGrid x:Name="weekGridViewItemsWrapGrid"
-             MaximumRowsOrColumns="7" 
               Orientation="Horizontal"/>
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
         </GridView>
-        <ListView x:Name="timeListView" Grid.Row="1" Grid.ColumnSpan="2" ItemTemplate="{StaticResource TimeListTemplate}"/>
-    </Grid>
+    </ScrollViewer>
 </Page>

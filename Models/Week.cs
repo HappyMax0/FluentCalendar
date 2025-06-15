@@ -1,6 +1,7 @@
 ﻿
 
 using System;
+using System.Collections.ObjectModel;
 
 namespace CalendarWinUI3.Models
 {
@@ -11,5 +12,7 @@ namespace CalendarWinUI3.Models
         public bool IsToday { get; set; }
 
         public int DayNo { get; set; }
+
+        public ObservableCollection<Time> Events { get; set; }
     }
 }
