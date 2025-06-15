@@ -29,35 +29,35 @@ namespace CalendarWinUI3.Views
         {
             await iCalendarHelper.GetICS();
 
-            YearTB.Text = Time.ToString("yyyy/MM/dd");
+            calendarDatePicker.Date = Time;
 
             NavView_Navigate(typeof(MonthPage));
         }
 
         private void YearRadioBtn_Checked(object sender, RoutedEventArgs e)
         {
-            YearTB.Text = Time.ToString("yyyy");
+            calendarDatePicker.Date = Time;
 
             NavView_Navigate(typeof(YearPage));
         }
 
         private void MonthRadioBtn_Checked(object sender, RoutedEventArgs e)
         {
-            YearTB.Text = Time.ToString("yyyy/MM/dd");
+            calendarDatePicker.Date = Time;
 
             NavView_Navigate(typeof(MonthPage));
         }
 
         private void WeekRadioBtn_Checked(object sender, RoutedEventArgs e)
         {
-            YearTB.Text = Time.ToString("yyyy/MM/dd");
+            calendarDatePicker.Date = Time;
 
             NavView_Navigate(typeof(WeekPage));
         }
 
         private void DayRadioBtn_Checked(object sender, RoutedEventArgs e)
         {
-            YearTB.Text = Time.ToString("yyyy/MM/dd");
+            calendarDatePicker.Date = Time;
 
             NavView_Navigate(typeof(DayPage));
         }
@@ -75,7 +75,7 @@ namespace CalendarWinUI3.Views
                     Time = new DateTime(Time.Year, Time.Month - 1, 1);
                 }
 
-                YearTB.Text = Time.ToString("yyyy/MM/dd");
+                calendarDatePicker.Date = Time;
 
                 contentFrame?.Navigate(typeof(MonthPage), Time, new SlideNavigationTransitionInfo()
                     { Effect = SlideNavigationTransitionEffect.FromLeft });
@@ -101,7 +101,7 @@ namespace CalendarWinUI3.Views
                     Time = new DateTime(Time.Year, Time.Month, Time.Day - 7);
                 }
 
-                YearTB.Text = Time.ToString("yyyy/MM/dd");
+                calendarDatePicker.Date = Time;
 
                 contentFrame?.Navigate(typeof(WeekPage), Time, new SlideNavigationTransitionInfo()
                     { Effect = SlideNavigationTransitionEffect.FromLeft });
@@ -113,7 +113,7 @@ namespace CalendarWinUI3.Views
             {
                 Time = Time.AddDays(-1);
 
-                YearTB.Text = Time.ToString("yyyy/MM/dd");
+                calendarDatePicker.Date = Time;
 
                 contentFrame?.Navigate(typeof(DayPage), Time, new SlideNavigationTransitionInfo()
                     { Effect = SlideNavigationTransitionEffect.FromLeft });
@@ -135,7 +135,7 @@ namespace CalendarWinUI3.Views
                     Time = new DateTime(Time.Year, Time.Month + 1, 1);
                 }
 
-                YearTB.Text = Time.ToString("yyyy/MM/dd");
+                calendarDatePicker.Date = Time;
 
                 contentFrame?.Navigate(typeof(MonthPage), Time, new SlideNavigationTransitionInfo()
                     { Effect = SlideNavigationTransitionEffect.FromRight });
@@ -162,7 +162,7 @@ namespace CalendarWinUI3.Views
                     Time = new DateTime(Time.Year, Time.Month, Time.Day + 7);
                 }
 
-                YearTB.Text = Time.ToString("yyyy/MM/dd");
+                calendarDatePicker.Date = Time;
 
                 contentFrame?.Navigate(typeof(WeekPage), Time, new SlideNavigationTransitionInfo()
                     { Effect = SlideNavigationTransitionEffect.FromRight });
@@ -174,7 +174,7 @@ namespace CalendarWinUI3.Views
             {
                 Time = Time.AddDays(1);
 
-                YearTB.Text = Time.ToString("yyyy/MM/dd");
+                calendarDatePicker.Date = Time;
 
                 contentFrame?.Navigate(typeof(DayPage), Time, new SlideNavigationTransitionInfo()
                     { Effect = SlideNavigationTransitionEffect.FromRight });
@@ -188,7 +188,7 @@ namespace CalendarWinUI3.Views
         {
             Time = DateTime.Now;
 
-            YearTB.Text = Time.ToString("yyyy/MM/dd");
+            calendarDatePicker.Date = Time;
 
             if (MonthRadioBtn.IsChecked.HasValue && MonthRadioBtn.IsChecked.Value)
             {         
