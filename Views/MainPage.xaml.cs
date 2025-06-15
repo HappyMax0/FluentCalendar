@@ -1,3 +1,4 @@
+using CalendarWinUI3.Models.Utils;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -20,49 +21,44 @@ namespace CalendarWinUI3.Views
         public MainPage()
         {
             this.InitializeComponent();
-             
+            this.Loaded += MainPage_Loaded;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private async void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            base.OnNavigatedTo(e);
+            await iCalendarHelper.GetICS();
 
             YearTB.Text = Time.ToString("yyyy/MM");
 
-            if (contentFrame != null)
-                contentFrame.Navigate(typeof(MonthPage), Time);
+            NavView_Navigate(typeof(MonthPage));
         }
 
         private void YearRadioBtn_Checked(object sender, RoutedEventArgs e)
         {
             YearTB.Text = Time.ToString("yyyy");
 
-            if (contentFrame != null)
-                contentFrame.Navigate(typeof(YearPage), Time);
+            NavView_Navigate(typeof(YearPage));
         }
 
         private void MonthRadioBtn_Checked(object sender, RoutedEventArgs e)
         {
             YearTB.Text = Time.ToString("yyyy/MM");
 
-            if (contentFrame != null)
-                contentFrame.Navigate(typeof(MonthPage), Time, new EntranceNavigationTransitionInfo());
+            NavView_Navigate(typeof(MonthPage));
         }
 
         private void WeekRadioBtn_Checked(object sender, RoutedEventArgs e)
         {
             YearTB.Text = Time.ToString("yyyy/MM");
 
-            if (contentFrame != null)
-                contentFrame.Navigate(typeof(WeekPage), Time, new EntranceNavigationTransitionInfo());
+            NavView_Navigate(typeof(WeekPage));
         }
 
         private void DayRadioBtn_Checked(object sender, RoutedEventArgs e)
         {
             YearTB.Text = Time.ToString("yyyy/MM/dd");
 
-            if (contentFrame != null)
-                contentFrame.Navigate(typeof(DayPage), Time, new EntranceNavigationTransitionInfo());
+            NavView_Navigate(typeof(DayPage));
         }
 
         private void preBtn_Click(object sender, RoutedEventArgs e)
@@ -249,6 +245,21 @@ namespace CalendarWinUI3.Views
                         return;
                     }
                 }
+            }
+        }
+
+        private void NavView_Navigate(
+  Type navPageType)
+        {
+            if (contentFrame == null) return;
+            // Get the page type before navigation so you can prevent duplicate
+            // entries in the backstack.
+            Type preNavPageType = contentFrame.CurrentSourcePageType;
+
+            // Only navigate if the selected page isn't currently loaded.
+            if (navPageType is not null && !Type.Equals(preNavPageType, navPageType))
+            {
+                contentFrame.Navigate(navPageType, Time, new EntranceNavigationTransitionInfo());
             }
         }
     }

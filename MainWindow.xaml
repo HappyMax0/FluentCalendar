@@ -9,9 +9,12 @@
     xmlns:models="using:CalendarWinUI3.Models"
     mc:Ignorable="d">
 
-    <NavigationView x:Name="navigationView" SelectionChanged="navigationView_SelectionChanged">
+    <NavigationView x:Name="navigationView"
+                    ItemInvoked="navigationView_ItemInvoked"
+                    SelectionChanged="navigationView_SelectionChanged"
+                    BackRequested="navigationView_BackRequested">
         <NavigationView.AutoSuggestBox>
-        <AutoSuggestBox/>
+            <AutoSuggestBox/>
         </NavigationView.AutoSuggestBox>
         <NavigationView.MenuItems>
             <NavigationViewItem Icon="Calendar" Tag="Calendar" IsSelected="True">

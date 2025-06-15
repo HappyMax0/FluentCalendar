@@ -40,12 +40,6 @@ namespace CalendarWinUI3
         {
             this.InitializeComponent();
 
-            GetCalendar();
-        }
-
-        private async void GetCalendar()
-        {
-            await iCalendarHelper.GetICS();
         }
 
         public static TEnum GetEnum<TEnum>(string text) where TEnum : struct

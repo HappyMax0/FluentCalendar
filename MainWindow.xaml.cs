@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
@@ -60,12 +61,6 @@ namespace CalendarWinUI3
             }
 
             GetSubscriptions();
-
-            this.Activated += (s, e) =>
-            {
-                navigationView.SelectedItem = navigationView.MenuItems.FirstOrDefault();
-
-            };
         }
 
         public async void GetSubscriptions()
@@ -98,79 +93,121 @@ namespace CalendarWinUI3
         {
             if (args.IsSettingsSelected)
             {
-                if (contentFrame != null)
-                {
-                    contentFrame.Navigate(typeof(SettingsPage));
-                }
+                NavView_Navigate(typeof(SettingsPage), args.RecommendedNavigationTransitionInfo);
             }
             else
             {
-                if (args.SelectedItem != null)
+                if (args.SelectedItem != null && args.SelectedItem is NavigationViewItem navigationViewItem)
                 {
-                    if (args.SelectedItem is NavigationViewItem navigationViewItem)
+                    if (navigationViewItem.Tag.Equals("Calendar"))
                     {
-                        if (navigationViewItem.Tag.Equals("Calendar"))
+                        NavView_Navigate(typeof(MainPage), args.RecommendedNavigationTransitionInfo);
+
+                    }
+                    else if (navigationViewItem.Tag.Equals("Add"))
+                    {
+                        ContentDialog dialog = new ContentDialog();
+
+                        // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
+                        dialog.XamlRoot = this.Content.XamlRoot;
+                        dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+                        dialog.Title = "Add Subscription";
+                        dialog.PrimaryButtonText = "Add";
+                        dialog.CloseButtonText = "Cancel";
+                        dialog.DefaultButton = ContentDialogButton.Primary;
+                        dialog.Content = new AddSubscriptionDialogControl();
+
+                        var result = await dialog.ShowAsync();
+
+                        if (result == ContentDialogResult.Primary)
                         {
-                            if (contentFrame != null)
+                            // Handle the addition of the subscription here
+                            // You can access the dialog's content and retrieve the necessary data
+                            var addSubscriptionControl = dialog.Content as AddSubscriptionDialogControl;
+                            if (addSubscriptionControl != null)
                             {
-                                contentFrame.Navigate(typeof(MainPage));
-                            }
-                        }
-                        else if (navigationViewItem.Tag.Equals("Add"))
-                        {
-                            ContentDialog dialog = new ContentDialog();
-
-                            // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
-                            dialog.XamlRoot = this.Content.XamlRoot;
-                            dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-                            dialog.Title = "Add Subscription";
-                            dialog.PrimaryButtonText = "Add";
-                            dialog.CloseButtonText = "Cancel";
-                            dialog.DefaultButton = ContentDialogButton.Primary;
-                            dialog.Content = new AddSubscriptionDialogControl();
-
-                            var result = await dialog.ShowAsync();
-
-                            if(result == ContentDialogResult.Primary)
-                            {
-                                // Handle the addition of the subscription here
-                                // You can access the dialog's content and retrieve the necessary data
-                                var addSubscriptionControl = dialog.Content as AddSubscriptionDialogControl;
-                                if (addSubscriptionControl != null)
+                                // Example: addSubscriptionControl.SubscriptionName
+                                string url = addSubscriptionControl.SubscriptionUrl;
+                                if (!string.IsNullOrEmpty(url))
                                 {
-                                    // Example: addSubscriptionControl.SubscriptionName
-                                    string url = addSubscriptionControl.SubscriptionUrl;
-                                    if(!string.IsNullOrEmpty(url))
+                                    string fileName = iCalendarHelper.DownloadAndSaveFileAsync(url).Result;
+                                    if (!string.IsNullOrEmpty(fileName))
                                     {
-                                        string fileName = iCalendarHelper.DownloadAndSaveFileAsync(url).Result;
-                                        if(!string.IsNullOrEmpty(fileName))
+                                        // Successfully downloaded and saved the file
+                                        // You can create a new Subscription object and add it to your list or database
+                                        Subscription newSubscription = new Subscription
                                         {
-                                            // Successfully downloaded and saved the file
-                                            // You can create a new Subscription object and add it to your list or database
-                                            Subscription newSubscription = new Subscription
-                                            {
-                                                Name = fileName,
-                                                Url = url // Assuming you have a Url property in your Subscription model
-                                            };
-                                            Subscriptions.Add(newSubscription);
+                                            Name = fileName,
+                                            Url = url // Assuming you have a Url property in your Subscription model
+                                        };
+                                        Subscriptions.Add(newSubscription);
 
-                                            iCalendarHelper.AddCalendar(fileName);
-                                        }
-                                        else
-                                        {
-                                            // Handle the case where the file could not be saved
-                                            // Show an error message or take appropriate action
-                                        }
+                                        iCalendarHelper.AddCalendar(fileName);
                                     }
-                                  
+                                    else
+                                    {
+                                        // Handle the case where the file could not be saved
+                                        // Show an error message or take appropriate action
+                                    }
                                 }
-                            }
 
-                            navigationView.SelectedItem = navigationView.MenuItems.FirstOrDefault();
+                            }
                         }
+
+                        navigationView.SelectedItem = navigationView.MenuItems.FirstOrDefault();
                     }
                 }
             }
+        }
+
+        private void navigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        {
+            if (args.IsSettingsInvoked == true)
+            {
+                NavView_Navigate(typeof(SettingsPage), args.RecommendedNavigationTransitionInfo);
+            }
+            else if (args.InvokedItemContainer != null)
+            {
+                if(args.InvokedItemContainer.Tag.Equals("Calendar"))
+                {
+                    NavView_Navigate(typeof(MainPage), args.RecommendedNavigationTransitionInfo);
+                }
+            }
+        }
+
+        private void NavView_Navigate(
+    Type navPageType,
+    NavigationTransitionInfo transitionInfo)
+        {
+            // Get the page type before navigation so you can prevent duplicate
+            // entries in the backstack.
+            Type preNavPageType = contentFrame.CurrentSourcePageType;
+
+            // Only navigate if the selected page isn't currently loaded.
+            if (navPageType is not null && !Type.Equals(preNavPageType, navPageType))
+            {
+                contentFrame.Navigate(navPageType, null, transitionInfo);
+            }
+        }
+
+        private void navigationView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
+        {
+            TryGoBack();
+        }
+
+        private bool TryGoBack()
+        {
+            if (!contentFrame.CanGoBack)
+                return false;
+
+            // Don't go back if the nav pane is overlayed.
+            if (navigationView.IsPaneOpen &&
+                (navigationView.DisplayMode == NavigationViewDisplayMode.Compact ||
+                 navigationView.DisplayMode == NavigationViewDisplayMode.Minimal))
+                return false;
+
+            contentFrame.GoBack();
+            return true;
         }
     }
 }

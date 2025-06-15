@@ -30,6 +30,7 @@ namespace CalendarWinUI3.Views
         {
             this.InitializeComponent();
             this.SizeChanged += WeekPage_SizeChanged;
+            
         }
 
         private void WeekPage_SizeChanged(object sender, SizeChangedEventArgs e)
