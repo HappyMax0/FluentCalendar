@@ -17,12 +17,14 @@
         <Grid Margin="0 0 0 10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <CalendarDatePicker x:Name="calendarDatePicker" Margin="20 0 0 0" VerticalAlignment="Bottom"/>
-            <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Button x:Name="HomeBtn" Content="Today" Margin="24,0" Click="HomeBtn_Click" VerticalAlignment="Bottom"/>
+            <CalendarDatePicker Grid.Column="1" x:Name="calendarDatePicker" Margin="20 0 0 0" VerticalAlignment="Bottom"/>
+            <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                 <RadioButton x:Name="YearRadioBtn" GroupName="ShowType" Content="Y" Checked="YearRadioBtn_Checked"
                              Visibility="Collapsed" />
                 <RadioButton x:Name="MonthRadioBtn" GroupName="ShowType" Content="Month" IsChecked="True" Checked="MonthRadioBtn_Checked"/>
@@ -30,7 +32,7 @@
                 <RadioButton x:Name="DayRadioBtn" GroupName="ShowType" Content="D" Checked="DayRadioBtn_Checked"
                              Visibility="Collapsed"/>
             </StackPanel>
-            <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 20 0">
+            <StackPanel Grid.Column="4" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 20 0">
                 <Button x:Name="preBtn" FontFamily="Segoe MDL2 Assets" Content="&#xE76B;" Click="preBtn_Click"/>
                 <Button x:Name="nextBtn" FontFamily="Segoe MDL2 Assets" Content="&#xE76C;" Click="nextBtn_Click"/>
             </StackPanel>

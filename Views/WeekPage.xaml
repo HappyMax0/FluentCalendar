@@ -15,7 +15,7 @@
         <converter:TimeConverter x:Key="TimeConverter"/>
         <DataTemplate x:Key="WeekTemplate" x:DataType="models:Week">
             <Border x:Name="weekBlockBorder" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <Grid 
+                <Grid MinWidth="100"
                       MaxWidth="250">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
