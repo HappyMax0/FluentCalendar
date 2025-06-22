@@ -66,7 +66,7 @@
                     <EntranceThemeTransition FromVerticalOffset="50" />
                     <RepositionThemeTransition IsStaggeringEnabled="False" />
                 </StackPanel.ChildrenTransitions>
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Appearance &amp; behavior" />
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Appearance" />
                 <toolkit:SettingsCard Description="Select which app theme to display" Header="App theme">
                     <toolkit:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE790;" />
@@ -77,6 +77,30 @@
                         <ComboBoxItem Content="Use system setting" Tag="Default" />
                     </ComboBox>
                 </toolkit:SettingsCard>
+                <toolkit:SettingsCard Description="Show clock seconds" Header="Clock seconds">
+                    <toolkit:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xED5A;" />
+                    </toolkit:SettingsCard.HeaderIcon>
+                    <ToggleSwitch />
+                </toolkit:SettingsCard>
+
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Calendar" />
+                <toolkit:SettingsCard Description="Select the start day of the week" Header="FirstDay">
+                    <toolkit:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xF763;" />
+                    </toolkit:SettingsCard.HeaderIcon>
+                    <ComboBox AutomationProperties.AutomationId="firstDayComboBox">
+                        <ComboBoxItem Content="Monday" Tag="Monday" />
+                        <ComboBoxItem Content="Sunday" Tag="Sunday" IsSelected="True"/>
+                    </ComboBox>
+                </toolkit:SettingsCard>
+                <toolkit:SettingsCard Description="Show the count of week" Header="Week Count">
+                    <toolkit:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xEA89;" />
+                    </toolkit:SettingsCard.HeaderIcon>
+                    <ToggleSwitch />
+                </toolkit:SettingsCard>
+
 
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="About" />
                 <toolkit:SettingsExpander Description="© 2024 HappyMax. All rights reserved." Header="CalendarWinUI3">

@@ -42,7 +42,7 @@ namespace CalendarWinUI3.Views
             if (monthGridViewItemsWrapGrid != null)
             {
                 monthGridViewItemsWrapGrid.ItemWidth = monthGridView.ActualWidth / 7f;
-                monthGridViewItemsWrapGrid.ItemHeight = monthGridView.ActualHeight / 6f;
+                //monthGridViewItemsWrapGrid.ItemHeight = monthGridView.ActualHeight / 6f;
             }
         }
 

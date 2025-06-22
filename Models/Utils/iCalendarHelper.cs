@@ -50,6 +50,25 @@ namespace CalendarWinUI3.Models.Utils
             Calendars.Add(calendar);
         }
 
+        public static async void DeleteSubscription(string fileName)
+        {
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            var files = await localFolder.GetFilesAsync();
+
+            var matchedFiles = files.Where(f => f.Name.Contains(fileName)).ToList();
+
+            foreach (var file in matchedFiles)
+            {
+                await file.DeleteAsync();
+            }
+
+            var calendar = Calendars.FirstOrDefault(c => c.Name == fileName);
+            if(calendar != null)
+            {
+                Calendars.Remove(calendar);
+            }
+        }
+
         public static async Task<List<StorageFile>> GetLocalFolderFilesAsync()
         {
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;

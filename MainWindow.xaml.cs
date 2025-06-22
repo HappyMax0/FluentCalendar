@@ -86,7 +86,7 @@ namespace CalendarWinUI3
             }
             else
             {
-                if (args.SelectedItem != null && args.SelectedItem is NavigationViewItem navigationViewItem)
+                if (args.SelectedItem != null && args.SelectedItem is NavigationViewItem navigationViewItem && navigationViewItem.Tag != null)
                 {
                     if (navigationViewItem.Tag.Equals("Calendar"))
                     {
@@ -160,13 +160,13 @@ namespace CalendarWinUI3
             {
                 NavView_Navigate(typeof(SettingsPage), args.RecommendedNavigationTransitionInfo);
             }
-            else if (args.InvokedItemContainer != null)
+            else if (args.InvokedItemContainer != null && args.InvokedItemContainer.Tag != null)
             {
-                if(args.InvokedItemContainer.Tag.Equals("Calendar"))
+                if("Calendar".Equals(args.InvokedItemContainer.Tag))
                 {
                     NavView_Navigate(typeof(MainPage), args.RecommendedNavigationTransitionInfo);
                 }
-                else if (args.InvokedItemContainer.Tag.Equals("Account"))
+                else if ("Account".Equals(args.InvokedItemContainer.Tag))
                 {
                     NavView_Navigate(typeof(AccountPage), args.RecommendedNavigationTransitionInfo);
                 }

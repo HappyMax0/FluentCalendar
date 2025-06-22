@@ -6,9 +6,107 @@
     xmlns:local="using:CalendarWinUI3.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
+    xmlns:models="using:CalendarWinUI3.Models"
     mc:Ignorable="d">
+    <Page.Resources>
+        <!-- These styles can be referenced to create a consistent SettingsPage layout -->
+        <!-- Reference SettingsExpander Page in Windows Community Toolkit Gallery for the full sample -->
 
-    <Grid>
+        <!-- Spacing between cards -->
+        <x:Double x:Key="SettingsCardSpacing">4</x:Double>
 
+        <!-- Style (inc. the correct spacing) of a section header -->
+        <Style x:Key="SettingsSectionHeaderTextBlockStyle"
+        BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+        TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="Margin" Value="1,30,0,6" />
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="noBorderButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="10,0"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+        </Style>
+    </Page.Resources>
+    <Grid x:Name="RootGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="WideLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint640Plus}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="NarrowLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="contentSV.Padding" Value="16,0" />
+                        <Setter Target="PageHeader.Margin" Value="16,48,0,0" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <TextBlock
+     x:Name="PageHeader"
+     Margin="36,24,36,0"
+     Style="{StaticResource TitleTextBlockStyle}"
+     Text="Accounts" />
+        <ScrollViewer
+     x:Name="contentSV"
+     Grid.Row="1"
+     Padding="36,0,36,0"
+     IsTabStop="False"
+     UseSystemFocusVisuals="False"
+     VerticalScrollBarVisibility="Auto"
+     VerticalScrollMode="Auto">
+            <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
+                <StackPanel.ChildrenTransitions>
+                    <EntranceThemeTransition FromVerticalOffset="50" />
+                    <RepositionThemeTransition IsStaggeringEnabled="False" />
+                </StackPanel.ChildrenTransitions>
+
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="" />
+
+                <toolkit:SettingsCard Header="Add new account">
+                    <toolkit:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE8FA;" />
+                    </toolkit:SettingsCard.HeaderIcon>
+                    <Button Content="Add account"/>
+                </toolkit:SettingsCard>
+
+                <toolkit:SettingsExpander x:Name="SubscriptionSettingsExpander" Header="Subscriptions">
+                    <toolkit:SettingsExpander.HeaderIcon>
+                        <FontIcon Glyph="&#xF0B5;" />
+                    </toolkit:SettingsExpander.HeaderIcon>
+                    <toolkit:SettingsExpander.ItemTemplate>
+                        <DataTemplate x:DataType="models:Subscription">
+                            <toolkit:SettingsCard
+                                           Header="{x:Bind Name}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Button x:Name="syncBtn" Style="{StaticResource noBorderButton}" Click="syncBtn_Click" CommandParameter="{x:Bind Name}">
+                                        <FontIcon Glyph="&#xE895;" FontFamily="Segoe MDL2 Assets"/>
+                                    </Button>
+                                    <Button x:Name="deleteBtn" Style="{StaticResource noBorderButton}" Click="deleteBtn_Click" CommandParameter="{x:Bind Name}">
+                                        <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets"/>
+                                    </Button>
+                                </StackPanel>
+                            </toolkit:SettingsCard>
+                        </DataTemplate>
+                    </toolkit:SettingsExpander.ItemTemplate>
+                </toolkit:SettingsExpander>
+
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
