@@ -96,6 +96,7 @@ namespace CalendarWinUI3.Models.Utils
                 Debug.WriteLine($"[{DateTime.Now:HH:mm:ss}] 下载完成，内容长度: {content.Length} 字符");
 
                 string fileName = icsUrl.Split("/").LastOrDefault();
+                if (!fileName.EndsWith(".ics")) fileName = $"{fileName}.ics";
                 // 获取应用的数据文件夹
                 StorageFolder localFolder = ApplicationData.Current.LocalFolder;
                 StorageFile file = await localFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
