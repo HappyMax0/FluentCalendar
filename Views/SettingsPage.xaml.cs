@@ -91,7 +91,7 @@ namespace CalendarWinUI3.Views
 
         private async void bugRequestCard_Click(object sender, RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/microsoft/WinUI-Gallery/issues/new/choose"));
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/HappyMax0/FluentCalendar/issues"));
 
         }
     }

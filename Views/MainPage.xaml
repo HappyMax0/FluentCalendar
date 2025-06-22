@@ -6,33 +6,38 @@
     xmlns:local="using:CalendarWinUI3.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"  
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="90"/>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Margin="0 0 0 10">
+        <Grid Margin="0 12 0 10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="HomeBtn" Content="Today" Margin="24,0" Click="HomeBtn_Click" VerticalAlignment="Bottom"/>
-            <CalendarDatePicker Grid.Column="1" x:Name="calendarDatePicker" Margin="20 0 0 0" VerticalAlignment="Bottom"/>
-            <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <RadioButton x:Name="YearRadioBtn" GroupName="ShowType" Content="Y" Checked="YearRadioBtn_Checked"
-                             Visibility="Collapsed" />
-                <RadioButton x:Name="MonthRadioBtn" GroupName="ShowType" Content="Month" IsChecked="True" Checked="MonthRadioBtn_Checked"/>
-                <RadioButton x:Name="WeekRadioBtn" GroupName="ShowType" Content="Week" Checked="WeekRadioBtn_Checked"/>
-                <RadioButton x:Name="DayRadioBtn" GroupName="ShowType" Content="D" Checked="DayRadioBtn_Checked"
-                             Visibility="Collapsed"/>
+
+            <StackPanel Margin="24 0 0 0" Orientation="Horizontal" >
+                <CalendarDatePicker x:Name="calendarDatePicker" Margin="0 0 0 0" VerticalAlignment="Bottom"/>
+
+                <TextBlock x:Name="currentTimeTb" FontSize="18" Margin="12 0 12 4" VerticalAlignment="Bottom"/>
             </StackPanel>
-            <StackPanel Grid.Column="4" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 20 0">
+
+            <ComboBox Grid.Column="3" x:Name="viewComboBox" VerticalAlignment="Bottom"
+                      SelectionChanged="viewComboBox_SelectionChanged">
+                <ComboBoxItem Content="Month" Tag="Month" IsSelected="True"/>
+                <ComboBoxItem Content="Week" Tag="Week" />
+            </ComboBox>
+            
+            <Button Grid.Column="4" x:Name="HomeBtn" Content="Today" Margin="12,0" Click="HomeBtn_Click" VerticalAlignment="Bottom"/>
+
+            <StackPanel Grid.Column="5" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 24 0">
                 <Button x:Name="preBtn" FontFamily="Segoe MDL2 Assets" Content="&#xE76B;" Click="preBtn_Click"/>
                 <Button x:Name="nextBtn" FontFamily="Segoe MDL2 Assets" Content="&#xE76C;" Click="nextBtn_Click"/>
             </StackPanel>

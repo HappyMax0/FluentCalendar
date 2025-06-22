@@ -69,7 +69,8 @@
         <GridView x:Name="weekGridView" 
                   ItemTemplate="{StaticResource WeekTemplate}" 
                   ItemContainerStyle="{StaticResource WeekGridView_ItemContainerStyle}"
-                  HorizontalAlignment="Stretch">
+                  HorizontalAlignment="Stretch"
+                  SizeChanged="weekGridView_SizeChanged">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="7" 
@@ -80,7 +81,8 @@
 
         <GridView x:Name="monthGridView" Grid.Row="1" 
                   ItemTemplate="{StaticResource MonthTemplate}"
-                  VerticalAlignment="Stretch">
+                  VerticalAlignment="Stretch"
+                  SizeChanged="monthGridView_SizeChanged">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ItemsWrapGrid
@@ -90,7 +92,13 @@
             </GridView.ItemsPanel>
         </GridView>
 
-        <Border Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" Width="1" Background="Gray" Margin="10"/>
+        <toolkit:GridSplitter Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" 
+                              Width="5"
+                  Background="DarkGray"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  ResizeBehavior="PreviousAndNext"
+                  ResizeDirection="Columns" />
 
         <ListView x:Name="eventListView" Grid.Row="0" Grid.RowSpan="2" Grid.Column="2">
             <ListView.ItemTemplate>

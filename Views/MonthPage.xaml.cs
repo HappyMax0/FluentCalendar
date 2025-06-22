@@ -20,9 +20,7 @@ namespace CalendarWinUI3.Views
             this.InitializeComponent();
             
             monthGridView.SelectionChanged += MonthGridView_SelectionChanged;
-
-            //monthGridView.SizeChanged += MonthGridView_SizeChanged;
-
+         
             this.SizeChanged += MonthPage_SizeChanged;
         }
 
@@ -31,7 +29,7 @@ namespace CalendarWinUI3.Views
             ItemsWrapGrid weekGridViewItemsWrapGrid = Helper.FindVisualChild<ItemsWrapGrid>(weekGridView);
             if (weekGridViewItemsWrapGrid != null)
             {
-                weekGridViewItemsWrapGrid.ItemWidth = weekGridView.ActualWidth / 7f;
+                weekGridViewItemsWrapGrid.ItemWidth = weekGridView.ActualWidth / 7.5f;
                 //weekGridViewItemsWrapGrid.ItemHeight = 30f;
             }
 
@@ -41,7 +39,7 @@ namespace CalendarWinUI3.Views
             ItemsWrapGrid monthGridViewItemsWrapGrid = Helper.FindVisualChild<ItemsWrapGrid>(monthGridView);
             if (monthGridViewItemsWrapGrid != null)
             {
-                monthGridViewItemsWrapGrid.ItemWidth = monthGridView.ActualWidth / 7f;
+                monthGridViewItemsWrapGrid.ItemWidth = monthGridView.ActualWidth / 7.5f;
                 //monthGridViewItemsWrapGrid.ItemHeight = monthGridView.ActualHeight / 6f;
             }
         }
@@ -72,7 +70,24 @@ namespace CalendarWinUI3.Views
               
         }
 
-       
-        
+        private void monthGridView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ItemsWrapGrid monthGridViewItemsWrapGrid = Helper.FindVisualChild<ItemsWrapGrid>(monthGridView);
+            if (monthGridViewItemsWrapGrid != null)
+            {
+                monthGridViewItemsWrapGrid.ItemWidth = monthGridView.ActualWidth / 7.5f;
+                //monthGridViewItemsWrapGrid.ItemHeight = monthGridView.ActualHeight / 6f;
+            }
+        }
+
+        private void weekGridView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ItemsWrapGrid weekGridViewItemsWrapGrid = Helper.FindVisualChild<ItemsWrapGrid>(weekGridView);
+            if (weekGridViewItemsWrapGrid != null)
+            {
+                weekGridViewItemsWrapGrid.ItemWidth = weekGridView.ActualWidth / 7.5f;
+                //weekGridViewItemsWrapGrid.ItemHeight = 30f;
+            }
+        }
     }
 }
