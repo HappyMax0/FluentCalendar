@@ -1,6 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup />
+  <PropertyGroup>
+    <Source>D:\Users\Shomn\OneDrive - MSFT\Downloads\Frame 1.png</Source>
+    <SmallTileSource>D:\Users\Shomn\OneDrive - MSFT\Downloads\Frame 1.png</SmallTileSource>
+    <MediumTileSource>D:\Users\Shomn\OneDrive - MSFT\Downloads\Frame 1.png</MediumTileSource>
+    <WideTileSource>D:\Users\Shomn\OneDrive - MSFT\Downloads\Frame 1.png</WideTileSource>
+    <LargeTileSource>D:\Users\Shomn\OneDrive - MSFT\Downloads\Frame 1.png</LargeTileSource>
+    <AppIconSource>D:\Users\Shomn\OneDrive - MSFT\Downloads\Frame 1.png</AppIconSource>
+    <SplashScreenSource>D:\Users\Shomn\OneDrive - MSFT\Downloads\Frame 1.png</SplashScreenSource>
+    <PackageLogoSource>D:\Users\Shomn\OneDrive - MSFT\Downloads\Frame 1.png</PackageLogoSource>
+  </PropertyGroup>
   <ItemGroup>
     <None Update="App.xaml">
       <SubType>Designer</SubType>
