@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using System;
+using Windows.Storage;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -18,26 +19,37 @@ namespace CalendarWinUI3.Views
 
         public DateTime Time { get; set; } = DateTime.Now;
 
+        private bool showClockSeconds = true;
+
         public MainPage()
         {
             this.InitializeComponent();
             this.Loaded += MainPage_Loaded;
             this.Unloaded += MainPage_Unloaded;
 
-            _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromSeconds(1);
-            _timer.Tick += _timer_Tick;
-            _timer.Start();
+            ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            if(localSettings.Values["ShowClockSeconds"] is bool showClockSeconds)
+            {
+                _timer = new DispatcherTimer();
+                _timer.Interval = showClockSeconds ? TimeSpan.FromSeconds(1) : TimeSpan.FromMinutes(1);
+                _timer.Tick += _timer_Tick;
+                _timer.Start();
+
+                currentTimeTb.Text = showClockSeconds ? DateTime.Now.ToString("HH:mm:ss") :
+               DateTime.Now.ToString("HH:mm");
+            }
+           
         }
 
         private void MainPage_Unloaded(object sender, RoutedEventArgs e)
         {
-            _timer.Stop();
+            _timer?.Stop();
         }
 
         private void _timer_Tick(object sender, object e)
         {
-            currentTimeTb.Text = DateTime.Now.ToString("HH:mm:ss");
+            currentTimeTb.Text = showClockSeconds? DateTime.Now.ToString("HH:mm:ss") :
+                DateTime.Now.ToString("HH:mm");
         }
 
         private async void MainPage_Loaded(object sender, RoutedEventArgs e)

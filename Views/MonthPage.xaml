@@ -13,10 +13,11 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
+        <converters:BoolToForegroundConverter x:Key="BoolToForegroundConverter"/>
         <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
         <converters:WidthConverter x:Key="WidthConverter"/>
         <converters:HeightConverter x:Key="HeightConverter"/>
-        <converters:BoolToSolidColorBrushConverter x:Key="BoolToSolidColorBrushConverter"/>
+        <converters:BoolToAccentColorConverter x:Key="BoolToAccentColorConverter"/>
         <converters:BoolToOpacityConverter x:Key="BoolToOpacityConverter"/>
         <Style x:Key="WeekGridView_ItemContainerStyle"
             TargetType="GridViewItem">
@@ -38,14 +39,18 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="15"/>
                     </Grid.RowDefinitions>
-                   
-                    <Border Grid.Row="0" BorderBrush="{x:Bind IsToday, Converter={StaticResource BoolToSolidColorBrushConverter}}" 
-                            BorderThickness="5" Background="{x:Bind IsToday, Converter={StaticResource BoolToSolidColorBrushConverter}}" CornerRadius="20">
-                        <TextBlock Text="{x:Bind DayNo}" Opacity="{x:Bind IsCurrentMonth, Converter={StaticResource BoolToOpacityConverter}}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                    <Border Grid.Row="0" BorderBrush="{x:Bind IsToday, Converter={StaticResource BoolToAccentColorConverter}}" 
+                            BorderThickness="5" Background="{x:Bind IsToday, Converter={StaticResource BoolToAccentColorConverter}}" 
+                            CornerRadius="14">
+                        <TextBlock Text="{x:Bind DayNo}" 
+                                   Opacity="{x:Bind IsCurrentMonth, Converter={StaticResource BoolToOpacityConverter}}" 
+                                   FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Border>
 
-                    <TextBlock Grid.Row="1" Text="{x:Bind LunarDay}"
-                               Opacity="{x:Bind IsCurrentMonth, Converter={StaticResource BoolToOpacityConverter}}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Row="1" Text="{x:Bind LunarDay}" FontSize="14"
+                               Opacity="{x:Bind IsCurrentMonth, Converter={StaticResource BoolToOpacityConverter}}" 
+                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
                     <Ellipse Grid.Row="2" Width="10" Height="10" Fill="{StaticResource AccentColor}" 
                              Visibility="{x:Bind EventList.Count, Converter={StaticResource IntToVisibilityConverter}}"/>
@@ -62,7 +67,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" MinWidth="350"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="350"/>
         </Grid.ColumnDefinitions>
@@ -92,13 +97,13 @@
             </GridView.ItemsPanel>
         </GridView>
 
-        <toolkit:GridSplitter Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" 
-                              Width="5"
-                  Background="DarkGray"
-                  HorizontalAlignment="Stretch"
-                  VerticalAlignment="Stretch"
-                  ResizeBehavior="PreviousAndNext"
-                  ResizeDirection="Columns" />
+        <toolkit:GridSplitter Grid.Row="0" Grid.RowSpan="3" Grid.Column="1"
+            Width="5"
+Background="DarkGray"
+HorizontalAlignment="Stretch"
+VerticalAlignment="Stretch"
+ResizeBehavior="PreviousAndNext"
+ResizeDirection="Columns" />
 
         <ListView x:Name="eventListView" Grid.Row="0" Grid.RowSpan="2" Grid.Column="2">
             <ListView.ItemTemplate>

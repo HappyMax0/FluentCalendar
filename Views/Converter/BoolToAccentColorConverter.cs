@@ -6,7 +6,7 @@ using Windows.UI.ViewManagement;
 
 namespace CalendarWinUI3.Views.Converter
 {
-    class BoolToSolidColorBrushConverter : IValueConverter
+    class BoolToAccentColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {

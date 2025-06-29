@@ -3,6 +3,7 @@ using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
+using Windows.Storage;
 using System;
 using Windows.System;
 using Windows.UI.ViewManagement;
@@ -32,6 +33,16 @@ namespace CalendarWinUI3.Views
         {
             this.InitializeComponent();
             Loaded += OnSettingsPageLoaded;
+
+            ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            if (localSettings.Values["ShowClockSeconds"] is bool showClockSeconds)
+            {
+                ShowClockSeconedSwitch.IsOn = showClockSeconds;
+            }
+            else
+            {
+                ShowClockSeconedSwitch.IsOn = true; // default value
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -93,6 +104,16 @@ namespace CalendarWinUI3.Views
         {
             await Launcher.LaunchUriAsync(new Uri("https://github.com/HappyMax0/FluentCalendar/issues"));
 
+        }
+
+        private void ShowClockSeconedSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                localSettings.Values["ShowClockSeconds"] = toggleSwitch.IsOn;
+            }
         }
     }
 }

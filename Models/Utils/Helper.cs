@@ -150,7 +150,8 @@ namespace CalendarWinUI3.Models.Utils
                 startDay = 1;
             }
 
-            //int daysCount = DateTime.DaysInMonth(time.Year, time.Month);
+            int daysCount = DateTime.DaysInMonth(time.Year, time.Month);
+            int nextMonthDay = 1;
 
             List<Week> weekList = new List<Week>();
             for (int i = 0; i < 7; i++)
@@ -159,11 +160,27 @@ namespace CalendarWinUI3.Models.Utils
 
                 int day = startDay + i;
 
-                var weekObj = new Week() { WeekNo = week, DayNo = day, IsToday = day == today.Day };
+                DateTime dateTime;
+
+                if (day > daysCount)
+                {
+                    if (time.Month < 12)
+                    {
+                        dateTime = new DateTime(time.Year, time.Month + 1, nextMonthDay);
+                    }
+                    else
+                    {
+                        dateTime = new DateTime(time.Year + 1, 1, nextMonthDay);
+                    }
+
+                    nextMonthDay++;
+                }
+                else
+                    dateTime = new DateTime(time.Year, time.Month, day);
+
+                var weekObj = new Week() { WeekNo = week, DayNo = dateTime.Day, IsToday = (dateTime.Day == today.Day && dateTime.Month == today.Month && dateTime.Year == today.Year) };
                 weekObj.Events = new();
-
-                var dateTime = new DateTime(time.Year, time.Month, day);
-
+        
                 foreach (var calendar in iCalendarHelper.Calendars)
                 {
                     var evetItems = calendar.Events.Where(it => it.Start != null && it.End != null && it.Start.AsSystemLocal >= dateTime && it.End.AsSystemLocal <= dateTime.AddDays(1));

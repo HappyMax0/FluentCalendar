@@ -11,7 +11,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
-        <converter:BoolToSolidColorBrushConverter x:Key="BoolToSolidColorBrushConverter"/>
+        <converter:BoolToAccentColorConverter x:Key="BoolToAccentColorConverter"/>
         <converter:TimeConverter x:Key="TimeConverter"/>
         <DataTemplate x:Key="WeekTemplate" x:DataType="models:Week">
             <Border x:Name="weekBlockBorder" HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -25,8 +25,8 @@
                     <TextBlock Text="{x:Bind WeekNo}" FontSize="14" HorizontalAlignment="Center"/>
 
                     <Border Grid.Row="1" Width="30" Height="30"
-                            BorderBrush="{x:Bind IsToday, Converter={StaticResource BoolToSolidColorBrushConverter}}" 
-         BorderThickness="5" Background="{x:Bind IsToday, Converter={StaticResource BoolToSolidColorBrushConverter}}" CornerRadius="20">
+                            BorderBrush="{x:Bind IsToday, Converter={StaticResource BoolToAccentColorConverter}}" 
+         BorderThickness="5" Background="{x:Bind IsToday, Converter={StaticResource BoolToAccentColorConverter}}" CornerRadius="20">
                         <TextBlock Text="{x:Bind DayNo}" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Border>
                    
@@ -49,7 +49,7 @@
         </DataTemplate>
     </Page.Resources>
     <ScrollViewer x:Name="scrollViewer" HorizontalScrollBarVisibility="Visible">
-        <GridView x:Name="weekGridView" 
+        <GridView x:Name="weekGridView" Margin="24"
                   ItemTemplate="{StaticResource WeekTemplate}" HorizontalAlignment="Stretch"
                   VerticalAlignment="Top">
             <GridView.ItemsPanel>
