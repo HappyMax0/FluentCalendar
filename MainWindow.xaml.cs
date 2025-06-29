@@ -10,7 +10,9 @@ using Microsoft.UI.Xaml.Media.Animation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 using Windows.Storage;
 using Windows.UI.ViewManagement;
 
@@ -49,21 +51,27 @@ namespace CalendarWinUI3
                 TitleBarHelper.SetCaptionButtonColors(this, Colors.Black);
             }
 
-            GetSubscriptions();
+            //ReadSubscriptions();
+            
+
+            this.Activated += MainWindow_Activated;
+
         }
 
-        public async void GetSubscriptions()
-        {      
-            List<StorageFile> files = await iCalendarHelper.GetLocalFolderFilesAsync();
-            foreach (StorageFile file in files)
-            {
-                Subscription subscription = new Subscription
-                {
-                    Name = file.Name.Split(".").FirstOrDefault(),
-                };
-                Subscriptions.Add(subscription);
-            }
+        private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)
+        {
+            ReadSubscriptions();
+        }
 
+        private void SaveSubscriptions()
+        {        
+            iCalendarHelper.SaveSubscriptions(Subscriptions);
+        }
+
+        private void ReadSubscriptions()
+        {
+            var subscriptions = iCalendarHelper.ReadSubscriptions();
+            Subscriptions = subscriptions;
             subscriptionListView.ItemsSource = Subscriptions;
         }
 
@@ -126,12 +134,14 @@ namespace CalendarWinUI3
                                         // You can create a new Subscription object and add it to your list or database
                                         Subscription newSubscription = new Subscription
                                         {
-                                            Name = fileName,
+                                            Name = fileName.Split(".").FirstOrDefault(),
                                             Url = url // Assuming you have a Url property in your Subscription model
                                         };
                                         Subscriptions.Add(newSubscription);
 
                                         iCalendarHelper.AddCalendar(fileName);
+
+                                        SaveSubscriptions();
                                     }
                                     else
                                     {
@@ -147,7 +157,10 @@ namespace CalendarWinUI3
                     }
                     else if (navigationViewItem.Tag.Equals("Sync"))
                     {
-
+                        foreach (var subscription in Subscriptions)
+                        {
+                            iCalendarHelper.SyncSubscription(subscription.Name);
+                        }
                         navigationView.SelectedItem = navigationView.MenuItems.FirstOrDefault();
                     }
                 }
@@ -207,5 +220,7 @@ namespace CalendarWinUI3
             contentFrame.GoBack();
             return true;
         }
+
+       
     }
 }

@@ -83,7 +83,7 @@ namespace CalendarWinUI3.Models.Utils
             
                 foreach (var calendar in iCalendarHelper.Calendars)
                 {
-                    var evetItems = calendar.Events.Where(it => it.Start != null && it.End != null && it.Start.AsSystemLocal >= dateTime && it.End.AsSystemLocal <= dateTime.AddDays(1));
+                    var evetItems = calendar.Events.Where(it => it.Start != null && it.End != null && it.Start.Year == currentYear && it.Start.AsSystemLocal >= dateTime && it.End.AsSystemLocal <= dateTime.AddDays(1));
                     if (evetItems != null && evetItems.Count() > 0)
                     {
                         foreach (var evetItem in evetItems)

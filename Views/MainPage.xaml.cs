@@ -52,9 +52,9 @@ namespace CalendarWinUI3.Views
                 DateTime.Now.ToString("HH:mm");
         }
 
-        private async void MainPage_Loaded(object sender, RoutedEventArgs e)
+        private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            await iCalendarHelper.GetICS();
+            //await iCalendarHelper.GetICS();
 
             calendarDatePicker.Date = Time;
 

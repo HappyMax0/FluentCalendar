@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -37,18 +38,9 @@ namespace CalendarWinUI3.Views
             GetSubscriptions();
         }
 
-        public async void GetSubscriptions()
+        public void GetSubscriptions()
         {
-            List<StorageFile> files = await iCalendarHelper.GetLocalFolderFilesAsync();
-            foreach (StorageFile file in files)
-            {
-                Subscription subscription = new Subscription
-                {
-                    Name = file.Name.Split(".").FirstOrDefault(),
-                };
-                Subscriptions.Add(subscription);
-            }
-
+            Subscriptions = iCalendarHelper.ReadSubscriptions();
             SubscriptionSettingsExpander.ItemsSource = Subscriptions;
         }
 
@@ -63,12 +55,17 @@ namespace CalendarWinUI3.Views
             if (calendar != null)
             {
                 Subscriptions.Remove(calendar);
+
+                iCalendarHelper.SaveSubscriptions(Subscriptions);
             }
         }
 
         private void syncBtn_Click(object sender, RoutedEventArgs e)
         {
+            var button = sender as Button;
+            var name = (button.CommandParameter as String);
 
+            iCalendarHelper.SyncSubscription(name);
         }
     }
 }

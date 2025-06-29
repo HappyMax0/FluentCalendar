@@ -1,10 +1,12 @@
 ﻿using Ical.Net;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -18,6 +20,60 @@ namespace CalendarWinUI3.Models.Utils
         //public string icsUrl = @"https://www.shuyz.com/githubfiles/china-holiday-calender/master/holidayCal.ics";
 
         public static List<Calendar> Calendars = new List<Calendar>();
+        private static ObservableCollection<Subscription> subscriptions = new ObservableCollection<Subscription>();
+
+        private const string SettingsFileName = "subscriptions.json";
+
+        public static async void SaveSubscriptions(ObservableCollection<Subscription> subscriptions)
+        {
+            var folder = ApplicationData.Current.LocalFolder;
+            var file = await folder.CreateFileAsync(SettingsFileName, CreationCollisionOption.ReplaceExisting);
+            string json = JsonSerializer.Serialize(subscriptions, new JsonSerializerOptions { WriteIndented = true });
+            await FileIO.WriteTextAsync(file, json);
+        }
+
+        public static ObservableCollection<Subscription> ReadSubscriptions()
+        {
+            Calendars.Clear();
+            ObservableCollection<Subscription> Subscriptions = new ObservableCollection<Subscription>();
+            var folder = ApplicationData.Current.LocalFolder;
+            try
+            {
+                var file = Path.Combine(folder.Path, SettingsFileName);
+                string json = File.ReadAllText(file);
+                var subscriptions = JsonSerializer.Deserialize<ObservableCollection<Subscription>>(json);
+                if (subscriptions != null)
+                {
+                    foreach (var subscription in subscriptions)
+                    {
+                        if(subscription.IsEnabled)
+                        {
+                            string filePath = Path.Combine(folder.Path, $"{subscription.Name}.ics");
+                            if (File.Exists(filePath))
+                            {
+                                string icalText = File.ReadAllText(filePath);
+
+                                var calendar = Calendar.Load(icalText);
+                                calendar.Name = subscription.Name;
+                                Calendars.Add(calendar);
+                            }
+                           
+                        }
+                        
+                    }
+
+                    Subscriptions = subscriptions;
+                }
+
+            }
+            catch (FileNotFoundException)
+            {
+                // File not found, no subscriptions to load
+            }
+
+            subscriptions = Subscriptions;
+            return Subscriptions;
+        }
 
         public static async Task<List<Calendar>> GetICS()
         {
@@ -25,12 +81,12 @@ namespace CalendarWinUI3.Models.Utils
             List<StorageFile> files = await GetLocalFolderFilesAsync();
             foreach (StorageFile file in files)
             {
-                if (File.Exists(file.Path))
+                if (File.Exists(file.Path) && file.Path.EndsWith(".ics"))
                 {
                     string icalText = File.ReadAllText(file.Path);
 
                     var calendar = Calendar.Load(icalText);
-
+                    calendar.Name = file.Name.Split(".").FirstOrDefault() ?? "Unknown Calendar";
                     Calendars.Add(calendar);
                    
                 }
@@ -66,6 +122,29 @@ namespace CalendarWinUI3.Models.Utils
             if(calendar != null)
             {
                 Calendars.Remove(calendar);
+            }
+        }
+
+        public static async void SyncSubscription(string fileName)
+        {
+            
+            var subscription = subscriptions.FirstOrDefault(s => s.Name == fileName);
+            if (subscription != null && !string.IsNullOrEmpty(subscription.Url))
+            {
+                string downloadedFileName = await DownloadAndSaveFileAsync(subscription.Url);
+                if (!string.IsNullOrEmpty(downloadedFileName))
+                {
+                    subscription.Name = downloadedFileName.Split(".").FirstOrDefault();
+                    SaveSubscriptions(subscriptions);
+                    var calenar = Calendars.FirstOrDefault(c => c.Name == fileName);
+                    int index = Calendars.IndexOf(calenar);
+                    if (index >= 0)
+                    {
+                        Calendars.RemoveAt(index);
+                        Calendars.Insert(index, new Calendar { Name = subscription.Name });
+                    }
+                    
+                }
             }
         }
 
