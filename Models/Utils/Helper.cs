@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using Calendar = Windows.Globalization.Calendar;
 using String = System.String;
 
@@ -12,22 +11,27 @@ namespace CalendarWinUI3.Models.Utils
 {
     public static class Helper
     {
-        public static List<Day> GetDayList(DateTime time)
+        public static List<Day> GetDayList(DateTime time, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday)
         {         
             List<Day> dayList = new List<Day>();
 
             int currentMonth = time.Month;
             int currentYear = time.Year;
-            int daysCount = DateTime.DaysInMonth(currentYear, currentMonth);
+            int daysInCurrentMonth = DateTime.DaysInMonth(currentYear, currentMonth);
+            DateTime today = DateTime.Today;
 
-            //LastMonth
+            //当前月的第一天
             DateTime firstDayOfCurrentMonth = new DateTime(currentYear, currentMonth, 1);
             DayOfWeek startDayOfWeek = firstDayOfCurrentMonth.DayOfWeek;
+
+            // 计算需要补齐的上一月天数
+            int daysToFirstDay = ((int)startDayOfWeek - (int)firstDayOfWeek + 7) % 7;
             int previousMonth = currentMonth == 1 ? 12 : currentMonth - 1;
             int previousYear = currentMonth == 1 ? currentYear - 1 : currentYear;
             int daysInPreviousMonth = DateTime.DaysInMonth(previousYear, previousMonth);
-  
-            for (int i = daysInPreviousMonth - (int)startDayOfWeek + 1; i <= daysInPreviousMonth; i++)
+
+            // 上一月补齐天数
+            for (int i = daysInPreviousMonth - daysToFirstDay + 1; i <= daysInPreviousMonth; i++)
             {
                 Calendar cal = new Calendar();
                 cal.SetDateTime(new DateTime(previousYear, previousMonth, i));
@@ -58,9 +62,8 @@ namespace CalendarWinUI3.Models.Utils
                 dayList.Add(singleDay);
             }
 
-            //CurrentMonth
-            DateTime today = DateTime.Today;
-            for (int day = 1; day <= daysCount; day++)
+            // 当前月
+            for (int day = 1; day <= daysInCurrentMonth; day++)
             {
                 var dateTime = new DateTime(currentYear, currentMonth, day);
                 
@@ -95,11 +98,11 @@ namespace CalendarWinUI3.Models.Utils
                 dayList.Add(singleDay);
             }
 
-            //NextMonth
+            // 下一月补齐天数（确保总共 42 天）
             int nextMonth = currentMonth == 12 ? 1 : currentMonth + 1;
-            int nextYear = currentMonth == 12 ? currentYear + 1 : currentYear;
-            int daysInCurrentMonth = DateTime.DaysInMonth(nextYear, nextMonth);
-            int remainingDays = 42 - (dayList.Count);
+            int nextYear = currentMonth == 12 ? currentYear + 1 : currentYear;   
+            int remainingDays = 42 - dayList.Count;
+
             for (int i = 1; i <= remainingDays; i++)
             {
                 DateTime dateTime = new DateTime(nextYear, nextMonth, i);
@@ -134,12 +137,12 @@ namespace CalendarWinUI3.Models.Utils
         }
 
 
-        public static List<Week> GetWeeks(DateTime time, int startDayOfWeek = 0)
+        public static List<Week> GetWeeks(DateTime time, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday)
         {
             DateTime today = DateTime.Today;
 
             DateTime startDay;
-           if(startDayOfWeek == 0)
+           if(firstDayOfWeek == DayOfWeek.Sunday)
            {
                 // 计算周日的日期
                 int daysToSunday = (int)time.DayOfWeek; // DayOfWeek.Sunday = 0
@@ -164,7 +167,7 @@ namespace CalendarWinUI3.Models.Utils
 
                 foreach (var calendar in iCalendarHelper.Calendars)
                 {
-                    var evetItems = calendar.Events.Where(it => it.Start != null && it.End != null && it.Start.AsSystemLocal >= weekDate && it.End.AsSystemLocal <= weekDate.AddDays(1));
+                    var evetItems = calendar.Events.Where(it => it.Start != null && it.End != null && it.Start.Year == weekDate.Year && it.Start.AsSystemLocal >= weekDate && it.End.AsSystemLocal <= weekDate.AddDays(1));
                     if (evetItems != null && evetItems.Count() > 0)
                     {
                         foreach (var evetItem in evetItems)

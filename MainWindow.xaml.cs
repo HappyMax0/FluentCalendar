@@ -56,6 +56,16 @@ namespace CalendarWinUI3
 
             this.Activated += MainWindow_Activated;
 
+            ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+
+            if (localSettings.Values["StartDay"] is string startDay)
+            {
+                calendarView.FirstDayOfWeek = startDay.Equals("Monday") ? Windows.Globalization.DayOfWeek.Monday : Windows.Globalization.DayOfWeek.Sunday;
+            }
+            else
+            {
+                calendarView.FirstDayOfWeek = Windows.Globalization.DayOfWeek.Sunday; // default value
+            }
         }
 
         private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)

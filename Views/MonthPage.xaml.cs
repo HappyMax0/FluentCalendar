@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using Windows.Storage;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -59,12 +60,22 @@ namespace CalendarWinUI3.Views
             base.OnNavigatedTo(e);
 
             if (e.Parameter is DateTime time)
-            {               
+            {
                 //weekGridView.ItemsSource = Enum.GetValues(typeof(System.DayOfWeek)).Cast<System.DayOfWeek>().ToList();
 
-                weekGridView.ItemsSource = Helper.GetWeeks(time);
+                DayOfWeek dayOfWeek = DayOfWeek.Sunday;
+                ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+                if (localSettings.Values["StartDay"] is string startDay)
+                {
+                    if (startDay == "Monday")
+                    {                       
+                        dayOfWeek = DayOfWeek.Monday;
+                    }               
+                }
 
-                monthGridView.ItemsSource = Helper.GetDayList(time);
+                weekGridView.ItemsSource = Helper.GetWeeks(time, dayOfWeek);
+
+                monthGridView.ItemsSource = Helper.GetDayList(time, dayOfWeek);
 
             }
               

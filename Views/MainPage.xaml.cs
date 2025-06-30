@@ -40,7 +40,15 @@ namespace CalendarWinUI3.Views
                 currentTimeTb.Text = showClockSeconds ? DateTime.Now.ToString("HH:mm:ss") :
                DateTime.Now.ToString("HH:mm");
             }
-           
+
+            if (localSettings.Values["StartDay"] is string startDay)
+            {
+                calendarDatePicker.FirstDayOfWeek = startDay.Equals("Monday") ? Windows.Globalization.DayOfWeek.Monday : Windows.Globalization.DayOfWeek.Sunday;              
+            }
+            else
+            {
+                calendarDatePicker.FirstDayOfWeek = Windows.Globalization.DayOfWeek.Sunday; // default value
+            }
         }
 
         private void MainPage_Unloaded(object sender, RoutedEventArgs e)

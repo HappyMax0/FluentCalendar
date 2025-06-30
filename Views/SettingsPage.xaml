@@ -70,9 +70,9 @@
                     <toolkit:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xF763;" />
                     </toolkit:SettingsCard.HeaderIcon>
-                    <ComboBox AutomationProperties.AutomationId="firstDayComboBox">
+                    <ComboBox AutomationProperties.AutomationId="firstDayComboBox" x:Name="firstDayComboBox" SelectionChanged="firstDayComboBox_SelectionChanged">
                         <ComboBoxItem Content="Monday" Tag="Monday" />
-                        <ComboBoxItem Content="Sunday" Tag="Sunday" IsSelected="True"/>
+                        <ComboBoxItem Content="Sunday" Tag="Sunday" />
                     </ComboBox>
                 </toolkit:SettingsCard>
                 <toolkit:SettingsCard Description="Show the count of week" Header="Week Count">

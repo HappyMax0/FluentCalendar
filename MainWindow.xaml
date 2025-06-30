@@ -19,7 +19,7 @@
         <NavigationView.MenuItems>
             <NavigationViewItem Icon="Calendar" Tag="Calendar" IsSelected="True">
                 <Viewbox>
-                    <CalendarView />
+                    <CalendarView x:Name="calendarView" />
                 </Viewbox>
             </NavigationViewItem>
             <NavigationViewItemSeparator/>

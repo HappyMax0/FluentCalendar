@@ -2,9 +2,11 @@ using CalendarWinUI3.Views.Helpers;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Navigation;
-using Windows.Storage;
 using System;
+using System.Linq;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI.ViewManagement;
 
@@ -42,6 +44,15 @@ namespace CalendarWinUI3.Views
             else
             {
                 ShowClockSeconedSwitch.IsOn = true; // default value
+            }
+
+            if (localSettings.Values["StartDay"] is string startDay)
+            {
+                firstDayComboBox.SelectedItem = firstDayComboBox.Items.FirstOrDefault(item => ((ComboBoxItem)item).Tag.ToString() == startDay);
+            }
+            else
+            {
+                firstDayComboBox.SelectedIndex = 1; // default value
             }
         }
 
@@ -113,6 +124,19 @@ namespace CalendarWinUI3.Views
             if (sender is ToggleSwitch toggleSwitch)
             {
                 localSettings.Values["ShowClockSeconds"] = toggleSwitch.IsOn;
+            }
+        }
+
+        private void firstDayComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            
+            if (sender is ComboBox comboBox)
+            {
+                if (comboBox.SelectedItem is ComboBoxItem selectedItem)
+                {
+                    localSettings.Values["StartDay"] = selectedItem.Tag.ToString();
+                }                
             }
         }
     }

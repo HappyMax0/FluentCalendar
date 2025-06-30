@@ -31,8 +31,8 @@
                     </Border>
                    
                     <Border Grid.Row="2" BorderThickness="1" BorderBrush="{StaticResource AccentColor}" 
-                            VerticalAlignment="Top" HorizontalAlignment="Stretch">
-                        <ListView ItemsSource="{x:Bind Events}">
+                            VerticalAlignment="Top">
+                        <ListView ItemsSource="{x:Bind Events, Mode=OneWay}">
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="models:Time">
                                     <StackPanel Margin="5">
@@ -50,8 +50,7 @@
     </Page.Resources>
     <ScrollViewer x:Name="scrollViewer" HorizontalScrollBarVisibility="Visible">
         <GridView x:Name="weekGridView" Margin="24"
-                  ItemTemplate="{StaticResource WeekTemplate}" HorizontalAlignment="Stretch"
-                  VerticalAlignment="Top">
+                  ItemTemplate="{StaticResource WeekTemplate}">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ItemsWrapGrid x:Name="weekGridViewItemsWrapGrid"
