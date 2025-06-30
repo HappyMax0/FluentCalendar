@@ -24,7 +24,7 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Margin="24 0 0 0" Orientation="Horizontal" >
-                <CalendarDatePicker x:Name="calendarDatePicker" Margin="0 0 0 0" VerticalAlignment="Bottom"/>
+                <CalendarDatePicker x:Name="calendarDatePicker" Margin="0 0 0 0" VerticalAlignment="Bottom" DateChanged="calendarDatePicker_DateChanged"/>
 
                 <TextBlock x:Name="currentTimeTb" FontSize="18" Margin="12 0 12 4" VerticalAlignment="Bottom"/>
             </StackPanel>

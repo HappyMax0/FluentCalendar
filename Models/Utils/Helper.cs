@@ -1,13 +1,12 @@
-﻿using Ical.Net.DataTypes;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using Calendar = Windows.Globalization.Calendar;
+using String = System.String;
 
 namespace CalendarWinUI3.Models.Utils
 {
@@ -135,66 +134,49 @@ namespace CalendarWinUI3.Models.Utils
         }
 
 
-        public static List<Week> GetWeeks(DateTime time)
+        public static List<Week> GetWeeks(DateTime time, int startDayOfWeek = 0)
         {
             DateTime today = DateTime.Today;
 
-            int timeDay = time.Day;
-
-            int dayOfWeek = (int)time.DayOfWeek;
-
-            int startDay = timeDay - dayOfWeek;
-
-            if(startDay < 1)
-            {
-                startDay = 1;
+            DateTime startDay;
+           if(startDayOfWeek == 0)
+           {
+                // 计算周日的日期
+                int daysToSunday = (int)time.DayOfWeek; // DayOfWeek.Sunday = 0
+                startDay = time.AddDays(-daysToSunday).Date;
+           }
+           else
+           {
+                // 计算周一的日期
+                int daysToMonday = (int)time.DayOfWeek - (int)DayOfWeek.Monday;
+                if (daysToMonday < 0) daysToMonday += 7; // 处理周日（DayOfWeek.Sunday = 0）
+                startDay = time.AddDays(-daysToMonday).Date;
             }
 
-            int daysCount = DateTime.DaysInMonth(time.Year, time.Month);
-            int nextMonthDay = 1;
-
+            // 生成一周的日期列表（周日到周六）
             List<Week> weekList = new List<Week>();
             for (int i = 0; i < 7; i++)
             {
-                DayOfWeek week = (DayOfWeek)i;
+                var weekDate = startDay.AddDays(i);
 
-                int day = startDay + i;
+                var week = new Week() { WeekNo = weekDate.DayOfWeek, DayNo = weekDate.Day, IsToday = (weekDate.Day == today.Day && weekDate.Month == today.Month && weekDate.Year == today.Year) };
+                week.Events = new();
 
-                DateTime dateTime;
-
-                if (day > daysCount)
-                {
-                    if (time.Month < 12)
-                    {
-                        dateTime = new DateTime(time.Year, time.Month + 1, nextMonthDay);
-                    }
-                    else
-                    {
-                        dateTime = new DateTime(time.Year + 1, 1, nextMonthDay);
-                    }
-
-                    nextMonthDay++;
-                }
-                else
-                    dateTime = new DateTime(time.Year, time.Month, day);
-
-                var weekObj = new Week() { WeekNo = week, DayNo = dateTime.Day, IsToday = (dateTime.Day == today.Day && dateTime.Month == today.Month && dateTime.Year == today.Year) };
-                weekObj.Events = new();
-        
                 foreach (var calendar in iCalendarHelper.Calendars)
                 {
-                    var evetItems = calendar.Events.Where(it => it.Start != null && it.End != null && it.Start.AsSystemLocal >= dateTime && it.End.AsSystemLocal <= dateTime.AddDays(1));
+                    var evetItems = calendar.Events.Where(it => it.Start != null && it.End != null && it.Start.AsSystemLocal >= weekDate && it.End.AsSystemLocal <= weekDate.AddDays(1));
                     if (evetItems != null && evetItems.Count() > 0)
                     {
                         foreach (var evetItem in evetItems)
                         {
-                            weekObj.Events.Add(new Time() { StartTime = evetItem.Start.AsSystemLocal, Summary = evetItem.Summary, Description = evetItem.Description });
+                            week.Events.Add(new Time() { StartTime = evetItem.Start.AsSystemLocal, Summary = evetItem.Summary, Description = evetItem.Description });
                         }
                     }
                 }
 
-                weekList.Add(weekObj);
+                weekList.Add(week);
             }
+
             return weekList;
         }
 

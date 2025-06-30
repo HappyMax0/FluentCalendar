@@ -1,6 +1,8 @@
+using CalendarWinUI3.Models;
 using CalendarWinUI3.Models.Utils;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media.Animation;
 using System;
 using Windows.Storage;
@@ -87,21 +89,11 @@ namespace CalendarWinUI3.Views
 
                         break;
                     case "Week":
-                        if (Time.Day - 7 < 1)
-                        {
-                            if (Time.Month == 1)
-                            {
-                                Time = new DateTime(Time.Year - 1, 12, 28);
-                            }
-                            else
-                            {
-                                Time = new DateTime(Time.Year, Time.Month - 1, 28);
-                            }
-                        }
-                        else
-                        {
-                            Time = new DateTime(Time.Year, Time.Month, Time.Day - 7);
-                        }
+                        // 计算周日的日期
+                        int daysToSunday = (int)Time.DayOfWeek; // DayOfWeek.Sunday = 0
+                        Time = Time.AddDays(-daysToSunday).Date;
+
+                        Time = Time.AddDays(-7).Date;
 
                         calendarDatePicker.Date = Time;
 
@@ -149,22 +141,11 @@ namespace CalendarWinUI3.Views
 
                         break;
                     case "Week":
-                        int daysCount = DateTime.DaysInMonth(Time.Year, Time.Month);
-                        if (Time.Day + 7 > daysCount)
-                        {
-                            if (Time.Month == 12)
-                            {
-                                Time = new DateTime(Time.Year + 1, 1, 1);
-                            }
-                            else
-                            {
-                                Time = new DateTime(Time.Year, Time.Month + 1, 1);
-                            }
-                        }
-                        else
-                        {
-                            Time = new DateTime(Time.Year, Time.Month, Time.Day + 7);
-                        }
+                        // 计算周日的日期
+                        int daysToSunday = (int)Time.DayOfWeek; // DayOfWeek.Sunday = 0
+                        Time = Time.AddDays(-daysToSunday).Date;
+
+                        Time = Time.AddDays(7).Date;
 
                         calendarDatePicker.Date = Time;
 
@@ -217,12 +198,8 @@ namespace CalendarWinUI3.Views
   Type navPageType)
         {
             if (contentFrame == null) return;
-            // Get the page type before navigation so you can prevent duplicate
-            // entries in the backstack.
-            Type preNavPageType = contentFrame.CurrentSourcePageType;
-
-            // Only navigate if the selected page isn't currently loaded.
-            if (navPageType is not null && !Type.Equals(preNavPageType, navPageType))
+            
+            if (navPageType is not null)
             {
                 contentFrame.Navigate(navPageType, Time, new EntranceNavigationTransitionInfo());
             }
@@ -234,6 +211,7 @@ namespace CalendarWinUI3.Views
             var selectedItem = comboBox.SelectedItem as ComboBoxItem;
             if (selectedItem != null)
             {
+                Time = DateTime.Now;
                 calendarDatePicker.Date = Time;
                 switch (selectedItem.Tag.ToString())
                 {
@@ -250,6 +228,34 @@ namespace CalendarWinUI3.Views
                         NavView_Navigate(typeof(DayPage));
                         break;
                 }
+            }
+        }
+
+        private void calendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
+        {
+            // 检查是否选择了有效日期
+            if (args.NewDate.HasValue)
+            {
+                Time = args.NewDate.Value.Date; // 获取选择的日期
+
+                if(viewComboBox.SelectedItem is ComboBoxItem selectedItem)
+                {
+                    switch (selectedItem.Tag.ToString())
+                    {
+                        case "Year":
+                            NavView_Navigate(typeof(YearPage));
+                            break;
+                        case "Month":
+                            NavView_Navigate(typeof(MonthPage));
+                            break;
+                        case "Week":
+                            NavView_Navigate(typeof(WeekPage));
+                            break;
+                        case "Day":
+                            NavView_Navigate(typeof(DayPage));
+                            break;
+                    }
+                }             
             }
         }
     }
