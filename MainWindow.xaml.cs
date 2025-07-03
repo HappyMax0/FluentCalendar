@@ -200,12 +200,9 @@ namespace CalendarWinUI3
     Type navPageType,
     NavigationTransitionInfo transitionInfo)
         {
-            // Get the page type before navigation so you can prevent duplicate
-            // entries in the backstack.
-            Type preNavPageType = contentFrame.CurrentSourcePageType;
-
+           
             // Only navigate if the selected page isn't currently loaded.
-            if (navPageType is not null && !Type.Equals(preNavPageType, navPageType))
+            if (navPageType is not null)
             {
                 contentFrame.Navigate(navPageType, null, transitionInfo);
             }
@@ -231,6 +228,31 @@ namespace CalendarWinUI3
             return true;
         }
 
-       
+        private void IsSubscriptionEnabledCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (sender is CheckBox checkBox && checkBox.Tag is Subscription subscription)
+            {
+                subscription.IsEnabled = true;
+                UpdateSubcription();
+            }
+            
+        }
+
+        private void IsSubscriptionEnabledCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (sender is CheckBox checkBox && checkBox.Tag is Subscription subscription)
+            {
+                subscription.IsEnabled = false;
+                UpdateSubcription();
+            }
+        }
+
+        private void UpdateSubcription()
+        {
+            iCalendarHelper.SaveSubscriptions(Subscriptions);
+            var subscriptions = iCalendarHelper.ReadSubscriptions();
+            NavView_Navigate(typeof(MainPage), new EntranceNavigationTransitionInfo());
+
+        }
     }
 }

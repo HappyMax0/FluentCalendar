@@ -37,38 +37,48 @@ namespace CalendarWinUI3.Models.Utils
             Calendars.Clear();
             ObservableCollection<Subscription> Subscriptions = new ObservableCollection<Subscription>();
             var folder = ApplicationData.Current.LocalFolder;
+            var file = Path.Combine(folder.Path, SettingsFileName);
+
             try
             {
-                var file = Path.Combine(folder.Path, SettingsFileName);
-                string json = File.ReadAllText(file);
-                var subscriptions = JsonSerializer.Deserialize<ObservableCollection<Subscription>>(json);
-                if (subscriptions != null)
+                using (var sr = new StreamReader(file))
                 {
-                    foreach (var subscription in subscriptions)
-                    {
-                        if(subscription.IsEnabled)
-                        {
-                            string filePath = Path.Combine(folder.Path, $"{subscription.Name}.ics");
-                            if (File.Exists(filePath))
-                            {
-                                string icalText = File.ReadAllText(filePath);
+                    string json = sr.ReadToEnd();
 
-                                var calendar = Calendar.Load(icalText);
-                                calendar.Name = subscription.Name;
-                                Calendars.Add(calendar);
+                    var subscriptions = JsonSerializer.Deserialize<ObservableCollection<Subscription>>(json);
+                    if (subscriptions != null)
+                    {
+                        foreach (var subscription in subscriptions)
+                        {
+                            if (subscription.IsEnabled)
+                            {
+                                string filePath = Path.Combine(folder.Path, $"{subscription.Name}.ics");
+                                if (File.Exists(filePath))
+                                {
+                                    string icalText = File.ReadAllText(filePath);
+
+                                    var calendar = Calendar.Load(icalText);
+                                    calendar.Name = subscription.Name;
+                                    Calendars.Add(calendar);
+                                }
+
                             }
-                           
+
                         }
-                        
+
+                        Subscriptions = subscriptions;
                     }
 
-                    Subscriptions = subscriptions;
                 }
 
             }
-            catch (FileNotFoundException)
+            catch (Exception)
             {
                 // File not found, no subscriptions to load
+                if(File.Exists(file))
+                {
+                    File.Delete(file);
+                }
             }
 
             subscriptions = Subscriptions;
@@ -98,9 +108,7 @@ namespace CalendarWinUI3.Models.Utils
         public static void AddCalendar(string fileName)
         {
             string path = Path.Combine(ApplicationData.Current.LocalFolder.Path, fileName);
-
             string icalText = File.ReadAllText(path);
-
             var calendar = Calendar.Load(icalText);
 
             Calendars.Add(calendar);

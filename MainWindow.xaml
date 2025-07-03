@@ -27,7 +27,10 @@
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="models:Subscription">
                         <StackPanel Orientation="Horizontal" Margin="8">
-                            <CheckBox IsChecked="{x:Bind IsEnabled}" Content="{x:Bind Name}" />
+                            <CheckBox x:Name="IsSubscriptionEnabledCheckBox" IsChecked="{x:Bind IsEnabled}" Content="{x:Bind Name}" 
+                                      Checked="IsSubscriptionEnabledCheckBox_Checked"
+                                      Unchecked="IsSubscriptionEnabledCheckBox_Unchecked"
+                                      Tag="{x:Bind }"/>
 
                         </StackPanel>
                     </DataTemplate>
