@@ -24,12 +24,14 @@ namespace CalendarWinUI3.Models.Utils
 
         private const string SettingsFileName = "subscriptions.json";
 
-        public static async void SaveSubscriptions(ObservableCollection<Subscription> subscriptions)
+        public static void SaveSubscriptions(ObservableCollection<Subscription> subscriptions)
         {
             var folder = ApplicationData.Current.LocalFolder;
-            var file = await folder.CreateFileAsync(SettingsFileName, CreationCollisionOption.ReplaceExisting);
+            var filePath = Path.Combine(folder.Path, SettingsFileName);
+            
+            //var file = await folder.CreateFileAsync(SettingsFileName, CreationCollisionOption.ReplaceExisting);
             string json = JsonSerializer.Serialize(subscriptions, new JsonSerializerOptions { WriteIndented = true });
-            await FileIO.WriteTextAsync(file, json);
+            File.WriteAllText(filePath, json);
         }
 
         public static ObservableCollection<Subscription> ReadSubscriptions()
