@@ -13,6 +13,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <converters:BoolToForegroundConverter x:Key="BoolToForegroundConverter"/>
         <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
         <converters:WidthConverter x:Key="WidthConverter"/>
@@ -35,24 +36,27 @@
             <Border x:Name="dayBlockBorder" HorizontalAlignment="Center">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="12"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="15"/>
                     </Grid.RowDefinitions>
 
-                    <Border Grid.Row="0" BorderBrush="{x:Bind IsToday, Converter={StaticResource BoolToAccentColorConverter}}" 
-                            BorderThickness="5" Background="{x:Bind IsToday, Converter={StaticResource BoolToAccentColorConverter}}" 
-                            CornerRadius="14">
+                    <TextBlock Text="{x:Bind WeekNo}" FontSize="10" HorizontalAlignment="Center" Visibility="{x:Bind ShowWeekNo, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+                    <Border Grid.Row="1" BorderBrush="{x:Bind IsToday, Converter={StaticResource BoolToAccentColorConverter}}" 
+                            BorderThickness="0" Background="{x:Bind IsToday, Converter={StaticResource BoolToAccentColorConverter}}" 
+                            CornerRadius="14" Width="32" Height="32" Margin="5,0">
                         <TextBlock Text="{x:Bind DayNo}" 
                                    Opacity="{x:Bind IsCurrentMonth, Converter={StaticResource BoolToOpacityConverter}}" 
-                                   FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                   FontSize="22" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Border>
 
-                    <TextBlock Grid.Row="1" Text="{x:Bind LunarDay}" FontSize="14"
+                    <TextBlock Grid.Row="2" Text="{x:Bind LunarDay}" FontSize="12"
                                Opacity="{x:Bind IsCurrentMonth, Converter={StaticResource BoolToOpacityConverter}}" 
                                VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-                    <Ellipse Grid.Row="2" Width="10" Height="10" Fill="{StaticResource AccentColor}" 
+                    <Ellipse Grid.Row="3" Width="10" Height="10" Fill="{StaticResource AccentColor}" 
                              Visibility="{x:Bind EventList.Count, Converter={StaticResource IntToVisibilityConverter}}"/>
                 </Grid>
             </Border>
@@ -60,7 +64,7 @@
        
     </Page.Resources>
     
-    <Grid x:Name="rootGrid">
+    <Grid x:Name="rootGrid" Margin="24">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
@@ -69,7 +73,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="350"/>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="350"/>
+            <ColumnDefinition Width="280"/>
         </Grid.ColumnDefinitions>
         <GridView x:Name="weekGridView" 
                   ItemTemplate="{StaticResource WeekTemplate}" 

@@ -54,6 +54,15 @@ namespace CalendarWinUI3.Views
             {
                 firstDayComboBox.SelectedIndex = 1; // default value
             }
+
+            if (localSettings.Values["ShowWeekNo"] is bool showWeekNo)
+            {
+                ShowWeekNoSwitch.IsOn = showWeekNo;
+            }
+            else
+            {
+                ShowWeekNoSwitch.IsOn = false; // default value
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -137,6 +146,16 @@ namespace CalendarWinUI3.Views
                 {
                     localSettings.Values["StartDay"] = selectedItem.Tag.ToString();
                 }                
+            }
+        }
+
+        private void ShowWeekNoSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                localSettings.Values["ShowWeekNo"] = toggleSwitch.IsOn;
             }
         }
     }

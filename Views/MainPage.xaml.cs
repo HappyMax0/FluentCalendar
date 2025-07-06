@@ -49,6 +49,8 @@ namespace CalendarWinUI3.Views
             {
                 calendarDatePicker.FirstDayOfWeek = Windows.Globalization.DayOfWeek.Sunday; // default value
             }
+
+            
         }
 
         private void MainPage_Unloaded(object sender, RoutedEventArgs e)

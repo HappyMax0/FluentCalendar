@@ -8,6 +8,8 @@ namespace CalendarWinUI3.Models
         public int YearNo { get; set; }
         public int MonthNo { get; set; }
         public int DayNo { get; set; }
+        public int WeekNo { get; set; }
+        public bool ShowWeekNo { get; set; }
 
         public int LunarYear {  get; set; }
         public int LunarMonth { get; set; }
@@ -16,6 +18,7 @@ namespace CalendarWinUI3.Models
         public DayOfWeek Week { get; set; }
 
         public bool IsToday { get; set; }
+
 
         public bool IsCurrentMonth { get; set; }
 

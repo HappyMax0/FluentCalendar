@@ -11,7 +11,7 @@ namespace CalendarWinUI3.Models.Utils
 {
     public static class Helper
     {
-        public static List<Day> GetDayList(DateTime time, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday)
+        public static List<Day> GetDayList(DateTime time, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday, bool isShowWeekNo = false)
         {         
             List<Day> dayList = new List<Day>();
 
@@ -45,7 +45,15 @@ namespace CalendarWinUI3.Models.Utils
                 if (string.IsNullOrEmpty(lunarDayStr))
                     lunarDayStr = Helper.ConvertToLunarDay(lunarDay);
 
-                var singleDay = new Day(dateTime.Year, dateTime.Month, dateTime.Day) { LunarDay = lunarDayStr };
+                int weekNo = new GregorianCalendar().GetWeekOfYear(
+            dateTime,
+            CalendarWeekRule.FirstDay, // 定义一年第一周的规则
+            firstDayOfWeek          // 定义每周的第一天
+        );
+
+                var showWeekNo = (dateTime.DayOfWeek == firstDayOfWeek) && isShowWeekNo;
+
+                var singleDay = new Day(dateTime.Year, dateTime.Month, dateTime.Day) { WeekNo = weekNo, ShowWeekNo = showWeekNo, LunarDay = lunarDayStr };
 
                 foreach (var calendar in iCalendarHelper.Calendars)
                 {
@@ -81,7 +89,15 @@ namespace CalendarWinUI3.Models.Utils
                 if (string.IsNullOrEmpty(lunarDayStr))
                     lunarDayStr = Helper.ConvertToLunarDay(lunarDay);
 
-                var singleDay = new Day(currentYear, currentMonth, day) { Week = week, IsToday = isToday, IsCurrentMonth = true, LunarDay = lunarDayStr };
+                int weekNo = new GregorianCalendar().GetWeekOfYear(
+         dateTime,
+         CalendarWeekRule.FirstDay, // 定义一年第一周的规则
+         firstDayOfWeek          // 定义每周的第一天
+     );
+
+                var showWeekNo = (dateTime.DayOfWeek == firstDayOfWeek) && isShowWeekNo;
+
+                var singleDay = new Day(currentYear, currentMonth, day) { Week = week, WeekNo = weekNo, ShowWeekNo = showWeekNo, IsToday = isToday, IsCurrentMonth = true, LunarDay = lunarDayStr };
             
                 foreach (var calendar in iCalendarHelper.Calendars)
                 {
@@ -116,7 +132,15 @@ namespace CalendarWinUI3.Models.Utils
                 if (string.IsNullOrEmpty(lunarDayStr))
                     lunarDayStr = Helper.ConvertToLunarDay(lunarDay);
 
-                Day singleDay = new Day(dateTime.Year, dateTime.Month, dateTime.Day) { LunarDay = lunarDayStr };
+                int weekNo = new GregorianCalendar().GetWeekOfYear(
+        dateTime,
+        CalendarWeekRule.FirstDay, // 定义一年第一周的规则
+        firstDayOfWeek          // 定义每周的第一天
+    );
+
+                var showWeekNo = (dateTime.DayOfWeek == firstDayOfWeek) && isShowWeekNo;
+
+                Day singleDay = new Day(dateTime.Year, dateTime.Month, dateTime.Day) { WeekNo = weekNo, ShowWeekNo = showWeekNo, LunarDay = lunarDayStr };
 
                 foreach (var calendar in iCalendarHelper.Calendars)
                 {

@@ -19,6 +19,8 @@ namespace CalendarWinUI3.Models.Utils
     {
         //public string icsUrl = @"https://www.shuyz.com/githubfiles/china-holiday-calender/master/holidayCal.ics";
 
+        //https://raw.githubusercontent.com/oooldtoy/chinese_calender/main/twenty_four_solar.ics
+
         public static List<Calendar> Calendars = new List<Calendar>();
         private static ObservableCollection<Subscription> subscriptions = new ObservableCollection<Subscription>();
 

@@ -79,7 +79,7 @@
                     <toolkit:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xEA89;" />
                     </toolkit:SettingsCard.HeaderIcon>
-                    <ToggleSwitch />
+                    <ToggleSwitch x:Name="ShowWeekNoSwitch" Toggled="ShowWeekNoSwitch_Toggled" />
                 </toolkit:SettingsCard>
 
 
