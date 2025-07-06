@@ -40,8 +40,9 @@ namespace CalendarWinUI3.Views
 
             if (e.Parameter is DateTime time)
             {
-                DayOfWeek dayOfWeek = DayOfWeek.Sunday;
                 ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+
+                DayOfWeek dayOfWeek = DayOfWeek.Sunday;
                 if (localSettings.Values["StartDay"] is string startDay)
                 {
                     if (startDay == "Monday")
@@ -50,8 +51,9 @@ namespace CalendarWinUI3.Views
                     }
                 }
 
+                bool isShowWeekNo = localSettings.Values["ShowWeekNo"] is bool;
 
-                weekGridView.ItemsSource = Helper.GetWeeks(time, dayOfWeek);
+                weekGridView.ItemsSource = Helper.GetWeeks(time, dayOfWeek, isShowWeekNo);
             }
 
         }

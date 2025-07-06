@@ -11,29 +11,31 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
+        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <converter:BoolToAccentColorConverter x:Key="BoolToAccentColorConverter"/>
         <converter:TimeConverter x:Key="TimeConverter"/>
         <DataTemplate x:Key="WeekTemplate" x:DataType="models:Week">
-            <Border x:Name="weekBlockBorder" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <Grid MinWidth="100"
-                      MaxWidth="250">
+            <Border x:Name="weekBlockBorder">
+                <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="12"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="{x:Bind WeekNo}" FontSize="14" HorizontalAlignment="Center"/>
+                    <TextBlock Text="{x:Bind Weeks}" FontSize="10" HorizontalAlignment="Center" Visibility="{x:Bind ShowWeekNo, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
-                    <Border Grid.Row="1" Width="30" Height="30"
+                    <TextBlock Grid.Row="1" Text="{x:Bind WeekNo}" FontSize="14" HorizontalAlignment="Center"/>
+
+                    <Border Grid.Row="2" Width="30" Height="30"
                             BorderBrush="{x:Bind IsToday, Converter={StaticResource BoolToAccentColorConverter}}" 
          BorderThickness="5" Background="{x:Bind IsToday, Converter={StaticResource BoolToAccentColorConverter}}" CornerRadius="20">
                         <TextBlock Text="{x:Bind DayNo}" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Border>
                    
-                    <Border Grid.Row="2" BorderThickness="1" BorderBrush="{StaticResource AccentColor}" 
-                            VerticalAlignment="Top">
-                        <ListView ItemsSource="{x:Bind Events, Mode=OneWay}">
-                            <ListView.ItemTemplate>
+                    <Border Grid.Row="3" BorderThickness="1,1,0,0" BorderBrush="{StaticResource AccentColor}" >
+                        <ItemsControl ItemsSource="{x:Bind Events, Mode=OneWay}">
+                            <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="models:Time">
                                     <StackPanel Margin="5">
                                         <TextBlock Text="{x:Bind StartTime}" FontSize="14"/>
@@ -41,22 +43,33 @@
                                         <TextBlock Text="{x:Bind Description}" FontSize="12" TextWrapping="WrapWholeWords"/>
                                     </StackPanel>
                                 </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </Border>
                 </Grid>
             </Border>
         </DataTemplate>
     </Page.Resources>
-    <ScrollViewer x:Name="scrollViewer" HorizontalScrollBarVisibility="Visible">
-        <GridView x:Name="weekGridView" Margin="24"
-                  ItemTemplate="{StaticResource WeekTemplate}">
-            <GridView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <ItemsWrapGrid x:Name="weekGridViewItemsWrapGrid"
-              Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </GridView.ItemsPanel>
-        </GridView>
-    </ScrollViewer>
+    <GridView x:Name="weekGridView" Margin="24"
+          ItemTemplate="{StaticResource WeekTemplate}"
+           ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  ScrollViewer.HorizontalScrollMode="Enabled"
+                  ScrollViewer.VerticalScrollMode="Disabled">
+        <GridView.ItemsPanel>
+            <ItemsPanelTemplate>
+                <ItemsStackPanel x:Name="weekGridViewItemsWrapGrid"
+      Orientation="Horizontal"/>
+            </ItemsPanelTemplate>
+        </GridView.ItemsPanel>
+        <GridView.ItemContainerStyle>
+            <Style TargetType="GridViewItem">
+                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="Margin" Value="10" />
+                <Setter Property="MinWidth" Value="200" />
+                <!-- 自定义宽度 -->
+            </Style>
+        </GridView.ItemContainerStyle>
+
+    </GridView>
 </Page>

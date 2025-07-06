@@ -9,6 +9,10 @@ namespace CalendarWinUI3.Models
     {
         public DayOfWeek WeekNo { get; set; }
 
+        public int Weeks { get; set; }
+
+        public bool ShowWeekNo { get; set; }
+
         public bool IsToday { get; set; }
 
         public int DayNo { get; set; }

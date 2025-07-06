@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Ical.Net.DataTypes;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
@@ -161,7 +162,7 @@ namespace CalendarWinUI3.Models.Utils
         }
 
 
-        public static List<Week> GetWeeks(DateTime time, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday)
+        public static List<Week> GetWeeks(DateTime time, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday, bool isShowWeekNo = false)
         {
             DateTime today = DateTime.Today;
 
@@ -186,7 +187,15 @@ namespace CalendarWinUI3.Models.Utils
             {
                 var weekDate = startDay.AddDays(i);
 
-                var week = new Week() { WeekNo = weekDate.DayOfWeek, DayNo = weekDate.Day, IsToday = (weekDate.Day == today.Day && weekDate.Month == today.Month && weekDate.Year == today.Year) };
+                int weeks = new GregorianCalendar().GetWeekOfYear(
+            weekDate,
+            CalendarWeekRule.FirstDay, // 定义一年第一周的规则
+            firstDayOfWeek          // 定义每周的第一天
+        );
+
+                var showWeekNo = (weekDate.DayOfWeek == firstDayOfWeek) && isShowWeekNo;
+
+                var week = new Week() { WeekNo = weekDate.DayOfWeek, DayNo = weekDate.Day, Weeks = weeks, ShowWeekNo = showWeekNo, IsToday = (weekDate.Day == today.Day && weekDate.Month == today.Month && weekDate.Year == today.Year) };
                 week.Events = new();
 
                 foreach (var calendar in iCalendarHelper.Calendars)
