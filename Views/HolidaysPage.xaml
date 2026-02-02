@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="CalendarWinUI3.Views.HolidaysPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CalendarWinUI3.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:CalendarWinUI3.Models"
+    mc:Ignorable="d">
+    <Page.Resources>
+      
+    </Page.Resources>
+    <Grid Margin="0,24,0,0">
+        <TreeView x:Name="holidayTreeView" Margin="12,12,0,0">
+            <TreeView.ItemTemplate>
+                <DataTemplate x:DataType="models:Holiday">
+                    <StackPanel >
+                        <TextBlock Text="{x:Bind Name}"/>
+                        <TextBlock Text="Workdays"/>
+                        <TreeView ItemsSource="{x:Bind Workdays}"/>
+                        <TextBlock Text="Holidays"/>
+                        <TreeView ItemsSource="{x:Bind Holidays}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+    </Grid>
+</Page>

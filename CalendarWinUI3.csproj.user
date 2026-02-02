@@ -9,6 +9,10 @@
     <AppIconSource>D:\Users\Shomn\OneDrive - MSFT\Downloads\Frame 1.png</AppIconSource>
     <SplashScreenSource>D:\Users\Shomn\OneDrive - MSFT\Downloads\Frame 1.png</SplashScreenSource>
     <PackageLogoSource>D:\Users\Shomn\OneDrive - MSFT\Downloads\Frame 1.png</PackageLogoSource>
+    <ActiveDebugProfile>CalendarWinUI3 (Package)</ActiveDebugProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
     <None Update="App.xaml">
@@ -20,7 +24,10 @@
     <None Update="Package.appxmanifest">
       <SubType>Designer</SubType>
     </None>
-    <Page Update="Views\AccountPage.xaml">
+    <Page Update="Views\HolidaysPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\OldHuangCalendarPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Styles\DarkTheme.xaml">

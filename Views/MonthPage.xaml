@@ -13,6 +13,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
+        <converters:HolidayForegroundConverter x:Key="HolidayForegroundConverter"/>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <converters:BoolToForegroundConverter x:Key="BoolToForegroundConverter"/>
         <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
@@ -49,15 +50,19 @@
                             CornerRadius="14" Width="32" Height="32" Margin="5,0">
                         <TextBlock Text="{x:Bind DayNo}" 
                                    Opacity="{x:Bind IsCurrentMonth, Converter={StaticResource BoolToOpacityConverter}}" 
-                                   FontSize="22" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                   FontSize="22" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   />
                     </Border>
 
                     <TextBlock Grid.Row="2" Text="{x:Bind LunarDay}" FontSize="12"
                                Opacity="{x:Bind IsCurrentMonth, Converter={StaticResource BoolToOpacityConverter}}" 
                                VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    
+                    <Ellipse Grid.Row="3" Width="10" Height="10" Fill="Green" 
+                             Visibility="{x:Bind IsHoliday, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
-                    <Ellipse Grid.Row="3" Width="10" Height="10" Fill="{StaticResource AccentColor}" 
-                             Visibility="{x:Bind EventList.Count, Converter={StaticResource IntToVisibilityConverter}}"/>
+                    <Ellipse Grid.Row="3" Width="10" Height="10" Fill="Red" 
+         Visibility="{x:Bind IsWorkdayOverride, Converter={StaticResource BoolToVisibilityConverter}}"/>
                 </Grid>
             </Border>
         </DataTemplate>
@@ -113,7 +118,7 @@ ResizeDirection="Columns" />
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:Time">
                     <StackPanel Margin="5">
-                        <TextBlock Text="{x:Bind StartTime}" FontSize="14"/>
+                        
                         <TextBlock Text="{x:Bind Summary}" FontSize="18"/>
                         <TextBlock Text="{x:Bind Description}" FontSize="12" TextWrapping="WrapWholeWords"/>
                     </StackPanel>

@@ -4,4 +4,5 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:models="using:CalendarWinUI3.Models">
     <SolidColorBrush x:Key="AccentColor" Color="{ThemeResource SystemAccentColor}"/>
+    <SolidColorBrush x:Key="AccentColorDark1" Color="{ThemeResource SystemAccentColorDark1}"/>
 </ResourceDictionary>

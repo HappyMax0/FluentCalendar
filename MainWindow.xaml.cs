@@ -51,11 +51,6 @@ namespace CalendarWinUI3
                 TitleBarHelper.SetCaptionButtonColors(this, Colors.Black);
             }
 
-            //ReadSubscriptions();
-            
-
-            this.Activated += MainWindow_Activated;
-
             ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 
             if (localSettings.Values["StartDay"] is string startDay)
@@ -68,22 +63,6 @@ namespace CalendarWinUI3
             }
         }
 
-        private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)
-        {
-            ReadSubscriptions();
-        }
-
-        private void SaveSubscriptions()
-        {        
-            iCalendarHelper.SaveSubscriptions(Subscriptions);
-        }
-
-        private void ReadSubscriptions()
-        {
-            var subscriptions = iCalendarHelper.ReadSubscriptions();
-            Subscriptions = subscriptions;
-            subscriptionListView.ItemsSource = Subscriptions;
-        }
 
         // this handles updating the caption button colors correctly when indows system theme is changed
         // while the app is open
@@ -96,7 +75,7 @@ namespace CalendarWinUI3
             });
         }
 
-        private async void navigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        private void navigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             if (args.IsSettingsSelected)
             {
@@ -111,68 +90,7 @@ namespace CalendarWinUI3
                         NavView_Navigate(typeof(MainPage), args.RecommendedNavigationTransitionInfo);
 
                     }
-                    else if (navigationViewItem.Tag.Equals("Add"))
-                    {
-                        ContentDialog dialog = new ContentDialog();
-
-                        // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
-                        dialog.XamlRoot = this.Content.XamlRoot;
-                        dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-                        dialog.Title = "Add Subscription";
-                        dialog.PrimaryButtonText = "Add";
-                        dialog.CloseButtonText = "Cancel";
-                        dialog.DefaultButton = ContentDialogButton.Primary;
-                        dialog.Content = new AddSubscriptionDialogControl();
-
-                        var result = await dialog.ShowAsync();
-
-                        if (result == ContentDialogResult.Primary)
-                        {
-                            // Handle the addition of the subscription here
-                            // You can access the dialog's content and retrieve the necessary data
-                            var addSubscriptionControl = dialog.Content as AddSubscriptionDialogControl;
-                            if (addSubscriptionControl != null)
-                            {
-                                // Example: addSubscriptionControl.SubscriptionName
-                                string url = addSubscriptionControl.SubscriptionUrl;
-                                if (!string.IsNullOrEmpty(url))
-                                {
-                                    string fileName = iCalendarHelper.DownloadAndSaveFileAsync(url).Result;
-                                    if (!string.IsNullOrEmpty(fileName))
-                                    {
-                                        // Successfully downloaded and saved the file
-                                        // You can create a new Subscription object and add it to your list or database
-                                        Subscription newSubscription = new Subscription
-                                        {
-                                            Name = fileName.Split(".").FirstOrDefault(),
-                                            Url = url // Assuming you have a Url property in your Subscription model
-                                        };
-                                        Subscriptions.Add(newSubscription);
-
-                                        iCalendarHelper.AddCalendar(fileName);
-
-                                        SaveSubscriptions();
-                                    }
-                                    else
-                                    {
-                                        // Handle the case where the file could not be saved
-                                        // Show an error message or take appropriate action
-                                    }
-                                }
-
-                            }
-                        }
-
-                        navigationView.SelectedItem = navigationView.MenuItems.FirstOrDefault();
-                    }
-                    else if (navigationViewItem.Tag.Equals("Sync"))
-                    {
-                        foreach (var subscription in Subscriptions)
-                        {
-                            iCalendarHelper.SyncSubscription(subscription.Name);
-                        }
-                        navigationView.SelectedItem = navigationView.MenuItems.FirstOrDefault();
-                    }
+                  
                 }
             }
         }
@@ -189,9 +107,13 @@ namespace CalendarWinUI3
                 {
                     NavView_Navigate(typeof(MainPage), args.RecommendedNavigationTransitionInfo);
                 }
-                else if ("Account".Equals(args.InvokedItemContainer.Tag))
+                else if ("Holidays".Equals(args.InvokedItemContainer.Tag))
                 {
-                    NavView_Navigate(typeof(AccountPage), args.RecommendedNavigationTransitionInfo);
+                    NavView_Navigate(typeof(HolidaysPage), args.RecommendedNavigationTransitionInfo);
+                }
+                else if ("OldHuangCalendar".Equals(args.InvokedItemContainer.Tag))
+                {
+                    NavView_Navigate(typeof(OldHuangCalendarPage), args.RecommendedNavigationTransitionInfo);
                 }
             }
         }
@@ -227,32 +149,6 @@ namespace CalendarWinUI3
             contentFrame.GoBack();
             return true;
         }
-
-        private void IsSubscriptionEnabledCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            if (sender is CheckBox checkBox && checkBox.Tag is Subscription subscription)
-            {
-                subscription.IsEnabled = true;
-                UpdateSubcription();
-            }
-            
-        }
-
-        private void IsSubscriptionEnabledCheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            if (sender is CheckBox checkBox && checkBox.Tag is Subscription subscription)
-            {
-                subscription.IsEnabled = false;
-                UpdateSubcription();
-            }
-        }
-
-        private void UpdateSubcription()
-        {
-            iCalendarHelper.SaveSubscriptions(Subscriptions);
-            var subscriptions = iCalendarHelper.ReadSubscriptions();
-            NavView_Navigate(typeof(MainPage), new EntranceNavigationTransitionInfo());
-
-        }
+       
     }
 }

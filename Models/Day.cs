@@ -19,8 +19,11 @@ namespace CalendarWinUI3.Models
 
         public bool IsToday { get; set; }
 
-
         public bool IsCurrentMonth { get; set; }
+
+        public bool IsHoliday { get; set; }
+
+        public bool IsWorkdayOverride { get; set; }
 
         public List<Time> EventList { get; set; } = new List<Time>();
 

@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using Calendar = Windows.Globalization.Calendar;
 using String = System.String;
@@ -12,9 +13,18 @@ namespace CalendarWinUI3.Models.Utils
 {
     public static class Helper
     {
+        public static HolidayProvider provider = new HolidayProvider();
+
+        public static void InitializeHolidayProvider()
+        {
+            string path = Path.Combine(AppContext.BaseDirectory, "Assets", "holidays.json");
+            string json = File.ReadAllText(path);
+            provider.LoadFromJson(json);
+        }
+
         public static List<Day> GetDayList(DateTime time, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday, bool isShowWeekNo = false)
         {         
-            List<Day> dayList = new List<Day>();
+            List<Day> dayList = new List<Day>();       
 
             int currentMonth = time.Month;
             int currentYear = time.Year;
@@ -55,18 +65,16 @@ namespace CalendarWinUI3.Models.Utils
                 var showWeekNo = (dateTime.DayOfWeek == firstDayOfWeek) && isShowWeekNo;
 
                 var singleDay = new Day(dateTime.Year, dateTime.Month, dateTime.Day) { WeekNo = weekNo, ShowWeekNo = showWeekNo, LunarDay = lunarDayStr };
+      
+                var (isHoliday, name) = provider.IsHoliday(dateTime);
+                singleDay.IsHoliday = isHoliday;
+                if(isHoliday)
+                    singleDay.EventList.Add(new Time() { Summary = name });
 
-                foreach (var calendar in iCalendarHelper.Calendars)
-                {
-                    var evetItems = calendar.Events.Where(it => it.Start != null && it.End != null && it.Start.AsSystemLocal >= dateTime && it.End.AsSystemLocal <= dateTime.AddDays(1));
-                    if (evetItems != null && evetItems.Count() > 0)
-                    {
-                        foreach (var evetItem in evetItems)
-                        {
-                            singleDay.EventList.Add(new Time() { StartTime = evetItem.Start.AsSystemLocal, Summary = evetItem.Summary, Description = evetItem.Description });
-                        }
-                    }
-                }
+                var (isOverrideWorkday, holidayName) = provider.IsWorkdayOverride(dateTime);
+                singleDay.IsWorkdayOverride = isOverrideWorkday;
+                if(isOverrideWorkday)
+                    singleDay.EventList.Add(new Time() { Summary = holidayName });
 
                 dayList.Add(singleDay);
             }
@@ -99,18 +107,16 @@ namespace CalendarWinUI3.Models.Utils
                 var showWeekNo = (dateTime.DayOfWeek == firstDayOfWeek) && isShowWeekNo;
 
                 var singleDay = new Day(currentYear, currentMonth, day) { Week = week, WeekNo = weekNo, ShowWeekNo = showWeekNo, IsToday = isToday, IsCurrentMonth = true, LunarDay = lunarDayStr };
-            
-                foreach (var calendar in iCalendarHelper.Calendars)
-                {
-                    var evetItems = calendar.Events.Where(it => it.Start != null && it.End != null && it.Start.Year == currentYear && it.Start.AsSystemLocal >= dateTime && it.End.AsSystemLocal <= dateTime.AddDays(1));
-                    if (evetItems != null && evetItems.Count() > 0)
-                    {
-                        foreach (var evetItem in evetItems)
-                        {
-                            singleDay.EventList.Add(new Time() { StartTime = evetItem.Start.AsSystemLocal, Summary = evetItem.Summary, Description = evetItem.Description });
-                        }
-                    }
-                }
+
+                var (isHoliday, name) = provider.IsHoliday(dateTime);
+                singleDay.IsHoliday = isHoliday;
+                if (isHoliday)
+                    singleDay.EventList.Add(new Time() { Summary = name });
+
+                var (isOverrideWorkday, holidayName) = provider.IsWorkdayOverride(dateTime);
+                singleDay.IsWorkdayOverride = isOverrideWorkday;
+                if (isOverrideWorkday)
+                    singleDay.EventList.Add(new Time() { Summary = holidayName });
 
                 dayList.Add(singleDay);
             }
@@ -143,17 +149,15 @@ namespace CalendarWinUI3.Models.Utils
 
                 Day singleDay = new Day(dateTime.Year, dateTime.Month, dateTime.Day) { WeekNo = weekNo, ShowWeekNo = showWeekNo, LunarDay = lunarDayStr };
 
-                foreach (var calendar in iCalendarHelper.Calendars)
-                {
-                    var evetItems = calendar.Events.Where(it => it.Start != null && it.End != null && it.Start.AsSystemLocal >= dateTime && it.End.AsSystemLocal <= dateTime.AddDays(1));
-                    if (evetItems != null && evetItems.Count() > 0)
-                    {
-                        foreach (var evetItem in evetItems)
-                        {
-                            singleDay.EventList.Add(new Time() { StartTime = evetItem.Start.AsSystemLocal, Summary = evetItem.Summary, Description = evetItem.Description });
-                        }
-                    }
-                }
+                var (isHoliday, name) = provider.IsHoliday(dateTime);
+                singleDay.IsHoliday = isHoliday;
+                if(isHoliday)
+                    singleDay.EventList.Add(new Time() { Summary = name });
+
+                var (isOverrideWorkday, holidayName) = provider.IsWorkdayOverride(dateTime);
+                singleDay.IsWorkdayOverride = isOverrideWorkday;
+                if (isOverrideWorkday)
+                    singleDay.EventList.Add(new Time() { Summary = holidayName });
 
                 dayList.Add(singleDay);
             }
@@ -197,18 +201,6 @@ namespace CalendarWinUI3.Models.Utils
 
                 var week = new Week() { WeekNo = weekDate.DayOfWeek, DayNo = weekDate.Day, Weeks = weeks, ShowWeekNo = showWeekNo, IsToday = (weekDate.Day == today.Day && weekDate.Month == today.Month && weekDate.Year == today.Year) };
                 week.Events = new();
-
-                foreach (var calendar in iCalendarHelper.Calendars)
-                {
-                    var evetItems = calendar.Events.Where(it => it.Start != null && it.End != null && it.Start.Year == weekDate.Year && it.Start.AsSystemLocal >= weekDate && it.End.AsSystemLocal <= weekDate.AddDays(1));
-                    if (evetItems != null && evetItems.Count() > 0)
-                    {
-                        foreach (var evetItem in evetItems)
-                        {
-                            week.Events.Add(new Time() { StartTime = evetItem.Start.AsSystemLocal, Summary = evetItem.Summary, Description = evetItem.Description });
-                        }
-                    }
-                }
 
                 weekList.Add(week);
             }
@@ -294,9 +286,9 @@ namespace CalendarWinUI3.Models.Utils
             // 农历节日判断逻辑
             if (month == 1 && day == 1) { return "春节"; } 
             else if (month == 1 && day == 15) { return "元宵节"; } 
-            else if (month == 5 && day == 5) { return "端午节"; } 
-            else if (month == 8 && day == 15) { return "中秋节"; } 
-            else if (month == 7 && day == 7) { return "七夕节"; } 
+            else if (month == 5 && day == 5) { return "端午节"; }       
+            else if (month == 7 && day == 7) { return "七夕节"; }
+            else if (month == 8 && day == 15) { return "中秋节"; }
             else if (month == 9 && day == 9) { return "重阳节"; } 
             else if (month == 12 && day == 8) { return "腊八节"; } 
             else if (month == 12 && day == 23) { return "小年"; } 

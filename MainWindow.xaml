@@ -23,31 +23,20 @@
                 </Viewbox>
             </NavigationViewItem>
             <NavigationViewItemSeparator/>
-            <ListView x:Name="subscriptionListView" SelectionMode="None">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Subscription">
-                        <StackPanel Orientation="Horizontal" Margin="8">
-                            <CheckBox x:Name="IsSubscriptionEnabledCheckBox" IsChecked="{x:Bind IsEnabled}" Content="{x:Bind Name}" 
-                                      Checked="IsSubscriptionEnabledCheckBox_Checked"
-                                      Unchecked="IsSubscriptionEnabledCheckBox_Unchecked"
-                                      Tag="{x:Bind }"/>
-
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <NavigationViewItem Icon="Clock" Tag="Holidays">
+                <TextBlock Text="Holidays" />
+            </NavigationViewItem>
+            <NavigationViewItem Icon="Library" Tag="OldHuangCalendar">
+                <TextBlock Text="OldHuangCalendar" />
+            </NavigationViewItem>
+            <NavigationViewItem Icon="TouchPointer" Tag="Toolbox">
+                <TextBlock Text="Toolbox" />
+            </NavigationViewItem>
         </NavigationView.MenuItems>
 
         <NavigationView.FooterMenuItems>
-            <NavigationViewItem Icon="Add" Tag="Add">
-                <TextBlock Text="Add" />
-            </NavigationViewItem>
-            <NavigationViewItemSeparator/>
             <NavigationViewItem Icon="Sync" Tag="Sync">
-                <TextBlock Text="Sync" />
-            </NavigationViewItem>
-            <NavigationViewItem Icon="Account" Tag="Account">
-                <TextBlock Text="Account" />
+                <TextBlock Text="Refresh" />
             </NavigationViewItem>
         </NavigationView.FooterMenuItems>
         

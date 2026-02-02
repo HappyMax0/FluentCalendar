@@ -66,6 +66,7 @@ namespace CalendarWinUI3
             if (!"Default".Equals(theme))
                 ThemeHelper.RootTheme = CommonHelper.GetEnum<ElementTheme>(theme);
 
+            Helper.InitializeHolidayProvider();
         }
 
         public Frame GetRootFrame()

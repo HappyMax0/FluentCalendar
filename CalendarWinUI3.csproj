@@ -14,10 +14,12 @@
 	<SupportedOSPlatformVersion>10.0.22621.0</SupportedOSPlatformVersion>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Views\AccountPage.xaml" />
+    <None Remove="Assets\holidays.json" />
     <None Remove="Views\DayPage.xaml" />
+    <None Remove="Views\HolidaysPage.xaml" />
     <None Remove="Views\MainPage.xaml" />
     <None Remove="Views\MonthPage.xaml" />
+    <None Remove="Views\OldHuangCalendarPage.xaml" />
     <None Remove="Views\SettingsPage.xaml" />
     <None Remove="Views\Styles\AddSubscriptionDialogControl.xaml" />
     <None Remove="Views\Styles\Colors.xaml" />
@@ -38,6 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250402" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.250402" />
     <PackageReference Include="Ical.Net" Version="4.3.1" />
@@ -105,10 +108,21 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ViewModels\" />
     <Folder Include="Views\UserControls\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\AccountPage.xaml">
+    <Content Update="Assets\holidays.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\HolidaysPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\OldHuangCalendarPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
