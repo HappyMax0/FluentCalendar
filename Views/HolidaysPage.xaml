@@ -12,15 +12,21 @@
       
     </Page.Resources>
     <Grid Margin="0,24,0,0">
-        <TreeView x:Name="holidayTreeView" Margin="12,12,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <DatePicker x:Name="datePicker" Header="Pick a date" Margin="24,0" DateChanged="datePicker_DateChanged"/>
+
+        <TreeView Grid.Row="1" x:Name="holidayTreeView" Margin="12,12,0,0">
             <TreeView.ItemTemplate>
                 <DataTemplate x:DataType="models:Holiday">
                     <StackPanel >
                         <TextBlock Text="{x:Bind Name}"/>
-                        <TextBlock Text="Workdays"/>
-                        <TreeView ItemsSource="{x:Bind Workdays}"/>
-                        <TextBlock Text="Holidays"/>
+                        <TextBlock Text="放假"/>
                         <TreeView ItemsSource="{x:Bind Holidays}"/>
+                        <TextBlock Text="补班"/>
+                        <TreeView ItemsSource="{x:Bind Workdays}"/>
                     </StackPanel>
                 </DataTemplate>
             </TreeView.ItemTemplate>

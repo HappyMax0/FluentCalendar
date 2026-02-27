@@ -1,3 +1,4 @@
+using CalendarWinUI3.Models;
 using CalendarWinUI3.Models.Utils;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -33,7 +34,48 @@ namespace CalendarWinUI3.Views
         {
             base.OnNavigatedTo(e);
 
-            //holidayTreeView.ItemsSource = Helper.provider.GetHolidays();
+            datePicker.Date = DateTime.Now;
+            getHolidayDatas(datePicker.Date.Year);
+
+        }
+
+        private void datePicker_DateChanged(object sender, DatePickerValueChangedEventArgs e)
+        {
+            if(e.NewDate.Year != e.OldDate.Year)
+                getHolidayDatas(e.NewDate.Year);
+        }
+
+        private void getHolidayDatas(int year)
+        {
+            List<Holiday> holidays = new List<Holiday>();
+           
+            var holidayData = HolidayProvider.HolidayDatas.FirstOrDefault(x => x.Year == year);
+            if (holidayData != null)
+            {
+                foreach (var item in holidayData.Days)
+                {
+                    var holiday = holidays.FirstOrDefault(x => x.Name == item.Name);
+                    if (holiday == null)
+                    {
+                        holiday = new Holiday();
+                        holiday.Name = item.Name;
+                        holidays.Add(holiday);
+                    }
+
+                    if (item.IsOffDay)
+                    {
+                        //放假
+                        holiday.Holidays.Add(item.Date.ToString("yyyy/MM/dd"));
+                    }
+                    else
+                    {
+                        //上班
+                        holiday.Workdays.Add(item.Date.ToString("yyyy/MM/dd"));
+                    }
+                }
+            }
+
+            holidayTreeView.ItemsSource = holidays;
         }
     }
 }

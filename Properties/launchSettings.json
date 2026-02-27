@@ -1,7 +1,8 @@
 {
   "profiles": {
     "CalendarWinUI3 (Package)": {
-      "commandName": "MsixPackage"
+      "commandName": "MsixPackage",
+      "nativeDebugging": true
     },
     "CalendarWinUI3 (Unpackaged)": {
       "commandName": "Project"

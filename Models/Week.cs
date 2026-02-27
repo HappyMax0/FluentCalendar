@@ -17,6 +17,10 @@ namespace CalendarWinUI3.Models
 
         public int DayNo { get; set; }
 
+        public int MonthNo { get; set; }
+
+        public int YearNo { get; set; }
+
         public ObservableCollection<Time> Events { get; set; }
     }
 }

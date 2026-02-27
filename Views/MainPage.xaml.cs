@@ -125,7 +125,7 @@ namespace CalendarWinUI3.Views
 
         }
 
-        private void nextBtn_Click(object sender, RoutedEventArgs e)
+        private async void nextBtn_Click(object sender, RoutedEventArgs e)
         {
             var selectedItem = viewComboBox.SelectedItem as ComboBoxItem;
             if (selectedItem != null)
@@ -137,7 +137,11 @@ namespace CalendarWinUI3.Views
                     case "Month":
                         if (Time.Month == 12)
                         {
+                            //当前为12月，年份+1
                             Time = new DateTime(Time.Year + 1, 1, 1);
+
+                            await HolidayProvider.GetHolidayData(Time.Year);
+
                         }
                         else
                         {
@@ -152,10 +156,17 @@ namespace CalendarWinUI3.Views
                         break;
                     case "Week":
                         // 计算周日的日期
-                        int daysToSunday = (int)Time.DayOfWeek; // DayOfWeek.Sunday = 0
-                        Time = Time.AddDays(-daysToSunday).Date;
+                        /*int daysToSunday = (int)Time.DayOfWeek; // DayOfWeek.Sunday = 0
+                        Time = Time.AddDays(-daysToSunday).Date;*/
 
-                        Time = Time.AddDays(7).Date;
+                        var newTime = Time.AddDays(7).Date;
+
+                        if (newTime.Year != Time.Year)
+                            await HolidayProvider.GetHolidayData(newTime.Year);
+                        else if(newTime.AddDays(7).Year != newTime.Year)
+                            await HolidayProvider.GetHolidayData(newTime.AddDays(7).Year);
+
+                        Time = newTime;
 
                         calendarDatePicker.Date = Time;
 
@@ -241,14 +252,17 @@ namespace CalendarWinUI3.Views
             }
         }
 
-        private void calendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
+        private async void calendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             // 检查是否选择了有效日期
             if (args.NewDate.HasValue)
             {
                 Time = args.NewDate.Value.Date; // 获取选择的日期
 
-                if(viewComboBox.SelectedItem is ComboBoxItem selectedItem)
+                if(args.OldDate == null || args.NewDate.Value.Year != args.OldDate.Value.Year)
+                    await HolidayProvider.GetHolidayData(args.NewDate.Value.Year);
+
+                if (viewComboBox.SelectedItem is ComboBoxItem selectedItem)
                 {
                     switch (selectedItem.Tag.ToString())
                     {

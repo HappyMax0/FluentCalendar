@@ -30,6 +30,9 @@ namespace CalendarWinUI3.Models.Utils
         /// </summary>
         public static async Task<HolidayData?> GetHolidayData(int year)
         {
+            var holidayData = HolidayDatas.FirstOrDefault(x => x.Year == year);
+            if (holidayData != null) return holidayData;
+
             string json = string.Empty;
             string path = Path.Combine(AppContext.BaseDirectory, "Assets", $"{year}.json");
             if (File.Exists(path))

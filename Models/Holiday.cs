@@ -6,7 +6,7 @@ namespace CalendarWinUI3.Models
     public class Holiday
     {
         public string Name { get; set; }
-        public List<String> Holidays { get; set; }
-        public List<String> Workdays { get; set; }
+        public List<String> Holidays { get; set; } = new List<String>();
+        public List<String> Workdays { get; set; } = new List<String>();
     }
 }

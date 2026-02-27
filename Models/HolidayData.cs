@@ -31,6 +31,7 @@ namespace CalendarWinUI3.Models
         [JsonPropertyName("date")]
         public DateTime Date { get; set; }
 
+        //true放假，false上班
         [JsonPropertyName("isOffDay")]
         public bool IsOffDay { get; set; }
     }

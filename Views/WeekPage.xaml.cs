@@ -1,7 +1,9 @@
+using CalendarWinUI3.Models;
 using CalendarWinUI3.Models.Utils;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using System.Collections.Generic;
 using Windows.Storage;
 using DayOfWeek = System.DayOfWeek;
 
@@ -40,7 +42,9 @@ namespace CalendarWinUI3.Views
 
                 bool isShowWeekNo = localSettings.Values["ShowWeekNo"] is bool;
 
-                weekGridView.ItemsSource = Helper.GetWeeks(time, dayOfWeek, isShowWeekNo);
+                List<Week> weeks = Helper.GetWeeks(time, dayOfWeek, isShowWeekNo);
+
+                weekGridView.ItemsSource = weeks;
             }
 
         }

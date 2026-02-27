@@ -231,7 +231,18 @@ namespace CalendarWinUI3.Models.Utils
                 var showWeekNo = (weekDate.DayOfWeek == firstDayOfWeek) && isShowWeekNo;
 
                 var week = new Week() { WeekNo = weekDate.DayOfWeek, DayNo = weekDate.Day, Weeks = weeks, ShowWeekNo = showWeekNo, IsToday = (weekDate.Day == today.Day && weekDate.Month == today.Month && weekDate.Year == today.Year) };
+                week.YearNo = weekDate.Year;
+                week.MonthNo = weekDate.Month;
                 week.Events = new();
+
+                var holidayData = HolidayProvider.HolidayDatas.FirstOrDefault(h => h.Year == weekDate.Year);
+                if(holidayData != null)
+                {
+                    var holidayDateTime = holidayData.Days.FirstOrDefault(x=>x.Date == weekDate.Date);
+                    if (holidayDateTime != null)
+                        week.Events.Add(new Time() { Summary = holidayDateTime.Name, Description = holidayDateTime.IsOffDay ? "放假" : "补班" });
+
+                }
 
                 weekList.Add(week);
             }
