@@ -33,7 +33,7 @@ namespace CalendarWinUI3.Views
         {
             base.OnNavigatedTo(e);
 
-            holidayTreeView.ItemsSource = Helper.provider.GetHolidays();
+            //holidayTreeView.ItemsSource = Helper.provider.GetHolidays();
         }
     }
 }

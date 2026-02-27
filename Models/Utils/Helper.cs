@@ -13,15 +13,6 @@ namespace CalendarWinUI3.Models.Utils
 {
     public static class Helper
     {
-        public static HolidayProvider provider = new HolidayProvider();
-
-        public static void InitializeHolidayProvider()
-        {
-            string path = Path.Combine(AppContext.BaseDirectory, "Assets", "holidays.json");
-            string json = File.ReadAllText(path);
-            provider.LoadFromJson(json);
-        }
-
         public static List<Day> GetDayList(DateTime time, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday, bool isShowWeekNo = false)
         {         
             List<Day> dayList = new List<Day>();       
@@ -65,16 +56,29 @@ namespace CalendarWinUI3.Models.Utils
                 var showWeekNo = (dateTime.DayOfWeek == firstDayOfWeek) && isShowWeekNo;
 
                 var singleDay = new Day(dateTime.Year, dateTime.Month, dateTime.Day) { WeekNo = weekNo, ShowWeekNo = showWeekNo, LunarDay = lunarDayStr };
-      
-                var (isHoliday, name) = provider.IsHoliday(dateTime);
+
+                bool isHoliday = false;
+                bool isOverrideWorkday = false;
+                string name = string.Empty;
+                var holidayData = HolidayProvider.HolidayDatas.FirstOrDefault(h => h.Year == dateTime.Year);
+                if (holidayData != null)
+                {
+                    var holidayDay = holidayData.Days.FirstOrDefault(x=>x.Date == dateTime);
+                    if(holidayDay != null)
+                    {
+                        isHoliday = holidayDay.IsOffDay;
+                        isOverrideWorkday = !holidayDay.IsOffDay;
+                        name = holidayDay.Name;
+                    }
+                }
+                
                 singleDay.IsHoliday = isHoliday;
                 if(isHoliday)
                     singleDay.EventList.Add(new Time() { Summary = name });
 
-                var (isOverrideWorkday, holidayName) = provider.IsWorkdayOverride(dateTime);
-                singleDay.IsWorkdayOverride = isOverrideWorkday;
+                singleDay.IsWorkdayOverride = isOverrideWorkday && !string.IsNullOrEmpty(name);
                 if(isOverrideWorkday)
-                    singleDay.EventList.Add(new Time() { Summary = holidayName });
+                    singleDay.EventList.Add(new Time() { Summary = name });
 
                 dayList.Add(singleDay);
             }
@@ -108,15 +112,29 @@ namespace CalendarWinUI3.Models.Utils
 
                 var singleDay = new Day(currentYear, currentMonth, day) { Week = week, WeekNo = weekNo, ShowWeekNo = showWeekNo, IsToday = isToday, IsCurrentMonth = true, LunarDay = lunarDayStr };
 
-                var (isHoliday, name) = provider.IsHoliday(dateTime);
+                bool isHoliday = false;
+                bool isOverrideWorkday = false;
+                string name = string.Empty;
+                var holidayData = HolidayProvider.HolidayDatas.FirstOrDefault(h => h.Year == dateTime.Year);
+                if (holidayData != null)
+                {
+                    var holidayDay = holidayData.Days.FirstOrDefault(x => x.Date == dateTime);
+                    if (holidayDay != null)
+                    {
+                        isHoliday = holidayDay.IsOffDay;
+                        isOverrideWorkday = !holidayDay.IsOffDay;
+                        name = holidayDay.Name;
+                    }
+                }
+
                 singleDay.IsHoliday = isHoliday;
                 if (isHoliday)
                     singleDay.EventList.Add(new Time() { Summary = name });
 
-                var (isOverrideWorkday, holidayName) = provider.IsWorkdayOverride(dateTime);
-                singleDay.IsWorkdayOverride = isOverrideWorkday;
+               
+                singleDay.IsWorkdayOverride = isOverrideWorkday && !string.IsNullOrEmpty(name);
                 if (isOverrideWorkday)
-                    singleDay.EventList.Add(new Time() { Summary = holidayName });
+                    singleDay.EventList.Add(new Time() { Summary = name });
 
                 dayList.Add(singleDay);
             }
@@ -149,15 +167,28 @@ namespace CalendarWinUI3.Models.Utils
 
                 Day singleDay = new Day(dateTime.Year, dateTime.Month, dateTime.Day) { WeekNo = weekNo, ShowWeekNo = showWeekNo, LunarDay = lunarDayStr };
 
-                var (isHoliday, name) = provider.IsHoliday(dateTime);
+                bool isHoliday = false;
+                bool isOverrideWorkday = false;
+                string name = string.Empty;
+                var holidayData = HolidayProvider.HolidayDatas.FirstOrDefault(h => h.Year == dateTime.Year);
+                if (holidayData != null)
+                {
+                    var holidayDay = holidayData.Days.FirstOrDefault(x => x.Date == dateTime);
+                    if (holidayDay != null)
+                    {
+                        isHoliday = holidayDay.IsOffDay;
+                        isOverrideWorkday = !holidayDay.IsOffDay;
+                        name = holidayDay.Name;
+                    }
+                }
+
                 singleDay.IsHoliday = isHoliday;
                 if(isHoliday)
                     singleDay.EventList.Add(new Time() { Summary = name });
-
-                var (isOverrideWorkday, holidayName) = provider.IsWorkdayOverride(dateTime);
-                singleDay.IsWorkdayOverride = isOverrideWorkday;
+                
+                singleDay.IsWorkdayOverride = isOverrideWorkday && !string.IsNullOrEmpty(name); ;
                 if (isOverrideWorkday)
-                    singleDay.EventList.Add(new Time() { Summary = holidayName });
+                    singleDay.EventList.Add(new Time() { Summary = name });
 
                 dayList.Add(singleDay);
             }

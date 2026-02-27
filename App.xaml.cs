@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -66,8 +67,21 @@ namespace CalendarWinUI3
             if (!"Default".Equals(theme))
                 ThemeHelper.RootTheme = CommonHelper.GetEnum<ElementTheme>(theme);
 
-            Helper.InitializeHolidayProvider();
+            _ = InitializeHolidayDataAsync();
         }
+
+
+        private async Task InitializeHolidayDataAsync()
+        {
+            var now = DateTime.Now;
+            await HolidayProvider.GetHolidayData(now.Year);
+
+            await HolidayProvider.GetHolidayData(now.Year - 1);
+
+            await HolidayProvider.GetHolidayData(now.Year + 1);
+
+        }
+
 
         public Frame GetRootFrame()
         {
