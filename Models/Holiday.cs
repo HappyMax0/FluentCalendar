@@ -8,5 +8,7 @@ namespace CalendarWinUI3.Models
         public string Name { get; set; }
         public List<String> Holidays { get; set; } = new List<String>();
         public List<String> Workdays { get; set; } = new List<String>();
+        public int HolidayCount => Holidays.Count;
+        public int WorkdayCount => Workdays.Count;
     }
 }

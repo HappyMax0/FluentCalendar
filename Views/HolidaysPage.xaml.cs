@@ -77,5 +77,10 @@ namespace CalendarWinUI3.Views
 
             holidayTreeView.ItemsSource = holidays;
         }
+
+        public Visibility SetHeaderVisbility(List<String> list)
+        {
+            return list.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
     }
 }
