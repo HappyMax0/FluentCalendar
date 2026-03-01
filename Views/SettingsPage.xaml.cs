@@ -30,8 +30,6 @@ namespace CalendarWinUI3.Views
             }
         }
 
-        private int lastNavigationSelectionMode = 0;
-
         public SettingsPage()
         {
             this.InitializeComponent();
