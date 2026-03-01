@@ -82,6 +82,13 @@
                     <ToggleSwitch x:Name="ShowWeekNoSwitch" Toggled="ShowWeekNoSwitch_Toggled" />
                 </toolkit:SettingsCard>
 
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Data" />
+                <toolkit:SettingsCard Description="Refresh Holiday Data" Header="Reset">
+                    <toolkit:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE75C;" />
+                    </toolkit:SettingsCard.HeaderIcon>
+                    <Button x:Name="ResetHolidayDataBtn" Content="Reset" Click="ResetHolidayDataBtn_Click"/>
+                </toolkit:SettingsCard>
 
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="About" />
                 <toolkit:SettingsExpander Description="© 2025 HappyMax. All rights reserved." Header="FluentCalendar">

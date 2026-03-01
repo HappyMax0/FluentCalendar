@@ -112,6 +112,31 @@ namespace CalendarWinUI3.Models.Utils
 
             return false;
         }
+
+        public static void RemoveAllHolidayDatas()
+        {
+            HolidayDatas.Clear();
+        }
+
+        public static void RemoveAllHolidayDataFiles()
+        {
+            string path = Path.Combine(AppContext.BaseDirectory, "Assets");
+            if(Directory.Exists(path))
+            {
+                var files = Directory.GetFiles(path, "*.json");
+                foreach (var file in files)
+                {
+                    try
+                    {
+                        File.Delete(file);
+                    }
+                    catch (Exception)
+                    {
+                        // Handle exceptions if necessary
+                    }
+                }
+            }
+        }
     }
 
 }

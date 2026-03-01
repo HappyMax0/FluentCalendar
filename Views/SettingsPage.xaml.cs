@@ -1,3 +1,4 @@
+using CalendarWinUI3.Models.Utils;
 using CalendarWinUI3.Views.Helpers;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
@@ -157,6 +158,12 @@ namespace CalendarWinUI3.Views
             {
                 localSettings.Values["ShowWeekNo"] = toggleSwitch.IsOn;
             }
+        }
+
+        private void ResetHolidayDataBtn_Click(object sender, RoutedEventArgs e)
+        {
+            HolidayProvider.RemoveAllHolidayDataFiles();
+            HolidayProvider.RemoveAllHolidayDatas();
         }
     }
 }
