@@ -115,7 +115,9 @@ ResizeBehavior="PreviousAndNext"
 ResizeDirection="Columns" />
 
         <StackPanel Grid.Row="0" Grid.RowSpan="3" Grid.Column="2" Margin="12">
-            <TextBlock x:Name="holidayNameTB" FontSize="26" />
+            <TextBlock x:Name="SolarDayTB" />
+            <TextBlock x:Name="SolarFestivalNameTB" FontSize="26" />
+            <TextBlock x:Name="LunarFestivalNameTB" FontSize="26" />
             <TextBlock x:Name="lunarTB" FontSize="24" TextWrapping="WrapWholeWords"/>
             <TextBlock x:Name="ganzhiTB" FontSize="18" TextWrapping="WrapWholeWords"/>
             <TextBlock x:Name="jieqiTB" FontSize="16" TextWrapping="WrapWholeWords"/>

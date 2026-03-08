@@ -8,7 +8,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
-
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="BackBtn" FontFamily="Segoe MDL2 Assets" Content="&#xE973;" Click="BackBtn_Click"/>
+        <DatePicker Grid.Row="1" x:Name="datePicker1" Header="Pick a date" Margin="24" />
+        <DatePicker Grid.Row="2" x:Name="datePicker2" Header="Pick a date" Margin="24" />
+        <Button Grid.Row="3" x:Name="CalculateBtn" Content="计算" Margin="24" Click="CalculateBtn_Click" />
+        <TextBlock Grid.Row="4" x:Name="ResultTB" Margin="24" />
     </Grid>
 </Page>

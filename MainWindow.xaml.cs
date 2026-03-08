@@ -53,14 +53,14 @@ namespace CalendarWinUI3
 
             ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 
-            if (localSettings.Values["StartDay"] is string startDay)
+            /*if (localSettings.Values["StartDay"] is string startDay)
             {
                 calendarView.FirstDayOfWeek = startDay.Equals("Monday") ? Windows.Globalization.DayOfWeek.Monday : Windows.Globalization.DayOfWeek.Sunday;
             }
             else
             {
                 calendarView.FirstDayOfWeek = Windows.Globalization.DayOfWeek.Sunday; // default value
-            }
+            }*/
         }
 
 
@@ -149,6 +149,5 @@ namespace CalendarWinUI3
             contentFrame.GoBack();
             return true;
         }
-       
     }
 }

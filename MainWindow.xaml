@@ -18,9 +18,7 @@
         </NavigationView.AutoSuggestBox>
         <NavigationView.MenuItems>
             <NavigationViewItem Icon="Calendar" Tag="Calendar" IsSelected="True">
-                <Viewbox>
-                    <CalendarView x:Name="calendarView" />
-                </Viewbox>
+                <TextBlock Text="Calendar" />
             </NavigationViewItem>
             <NavigationViewItemSeparator/>
             <NavigationViewItem Icon="Clock" Tag="Holidays">

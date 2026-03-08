@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Devices.Display.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -30,12 +31,12 @@ namespace CalendarWinUI3.Views
 
         private void ConversionSC_Click(object sender, RoutedEventArgs e)
         {
-
+            this.Frame.Navigate(typeof(LunarConversionPage));
         }
 
         private void IntervalSC_Click(object sender, RoutedEventArgs e)
         {
-
+            this.Frame.Navigate(typeof(IntervalCalculatePage));
         }
     }
 }

@@ -27,5 +27,17 @@ namespace CalendarWinUI3.Views
         {
             InitializeComponent();
         }
+
+        private void CalculateBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var timeSpan = datePicker2.Date - datePicker1.Date;
+
+            ResultTB.Text = timeSpan.Days.ToString() + "Days";
+        }
+
+        private void BackBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.GoBack();
+        }
     }
 }

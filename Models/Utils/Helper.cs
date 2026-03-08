@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using tyme.festival;
+using tyme.solar;
 using Calendar = Windows.Globalization.Calendar;
 using String = System.String;
 
@@ -320,20 +322,22 @@ namespace CalendarWinUI3.Models.Utils
 
         public static string GetLunarFestival(DateTime date)
         {
-            ChineseLunisolarCalendar chineseCalendar = new ChineseLunisolarCalendar(); 
-            int year = chineseCalendar.GetYear(date); 
-            int month = chineseCalendar.GetMonth(date); 
-            int day = chineseCalendar.GetDayOfMonth(date); 
-            bool isLeapMonth = chineseCalendar.IsLeapMonth(year, month); 
+            ChineseLunisolarCalendar chineseCalendar = new ChineseLunisolarCalendar();
+            int year = chineseCalendar.GetYear(date);
+            int month = chineseCalendar.GetMonth(date);
+            int day = chineseCalendar.GetDayOfMonth(date);
+            bool isLeapMonth = chineseCalendar.IsLeapMonth(year, month);
             // 农历节日判断逻辑
-            if (month == 1 && day == 1) { return "春节"; } 
-            else if (month == 1 && day == 15) { return "元宵节"; } 
-            else if (month == 5 && day == 5) { return "端午节"; }       
-            else if (month == 7 && day == 7) { return "七夕节"; }
-            else if (month == 8 && day == 15) { return "中秋节"; }
-            else if (month == 9 && day == 9) { return "重阳节"; } 
-            else if (month == 12 && day == 8) { return "腊八节"; } 
-            else if (month == 12 && day == 23) { return "小年"; } 
-            else { return string.Empty; } }
+            SolarDay solarDay = SolarDay.FromYmd(date.Year, date.Month, date.Day);
+            LunarFestival lunarFestival = solarDay.GetLunarDay().Festival;
+            if (lunarFestival != null)
+            {
+                return lunarFestival.GetName();
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
     }
 }
