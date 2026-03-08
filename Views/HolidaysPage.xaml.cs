@@ -9,9 +9,11 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using tyme.solar;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -36,13 +38,17 @@ namespace CalendarWinUI3.Views
 
             datePicker.Date = DateTime.Now;
             getHolidayDatas(datePicker.Date.Year);
-
+            getSolarTerm(datePicker.Date.Year);
         }
 
         private void datePicker_DateChanged(object sender, DatePickerValueChangedEventArgs e)
         {
             if(e.NewDate.Year != e.OldDate.Year)
+            {
                 getHolidayDatas(e.NewDate.Year);
+                getSolarTerm(datePicker.Date.Year);
+            }
+            
         }
 
         private void getHolidayDatas(int year)
@@ -76,6 +82,23 @@ namespace CalendarWinUI3.Views
             }
 
             holidayTreeView.ItemsSource = holidays;
+        }
+
+        private void getSolarTerm(int year)
+        {
+            ObservableCollection<Models.SolarTermDay> solarTermDays = new ObservableCollection<Models.SolarTermDay>();
+
+            for (int i = 0; i < 24; i++)
+            {
+                Models.SolarTermDay termDay = new Models.SolarTermDay();
+                SolarTerm term = SolarTerm.FromIndex(year, i);
+                SolarDay d = term.GetSolarDay();
+                termDay.Name = term.GetName();
+                termDay.Date = new DateTime(d.Year, d.Month, d.Day);
+                solarTermDays.Add(termDay);
+            }
+
+            solarTermsLV.ItemsSource = solarTermDays;
         }
 
         public Visibility SetHeaderVisbility(List<String> list)

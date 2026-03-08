@@ -37,7 +37,7 @@
         <ScrollViewer
          x:Name="contentSV"
          Grid.Row="1"
-         Padding="36,0,36,0"
+         Padding="36,0,36,36"
          IsTabStop="False"
          UseSystemFocusVisuals="False"
          VerticalScrollBarVisibility="Auto"

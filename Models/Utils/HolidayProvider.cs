@@ -137,6 +137,29 @@ namespace CalendarWinUI3.Models.Utils
                 }
             }
         }
+
+        public static async Task<HuangLiDto?> GetHuangli(string date)
+        {
+            string json = string.Empty;
+            try
+            {
+                using HttpClient client = new();
+
+                json = await client.GetStringAsync(
+                    $"http://127.0.0.1:8000/huangli/{date}");
+            }
+            catch (Exception)
+            {
+                
+            }
+
+            if (string.IsNullOrEmpty(json))
+                return null;
+
+            HuangLiDto? data = JsonSerializer.Deserialize<HuangLiDto>(json);
+
+            return data;
+        }
     }
 
 }

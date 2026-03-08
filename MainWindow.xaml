@@ -26,9 +26,6 @@
             <NavigationViewItem Icon="Clock" Tag="Holidays">
                 <TextBlock Text="Holidays" />
             </NavigationViewItem>
-            <NavigationViewItem Icon="Library" Tag="OldHuangCalendar">
-                <TextBlock Text="OldHuangCalendar" />
-            </NavigationViewItem>
             <NavigationViewItem Icon="TouchPointer" Tag="Toolbox">
                 <TextBlock Text="Toolbox" />
             </NavigationViewItem>

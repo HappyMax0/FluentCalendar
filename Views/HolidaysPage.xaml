@@ -9,7 +9,19 @@
     xmlns:models="using:CalendarWinUI3.Models" xmlns:converter="using:CalendarWinUI3.Views.Converter"
     mc:Ignorable="d">
     <Page.Resources>
+        <converter:DateConverter x:Key="DateConverter"/>
         <converter:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
+        <DataTemplate x:Key="solarTermsLVDT" x:DataType="models:SolarTermDay">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{x:Bind Name}" FontSize="24" Margin="10,0"/>
+                <TextBlock Grid.Column="1" Text="{x:Bind Date, Converter={StaticResource DateConverter}}" FontSize="20"
+                           Margin="10,0" VerticalAlignment="Center"/>
+            </Grid>
+        </DataTemplate>
     </Page.Resources>
     <Grid Margin="0,24,0,0">
         <Grid.RowDefinitions>
@@ -18,18 +30,30 @@
         </Grid.RowDefinitions>
         <DatePicker x:Name="datePicker" Header="Pick a date" Margin="24,0" DateChanged="datePicker_DateChanged"/>
 
-        <TreeView Grid.Row="1" x:Name="holidayTreeView" Margin="12,12,0,0">
-            <TreeView.ItemTemplate>
-                <DataTemplate x:DataType="models:Holiday">
-                    <StackPanel >
-                        <TextBlock Text="{x:Bind Name}"/>
-                        <TextBlock Text="放假"/>
-                        <TreeView ItemsSource="{x:Bind Holidays}"/>
-                        <TextBlock Text="补班" Visibility="{x:Bind WorkdayCount, Converter={StaticResource IntToVisibilityConverter}}"/>
-                        <TreeView ItemsSource="{x:Bind Workdays}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
+        <Pivot Grid.Row="1" Margin="12,12,0,0">
+            <PivotItem Header="Holidays">
+                <TreeView x:Name="holidayTreeView" >
+                    <TreeView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Holiday">
+                            <StackPanel>
+                                <TextBlock Text="{x:Bind Name}" FontSize="24"/>
+                                <TextBlock Text="放假" Foreground="Green" FontSize="18" Margin="0,5"/>
+                                <TreeView ItemsSource="{x:Bind Holidays}" FontSize="20"/>
+                                <TextBlock Text="补班" Foreground="Red" FontSize="18" Margin="0,5"
+                                           Visibility="{x:Bind WorkdayCount, Converter={StaticResource IntToVisibilityConverter}}"/>
+                                <TreeView ItemsSource="{x:Bind Workdays}" FontSize="20"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </PivotItem>
+            <PivotItem Header="SolarTerms">
+                <ListView x:Name="solarTermsLV" ItemTemplate="{StaticResource solarTermsLVDT}">
+                    
+                </ListView>
+            </PivotItem>
+        </Pivot>
+
+        
     </Grid>
 </Page>

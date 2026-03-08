@@ -114,17 +114,16 @@ VerticalAlignment="Stretch"
 ResizeBehavior="PreviousAndNext"
 ResizeDirection="Columns" />
 
-        <ListView x:Name="eventListView" Grid.Row="0" Grid.RowSpan="3" Grid.Column="2">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="models:Time">
-                    <StackPanel Margin="5">
-                        
-                        <TextBlock Text="{x:Bind Summary}" FontSize="18"/>
-                        <TextBlock Text="{x:Bind Description}" FontSize="12" TextWrapping="WrapWholeWords"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <StackPanel Grid.Row="0" Grid.RowSpan="3" Grid.Column="2" Margin="12">
+            <TextBlock x:Name="holidayNameTB" FontSize="26" />
+            <TextBlock x:Name="lunarTB" FontSize="24" TextWrapping="WrapWholeWords"/>
+            <TextBlock x:Name="ganzhiTB" FontSize="18" TextWrapping="WrapWholeWords"/>
+            <TextBlock x:Name="jieqiTB" FontSize="16" TextWrapping="WrapWholeWords"/>
+            <TextBlock x:Name="suitableTB" Text="宜" FontSize="22" IsColorFontEnabled="True" Foreground="Green" TextWrapping="WrapWholeWords"/>
+            <TextBlock x:Name="recommendsTB" FontSize="16" TextWrapping="WrapWholeWords"/>
+            <TextBlock x:Name="notSuitableTB" Text="忌" FontSize="22" IsColorFontEnabled="True" Foreground="Red" TextWrapping="WrapWholeWords"/>
+            <TextBlock x:Name="avoidsTB" FontSize="16" TextWrapping="WrapWholeWords"/>
+        </StackPanel>
     </Grid>
 
 </Page>

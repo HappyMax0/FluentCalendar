@@ -4,6 +4,12 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using tyme.culture;
+using tyme.lunar;
+using tyme.sixtycycle;
+using tyme.solar;
 using Windows.Storage;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -45,12 +51,32 @@ namespace CalendarWinUI3.Views
             }
         }
 
-        private void MonthGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void MonthGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (sender is GridView gridView) 
             {
                 var selectedDay = gridView.SelectedValue as Day;
-                eventListView.ItemsSource = selectedDay.EventList;
+                //eventListView.ItemsSource = selectedDay.EventList;
+                if (selectedDay.EventList.Count > 0)
+                    holidayNameTB.Text = selectedDay.EventList.FirstOrDefault().Summary;
+                else
+                    holidayNameTB.Text = string.Empty;
+
+                //公历
+                SolarDay solarDay = SolarDay.FromYmd(selectedDay.YearNo, selectedDay.MonthNo, selectedDay.DayNo);
+                LunarDay lunarDay = solarDay.GetLunarDay();
+               
+                // 宜：嫁娶, 祭祀, 理发, 作灶, 修饰垣墙, 平治道涂, 整手足甲, 沐浴, 冠笄
+                List<Taboo> recommends = lunarDay.Recommends;
+                // 忌：破土, 出行, 栽种
+                List<Taboo> avoids = lunarDay.Avoids;
+
+                lunarTB.Text = lunarDay.GetName();
+                ganzhiTB.Text = lunarDay.SixtyCycle.GetName();       
+                jieqiTB.Text = lunarDay.GetSolarDay().Term.GetName();
+                recommendsTB.Text = string.Join("、", recommends.Select(x => x.GetName())).TrimEnd('、');
+                avoidsTB.Text = string.Join("、", avoids.Select(x => x.GetName())).TrimEnd('、');
+
             }
             
         }
@@ -78,8 +104,11 @@ namespace CalendarWinUI3.Views
 
                 weekGridView.ItemsSource = Helper.GetWeeks(time, dayOfWeek);
 
-                monthGridView.ItemsSource = Helper.GetDayList(time, dayOfWeek, isShowWeekNo);
+                var dayList = Helper.GetDayList(time, dayOfWeek, isShowWeekNo);
+                monthGridView.ItemsSource = dayList;
 
+                var selectedDay = dayList.FirstOrDefault(it => it.YearNo == time.Year && it.MonthNo == time.Month && it.DayNo == time.Day);
+                monthGridView.SelectedItem = selectedDay;
             }
               
         }

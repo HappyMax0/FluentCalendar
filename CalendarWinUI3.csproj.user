@@ -24,10 +24,16 @@
     <None Update="Package.appxmanifest">
       <SubType>Designer</SubType>
     </None>
-    <Page Update="Views\HolidaysPage.xaml">
+    <Page Update="Views\LunarConversionPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\OldHuangCalendarPage.xaml">
+    <Page Update="Views\IntervalCalculatePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\ToolboxPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\HolidaysPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Styles\DarkTheme.xaml">

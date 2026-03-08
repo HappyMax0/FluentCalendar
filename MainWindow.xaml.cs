@@ -111,9 +111,9 @@ namespace CalendarWinUI3
                 {
                     NavView_Navigate(typeof(HolidaysPage), args.RecommendedNavigationTransitionInfo);
                 }
-                else if ("OldHuangCalendar".Equals(args.InvokedItemContainer.Tag))
+                else if ("Toolbox".Equals(args.InvokedItemContainer.Tag))
                 {
-                    NavView_Navigate(typeof(OldHuangCalendarPage), args.RecommendedNavigationTransitionInfo);
+                    NavView_Navigate(typeof(ToolboxPage), args.RecommendedNavigationTransitionInfo);
                 }
             }
         }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="CalendarWinUI3.Views.ToolboxPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CalendarWinUI3.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
+    mc:Ignorable="d">
+
+    <StackPanel Margin="48">
+        <toolkit:SettingsCard x:Name="IntervalSC" Header="相隔天数" IsClickEnabled="True" Margin="0,3"
+                              Click="IntervalSC_Click">
+            <toolkit:SettingsCard.HeaderIcon>
+                <FontIcon Glyph="&#xE823;" />
+            </toolkit:SettingsCard.HeaderIcon>
+        </toolkit:SettingsCard>
+
+        <toolkit:SettingsCard x:Name="ConversionSC" Header="农历转换" IsClickEnabled="True" Margin="0,3"
+                              Click="ConversionSC_Click">
+            <toolkit:SettingsCard.HeaderIcon>
+                <FontIcon Glyph="&#xE8AB;" />
+            </toolkit:SettingsCard.HeaderIcon>
+        </toolkit:SettingsCard>
+    </StackPanel>
+</Page>

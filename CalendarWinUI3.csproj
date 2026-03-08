@@ -17,15 +17,17 @@
     <None Remove="Assets\holidays.json" />
     <None Remove="Views\DayPage.xaml" />
     <None Remove="Views\HolidaysPage.xaml" />
+    <None Remove="Views\IntervalCalculatePage.xaml" />
+    <None Remove="Views\LunarConversionPage.xaml" />
     <None Remove="Views\MainPage.xaml" />
     <None Remove="Views\MonthPage.xaml" />
-    <None Remove="Views\OldHuangCalendarPage.xaml" />
     <None Remove="Views\SettingsPage.xaml" />
     <None Remove="Views\Styles\AddSubscriptionDialogControl.xaml" />
     <None Remove="Views\Styles\Colors.xaml" />
     <None Remove="Views\Styles\DarkTheme.xaml" />
     <None Remove="Views\Styles\LightTheme.xaml" />
     <None Remove="Views\Styles\Style.xaml" />
+    <None Remove="Views\ToolboxPage.xaml" />
     <None Remove="Views\WeekPage.xaml" />
     <None Remove="Views\YearPage.xaml" />
   </ItemGroup>
@@ -46,6 +48,7 @@
     <PackageReference Include="Ical.Net" Version="4.3.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250606001" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
+    <PackageReference Include="tyme4net" Version="1.4.2" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -116,12 +119,22 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\HolidaysPage.xaml">
+    <Page Update="Views\LunarConversionPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\OldHuangCalendarPage.xaml">
+    <Page Update="Views\IntervalCalculatePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\ToolboxPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\HolidaysPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

@@ -21,11 +21,21 @@ namespace CalendarWinUI3.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class OldHuangCalendarPage : Page
+    public sealed partial class ToolboxPage : Page
     {
-        public OldHuangCalendarPage()
+        public ToolboxPage()
         {
             InitializeComponent();
+        }
+
+        private void ConversionSC_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void IntervalSC_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
