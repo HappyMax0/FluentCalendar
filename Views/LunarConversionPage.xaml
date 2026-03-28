@@ -16,7 +16,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Button x:Name="BackBtn" FontFamily="Segoe MDL2 Assets" Content="&#xE973;" Click="BackBtn_Click"/>
-        <DatePicker Grid.Row="1" x:Name="GregorianPicker" Header="公历" Margin="24" DateChanged="GregorianPicker_DateChanged" />
-        <DatePicker Grid.Row="2" x:Name="LunarPicker" Header="农历" Margin="24" DateChanged="LunarPicker_DateChanged" />
+        <DatePicker x:Uid="Conversion_Gregorian" Grid.Row="1" x:Name="GregorianPicker" Margin="24" DateChanged="GregorianPicker_DateChanged" />
+        <DatePicker x:Uid="Conversion_Lunar" Grid.Row="2" x:Name="LunarPicker" Margin="24" DateChanged="LunarPicker_DateChanged" />
     </Grid>
 </Page>

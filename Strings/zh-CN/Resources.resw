@@ -117,6 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Conversion_Gregorian.Header" xml:space="preserve">
+    <value>公历</value>
+    <comment>公历</comment>
+  </data>
+  <data name="Conversion_Lunar.Header" xml:space="preserve">
+    <value>农历</value>
+    <comment>农历</comment>
+  </data>
   <data name="Holiday_DatePicker.Header" xml:space="preserve">
     <value>选取年份</value>
     <comment>Pick up the year</comment>
@@ -136,6 +144,18 @@
   <data name="Holiday_Workingdays.Text" xml:space="preserve">
     <value>补班</value>
     <comment>Workdays</comment>
+  </data>
+  <data name="Interval_Calculate.Content" xml:space="preserve">
+    <value>计算</value>
+    <comment>Calculate</comment>
+  </data>
+  <data name="Interval_DatePicker1.Header" xml:space="preserve">
+    <value>选取一个日期</value>
+    <comment>Pick a date</comment>
+  </data>
+  <data name="Interval_DatePicker2.Header" xml:space="preserve">
+    <value>选取一个日期</value>
+    <comment>Pick a date</comment>
   </data>
   <data name="MainPage_Combobox_Month.Content" xml:space="preserve">
     <value>月</value>
@@ -177,6 +197,10 @@
     <value>关于</value>
     <comment>About</comment>
   </data>
+  <data name="SettingsCard_BugRequest.Header" xml:space="preserve">
+    <value>提交错误报告或请求新样本</value>
+    <comment>File a bug or request new sample</comment>
+  </data>
   <data name="SettingsCard_Calendar.Text" xml:space="preserve">
     <value>日历</value>
     <comment>Calendar</comment>
@@ -205,6 +229,10 @@
     <value>周数</value>
     <comment>Week Count</comment>
   </data>
+  <data name="SettingsCard_CloneRepository.Header" xml:space="preserve">
+    <value>克隆此仓库</value>
+    <comment>To clone this repository</comment>
+  </data>
   <data name="SettingsCard_Data.Text" xml:space="preserve">
     <value>数据</value>
     <comment>Data</comment>
@@ -220,6 +248,10 @@
   <data name="SettingsCard_Data_Reset.Header" xml:space="preserve">
     <value>清除缓存</value>
     <comment>Clear cache</comment>
+  </data>
+  <data name="SettingsCard_Dependencies.Header" xml:space="preserve">
+    <value>依赖项和引用</value>
+    <comment>Dependencies and references</comment>
   </data>
   <data name="SettingsCard_ShowSeconds.Description" xml:space="preserve">
     <value>显示时间秒数</value>
@@ -256,5 +288,13 @@
   <data name="Settings_Header.Text" xml:space="preserve">
     <value>设置</value>
     <comment>设置</comment>
+  </data>
+  <data name="Toolbox_Conversion.Header" xml:space="preserve">
+    <value>农历转换</value>
+    <comment>农历转换</comment>
+  </data>
+  <data name="Toolbox_Interval.Header" xml:space="preserve">
+    <value>相隔天数</value>
+    <comment>相隔天数</comment>
   </data>
 </root>

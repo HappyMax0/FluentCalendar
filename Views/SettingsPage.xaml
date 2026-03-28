@@ -100,28 +100,27 @@
            IsTextSelectionEnabled="True"
            Text="{x:Bind Version}" />
                     <toolkit:SettingsExpander.Items>
-                        <toolkit:SettingsCard Header="To clone this repository">
+                        <toolkit:SettingsCard x:Uid="SettingsCard_CloneRepository">
                             <TextBlock
                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                    IsTextSelectionEnabled="True"
                    Text="git clone https://github.com/HappyMax0/FluentCalendar.git" />
                         </toolkit:SettingsCard>
-                        <toolkit:SettingsCard
+                        <toolkit:SettingsCard x:Uid="SettingsCard_BugRequest"
                x:Name="bugRequestCard"
                Click="bugRequestCard_Click"
-               Header="File a bug or request new sample"
                IsClickEnabled="True">
                             <toolkit:SettingsCard.ActionIcon>
                                 <FontIcon Glyph="&#xE8A7;" />
                             </toolkit:SettingsCard.ActionIcon>
                         </toolkit:SettingsCard>
-                        <toolkit:SettingsCard
+                        <toolkit:SettingsCard x:Uid="SettingsCard_Dependencies"
                HorizontalContentAlignment="Left"
-               ContentAlignment="Vertical"
-               Header="Dependencies &amp; references">
+               ContentAlignment="Vertical">
                             <StackPanel Margin="-12,0,0,0" Orientation="Vertical">
                                 <HyperlinkButton Content="WindowsAppSDK" NavigateUri="https://github.com/microsoft/windowsappsdk" />
                                 <HyperlinkButton Content="Windows Community Toolkit" NavigateUri="https://github.com/CommunityToolkit/Windows" />
+                                <HyperlinkButton Content="tyme4net" NavigateUri="https://6tail.cn/tyme.html" />
                                 <HyperlinkButton Content="ical.net" NavigateUri="https://github.com/ical-org/ical.net" />
                             </StackPanel>
                         </toolkit:SettingsCard>

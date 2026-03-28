@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Conversion_Gregorian.Header" xml:space="preserve">
+    <value>Gregorian</value>
+  </data>
+  <data name="Conversion_Lunar.Header" xml:space="preserve">
+    <value>Lunar</value>
+  </data>
   <data name="Holiday_DatePicker.Header" xml:space="preserve">
     <value>Pick up the year</value>
   </data>
@@ -131,6 +137,15 @@
   </data>
   <data name="Holiday_Workingdays.Text" xml:space="preserve">
     <value>Workdays</value>
+  </data>
+  <data name="Interval_Calculate.Content" xml:space="preserve">
+    <value>Calculate</value>
+  </data>
+  <data name="Interval_DatePicker1.Header" xml:space="preserve">
+    <value>Pick a date</value>
+  </data>
+  <data name="Interval_DatePicker2.Header" xml:space="preserve">
+    <value>Pick a date</value>
   </data>
   <data name="MainPage_Combobox_Month.Content" xml:space="preserve">
     <value>Month</value>
@@ -162,6 +177,9 @@
   <data name="SettingsCard_About.Text" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="SettingsCard_BugRequest.Header" xml:space="preserve">
+    <value>File a bug or request new sample</value>
+  </data>
   <data name="SettingsCard_Calendar.Text" xml:space="preserve">
     <value>Calendar</value>
   </data>
@@ -183,6 +201,9 @@
   <data name="SettingsCard_Calendar_Header_WeekCount.Header" xml:space="preserve">
     <value>Week Count</value>
   </data>
+  <data name="SettingsCard_CloneRepository.Header" xml:space="preserve">
+    <value>To clone this repository</value>
+  </data>
   <data name="SettingsCard_Data.Text" xml:space="preserve">
     <value>Data</value>
   </data>
@@ -194,6 +215,9 @@
   </data>
   <data name="SettingsCard_Data_Reset.Header" xml:space="preserve">
     <value>Clear cache</value>
+  </data>
+  <data name="SettingsCard_Dependencies.Header" xml:space="preserve">
+    <value>Dependencies &amp;amp; references</value>
   </data>
   <data name="SettingsCard_ShowSeconds.Description" xml:space="preserve">
     <value>Show clock seconds</value>
@@ -221,5 +245,11 @@
   </data>
   <data name="Settings_Header.Text" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="Toolbox_Conversion.Header" xml:space="preserve">
+    <value>Lunar calendar conversion</value>
+  </data>
+  <data name="Toolbox_Interval.Header" xml:space="preserve">
+    <value>Number of days apart</value>
   </data>
 </root>

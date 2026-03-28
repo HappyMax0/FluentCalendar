@@ -10,14 +10,14 @@
     mc:Ignorable="d">
 
     <StackPanel Margin="48">
-        <toolkit:SettingsCard x:Name="IntervalSC" Header="相隔天数" IsClickEnabled="True" Margin="0,3"
+        <toolkit:SettingsCard x:Uid="Toolbox_Interval" x:Name="IntervalSC" IsClickEnabled="True" Margin="0,3"
                               Click="IntervalSC_Click">
             <toolkit:SettingsCard.HeaderIcon>
                 <FontIcon Glyph="&#xE823;" />
             </toolkit:SettingsCard.HeaderIcon>
         </toolkit:SettingsCard>
 
-        <toolkit:SettingsCard x:Name="ConversionSC" Header="农历转换" IsClickEnabled="True" Margin="0,3"
+        <toolkit:SettingsCard x:Uid="Toolbox_Conversion" x:Name="ConversionSC" IsClickEnabled="True" Margin="0,3"
                               Click="ConversionSC_Click">
             <toolkit:SettingsCard.HeaderIcon>
                 <FontIcon Glyph="&#xE8AB;" />
