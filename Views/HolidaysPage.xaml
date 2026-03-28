@@ -28,18 +28,18 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <DatePicker x:Name="datePicker" Header="Pick a date" Margin="24,0" DateChanged="datePicker_DateChanged"/>
+        <DatePicker x:Uid="Holiday_DatePicker" x:Name="datePicker" Margin="24,0" DateChanged="datePicker_DateChanged"/>
 
         <Pivot Grid.Row="1" Margin="12,12,0,0">
-            <PivotItem Header="Holidays">
+            <PivotItem x:Uid="Holiday_Header_Holidays" Header="Holidays">
                 <TreeView x:Name="holidayTreeView" >
                     <TreeView.ItemTemplate>
                         <DataTemplate x:DataType="models:Holiday">
                             <StackPanel>
                                 <TextBlock Text="{x:Bind Name}" FontSize="24"/>
-                                <TextBlock Text="放假" Foreground="Green" FontSize="18" Margin="0,5"/>
+                                <TextBlock x:Uid="Holiday_Holidays" Foreground="Green" FontSize="18" Margin="0,5"/>
                                 <TreeView ItemsSource="{x:Bind Holidays}" FontSize="20"/>
-                                <TextBlock Text="补班" Foreground="Red" FontSize="18" Margin="0,5"
+                                <TextBlock x:Uid="Holiday_Workingdays" Foreground="Red" FontSize="18" Margin="0,5"
                                            Visibility="{x:Bind WorkdayCount, Converter={StaticResource IntToVisibilityConverter}}"/>
                                 <TreeView ItemsSource="{x:Bind Workdays}" FontSize="20"/>
                             </StackPanel>
@@ -47,7 +47,7 @@
                     </TreeView.ItemTemplate>
                 </TreeView>
             </PivotItem>
-            <PivotItem Header="SolarTerms">
+            <PivotItem x:Uid="Holiday_Header_SolarTerms"  Header="SolarTerms">
                 <ListView x:Name="solarTermsLV" ItemTemplate="{StaticResource solarTermsLVDT}">
                     
                 </ListView>

@@ -121,9 +121,9 @@ ResizeDirection="Columns" />
             <TextBlock x:Name="lunarTB" FontSize="24" TextWrapping="WrapWholeWords"/>
             <TextBlock x:Name="ganzhiTB" FontSize="18" TextWrapping="WrapWholeWords"/>
             <TextBlock x:Name="jieqiTB" FontSize="16" TextWrapping="WrapWholeWords"/>
-            <TextBlock x:Name="suitableTB" Text="宜" FontSize="22" IsColorFontEnabled="True" Foreground="Green" TextWrapping="WrapWholeWords"/>
+            <TextBlock x:Uid="MonthPage_Recommended" x:Name="suitableTB" FontSize="22" IsColorFontEnabled="True" Foreground="Green" TextWrapping="WrapWholeWords"/>
             <TextBlock x:Name="recommendsTB" FontSize="16" TextWrapping="WrapWholeWords"/>
-            <TextBlock x:Name="notSuitableTB" Text="忌" FontSize="22" IsColorFontEnabled="True" Foreground="Red" TextWrapping="WrapWholeWords"/>
+            <TextBlock x:Uid="MonthPage_Prohibited" x:Name="notSuitableTB" FontSize="22" IsColorFontEnabled="True" Foreground="Red" TextWrapping="WrapWholeWords"/>
             <TextBlock x:Name="avoidsTB" FontSize="16" TextWrapping="WrapWholeWords"/>
         </StackPanel>
     </Grid>

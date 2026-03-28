@@ -29,7 +29,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock
+        <TextBlock x:Uid="Settings_Header"
          x:Name="PageHeader"
          Margin="36,48,36,0"
          Style="{StaticResource TitleTextBlockStyle}"
@@ -47,50 +47,50 @@
                     <EntranceThemeTransition FromVerticalOffset="50" />
                     <RepositionThemeTransition IsStaggeringEnabled="False" />
                 </StackPanel.ChildrenTransitions>
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Appearance" />
-                <toolkit:SettingsCard Description="Select which app theme to display" Header="App theme">
+                <TextBlock x:Uid="Settings_Appearance" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Appearance" />
+                <toolkit:SettingsCard x:Uid="SettingsCard_Theme" Description="Select which app theme to display" Header="App theme">
                     <toolkit:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE790;" />
                     </toolkit:SettingsCard.HeaderIcon>
                     <ComboBox x:Name="themeMode" AutomationProperties.AutomationId="themeModeComboBox" SelectionChanged="themeMode_SelectionChanged">
-                        <ComboBoxItem Content="Light" Tag="Light" />
-                        <ComboBoxItem Content="Dark" Tag="Dark" />
-                        <ComboBoxItem Content="Use system setting" Tag="Default" />
+                        <ComboBoxItem x:Uid="SettingsCard_Theme_Light" Content="Light" Tag="Light" />
+                        <ComboBoxItem x:Uid="SettingsCard_Theme_Dark" Content="Dark" Tag="Dark" />
+                        <ComboBoxItem x:Uid="SettingsCard_Theme_Default" Content="Use system setting" Tag="Default" />
                     </ComboBox>
                 </toolkit:SettingsCard>
-                <toolkit:SettingsCard Description="Show clock seconds" Header="Clock seconds">
+                <toolkit:SettingsCard x:Uid="SettingsCard_ShowSeconds">
                     <toolkit:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xED5A;" />
                     </toolkit:SettingsCard.HeaderIcon>
                     <ToggleSwitch x:Name="ShowClockSeconedSwitch" Toggled="ShowClockSeconedSwitch_Toggled"/>
                 </toolkit:SettingsCard>
 
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Calendar" />
-                <toolkit:SettingsCard Description="Select the start day of the week" Header="FirstDay">
+                <TextBlock x:Uid="SettingsCard_Calendar" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                <toolkit:SettingsCard x:Uid="SettingsCard_Calendar_Header_FirstDay">
                     <toolkit:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xF763;" />
                     </toolkit:SettingsCard.HeaderIcon>
                     <ComboBox AutomationProperties.AutomationId="firstDayComboBox" x:Name="firstDayComboBox" SelectionChanged="firstDayComboBox_SelectionChanged">
-                        <ComboBoxItem Content="Monday" Tag="Monday" />
-                        <ComboBoxItem Content="Sunday" Tag="Sunday" />
+                        <ComboBoxItem x:Uid="SettingsCard_Calendar_FirstDay_Monday" Tag="Monday" />
+                        <ComboBoxItem x:Uid="SettingsCard_Calendar_FirstDay_Sunday" Tag="Sunday" />
                     </ComboBox>
                 </toolkit:SettingsCard>
-                <toolkit:SettingsCard Description="Show the count of week" Header="Week Count">
+                <toolkit:SettingsCard x:Uid="SettingsCard_Calendar_Header_WeekCount">
                     <toolkit:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xEA89;" />
                     </toolkit:SettingsCard.HeaderIcon>
                     <ToggleSwitch x:Name="ShowWeekNoSwitch" Toggled="ShowWeekNoSwitch_Toggled" />
                 </toolkit:SettingsCard>
 
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Data" />
-                <toolkit:SettingsCard Description="Refresh Holiday Data" Header="Reset">
+                <TextBlock x:Uid="SettingsCard_Data" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                <toolkit:SettingsCard x:Uid="SettingsCard_Data_Reset">
                     <toolkit:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE75C;" />
                     </toolkit:SettingsCard.HeaderIcon>
-                    <Button x:Name="ResetHolidayDataBtn" Content="Reset" Click="ResetHolidayDataBtn_Click"/>
+                    <Button x:Uid="SettingsCard_Data_Btn_Reset" x:Name="ResetHolidayDataBtn" Click="ResetHolidayDataBtn_Click"/>
                 </toolkit:SettingsCard>
 
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="About" />
+                <TextBlock x:Uid="SettingsCard_About" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
                 <toolkit:SettingsExpander Description="© 2025 HappyMax. All rights reserved." Header="FluentCalendar">
                     <toolkit:SettingsExpander.HeaderIcon>
                         <BitmapIcon ShowAsMonochrome="False" UriSource="/Assets/Tiles/SmallTile-sdk.png" />

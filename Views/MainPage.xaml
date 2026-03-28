@@ -31,11 +31,11 @@
 
             <ComboBox Grid.Column="3" x:Name="viewComboBox" VerticalAlignment="Bottom"
                       SelectionChanged="viewComboBox_SelectionChanged">
-                <ComboBoxItem Content="Month" Tag="Month" IsSelected="True"/>
-                <ComboBoxItem Content="Week" Tag="Week" />
+                <ComboBoxItem x:Uid="MainPage_Combobox_Month" Tag="Month" IsSelected="True"/>
+                <ComboBoxItem x:Uid="MainPage_Combobox_Week" Tag="Week" />
             </ComboBox>
             
-            <Button Grid.Column="4" x:Name="HomeBtn" Content="Today" Margin="12,0" Click="HomeBtn_Click" VerticalAlignment="Bottom"/>
+            <Button Grid.Column="4" x:Uid="MainPage_Today" x:Name="HomeBtn" Margin="12,0" Click="HomeBtn_Click" VerticalAlignment="Bottom"/>
 
             <StackPanel Grid.Column="5" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 24 0">
                 <Button x:Name="preBtn" FontFamily="Segoe MDL2 Assets" Content="&#xE76B;" Click="preBtn_Click"/>

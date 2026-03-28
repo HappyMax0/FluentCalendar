@@ -17,21 +17,21 @@
             <AutoSuggestBox/>
         </NavigationView.AutoSuggestBox>
         <NavigationView.MenuItems>
-            <NavigationViewItem Icon="Calendar" Tag="Calendar" IsSelected="True">
-                <TextBlock Text="Calendar" />
+            <NavigationViewItem x:Uid="NavigationViewItem_Calendar"  Icon="Calendar" Tag="Calendar" IsSelected="True">
+                <TextBlock x:Uid="MainWindow_CalendarItem"/>
             </NavigationViewItem>
             <NavigationViewItemSeparator/>
             <NavigationViewItem Icon="Clock" Tag="Holidays">
-                <TextBlock Text="Holidays" />
+                <TextBlock x:Uid="MainWindow_HolidayItem"/>
             </NavigationViewItem>
             <NavigationViewItem Icon="TouchPointer" Tag="Toolbox">
-                <TextBlock Text="Toolbox" />
+                <TextBlock x:Uid="MainWindow_ToolboxItem" />
             </NavigationViewItem>
         </NavigationView.MenuItems>
 
         <NavigationView.FooterMenuItems>
             <NavigationViewItem Icon="Sync" Tag="Sync">
-                <TextBlock Text="Refresh" />
+                <TextBlock x:Uid="MainWindow_SyncItem" />
             </NavigationViewItem>
         </NavigationView.FooterMenuItems>
         
