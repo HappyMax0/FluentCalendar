@@ -160,6 +160,18 @@ namespace CalendarWinUI3.Models.Utils
 
             return data;
         }
+
+        public static string GetHolidayName(DateTime date)
+        {
+            var holidayData = HolidayProvider.HolidayDatas.FirstOrDefault(x => x.Year == date.Year);
+            if (holidayData != null)
+            {
+                var holiday = holidayData.Days.FirstOrDefault(it=>it.Date == date);
+                if(holiday != null)
+                    return holiday.Name;
+            }
+            return string.Empty;
+        }
     }
 
 }

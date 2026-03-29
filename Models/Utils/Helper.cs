@@ -367,7 +367,7 @@ namespace CalendarWinUI3.Models.Utils
                 return lunarFestival.GetName();
             }
             else
-            {
+            {          
                 return string.Empty;
             }
         }
