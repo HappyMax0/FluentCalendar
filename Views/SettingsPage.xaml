@@ -122,6 +122,7 @@
                                 <HyperlinkButton Content="Windows Community Toolkit" NavigateUri="https://github.com/CommunityToolkit/Windows" />
                                 <HyperlinkButton Content="tyme4net" NavigateUri="https://6tail.cn/tyme.html" />
                                 <HyperlinkButton Content="ical.net" NavigateUri="https://github.com/ical-org/ical.net" />
+                                <HyperlinkButton Content="NateScarlet/holiday-cn" NavigateUri="https://github.com/NateScarlet/holiday-cn" />
                             </StackPanel>
                         </toolkit:SettingsCard>
                       

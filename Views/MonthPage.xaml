@@ -9,7 +9,7 @@
     xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
     xmlns:models="using:CalendarWinUI3.Models"
     xmlns:converters="using:CalendarWinUI3.Views.Converter" 
-    xmlns:system="using:System"
+    xmlns:system="using:System" xmlns:usercontrols="using:CalendarWinUI3.Views.UserControls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
@@ -21,6 +21,7 @@
         <converters:HeightConverter x:Key="HeightConverter"/>
         <converters:BoolToAccentColorConverter x:Key="BoolToAccentColorConverter"/>
         <converters:BoolToOpacityConverter x:Key="BoolToOpacityConverter"/>
+        <converters:WeekNoToStringConverter x:Key="WeekNoToStringConverter"/>
         <Style x:Key="WeekGridView_ItemContainerStyle"
             TargetType="GridViewItem">
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -29,7 +30,7 @@
         <DataTemplate x:Key="WeekTemplate" x:DataType="models:Week">
             <Border x:Name="weekBlockBorder" HorizontalAlignment="Stretch">
                 <Grid>
-                    <TextBlock Text="{x:Bind WeekNo}" FontSize="14"/>
+                    <TextBlock Text="{x:Bind WeekNo, Converter={StaticResource WeekNoToStringConverter}}" FontSize="14"/>
                 </Grid>
             </Border>
         </DataTemplate>
@@ -50,8 +51,7 @@
                             CornerRadius="14" Width="32" Height="32" Margin="5,0">
                         <TextBlock Text="{x:Bind DayNo}" 
                                    Opacity="{x:Bind IsCurrentMonth, Converter={StaticResource BoolToOpacityConverter}}" 
-                                   FontSize="22" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                   />
+                                   FontSize="22" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Border>
 
                     <TextBlock Grid.Row="2" Text="{x:Bind LunarDay}" FontSize="12"
@@ -114,18 +114,9 @@ VerticalAlignment="Stretch"
 ResizeBehavior="PreviousAndNext"
 ResizeDirection="Columns" />
 
-        <StackPanel Grid.Row="0" Grid.RowSpan="3" Grid.Column="2" Margin="12">
-            <TextBlock x:Name="SolarDayTB" />
-            <TextBlock x:Name="SolarFestivalNameTB" FontSize="26" />
-            <TextBlock x:Name="LunarFestivalNameTB" FontSize="26" />
-            <TextBlock x:Name="lunarTB" FontSize="24" TextWrapping="WrapWholeWords"/>
-            <TextBlock x:Name="ganzhiTB" FontSize="18" TextWrapping="WrapWholeWords"/>
-            <TextBlock x:Name="jieqiTB" FontSize="16" TextWrapping="WrapWholeWords"/>
-            <TextBlock x:Uid="MonthPage_Recommended" x:Name="suitableTB" FontSize="22" IsColorFontEnabled="True" Foreground="Green" TextWrapping="WrapWholeWords"/>
-            <TextBlock x:Name="recommendsTB" FontSize="16" TextWrapping="WrapWholeWords"/>
-            <TextBlock x:Uid="MonthPage_Prohibited" x:Name="notSuitableTB" FontSize="22" IsColorFontEnabled="True" Foreground="Red" TextWrapping="WrapWholeWords"/>
-            <TextBlock x:Name="avoidsTB" FontSize="16" TextWrapping="WrapWholeWords"/>
-        </StackPanel>
+        <usercontrols:ChineseAlmanac x:Name="ChineseAlmanacControl" 
+                                     Grid.Row="0" Grid.RowSpan="3" Grid.Column="2" />
+       
     </Grid>
 
 </Page>

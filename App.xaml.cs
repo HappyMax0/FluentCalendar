@@ -16,7 +16,7 @@ namespace CalendarWinUI3
     /// </summary>
     public partial class App : Application
     {
-        private Window m_window;
+        public static Window M_Window;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -45,8 +45,8 @@ namespace CalendarWinUI3
         {
             ThemeHelper.Initialize();
 
-            m_window = WindowHelper.CreateWindow();
-            m_window.Activate();
+            M_Window = WindowHelper.CreateWindow();
+            M_Window.Activate();
 
             var theme = ThemeHelper.GetSavedTheme();
             if (!"Default".Equals(theme))
@@ -57,7 +57,7 @@ namespace CalendarWinUI3
         public Frame GetRootFrame()
         {
             Frame rootFrame = new();
-            MainPage rootPage = m_window.Content as MainPage;
+            MainPage rootPage = M_Window.Content as MainPage;
             if (rootPage == null)
             {
                 rootPage = new MainPage();
@@ -70,7 +70,7 @@ namespace CalendarWinUI3
                 rootFrame.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
-                m_window.Content = rootPage;
+                M_Window.Content = rootPage;
             }
             else
             {

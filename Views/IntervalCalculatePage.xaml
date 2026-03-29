@@ -14,13 +14,11 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Button x:Name="BackBtn" FontFamily="Segoe MDL2 Assets" Content="&#xE973;" Click="BackBtn_Click"/>
         <DatePicker x:Uid="Interval_DatePicker1" Grid.Row="1" x:Name="datePicker1" Margin="24" />
         <DatePicker x:Uid="Interval_DatePicker2" Grid.Row="2" x:Name="datePicker2" Margin="24" />
         <Button x:Uid="Interval_Calculate" Grid.Row="3" x:Name="CalculateBtn" Margin="24" Click="CalculateBtn_Click" />
-        <TextBlock Grid.Row="4" x:Name="ResultTB" Margin="24" />
     </Grid>
 </Page>

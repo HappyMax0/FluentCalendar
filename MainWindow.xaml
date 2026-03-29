@@ -29,12 +29,6 @@
             </NavigationViewItem>
         </NavigationView.MenuItems>
 
-        <NavigationView.FooterMenuItems>
-            <NavigationViewItem Icon="Sync" Tag="Sync">
-                <TextBlock x:Uid="MainWindow_SyncItem" />
-            </NavigationViewItem>
-        </NavigationView.FooterMenuItems>
-        
         <Frame x:Name="contentFrame"/>
     </NavigationView>
 

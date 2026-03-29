@@ -12,6 +12,7 @@
     <EnableMsixTooling>true</EnableMsixTooling>
 	<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 	<SupportedOSPlatformVersion>10.0.22621.0</SupportedOSPlatformVersion>
+	<DefaultLanguage>zh-CN</DefaultLanguage>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Assets\holidays.json" />
@@ -28,6 +29,7 @@
     <None Remove="Views\Styles\LightTheme.xaml" />
     <None Remove="Views\Styles\Style.xaml" />
     <None Remove="Views\ToolboxPage.xaml" />
+    <None Remove="Views\UserControls\ChineseAlmanac.xaml" />
     <None Remove="Views\WeekPage.xaml" />
     <None Remove="Views\YearPage.xaml" />
   </ItemGroup>
@@ -111,9 +113,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\UserControls\" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Update="Assets\holidays.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -163,6 +162,11 @@
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
+  <ItemGroup>
+    <Page Update="Views\UserControls\ChineseAlmanac.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
   <ItemGroup>
     <PRIResource Update="Strings\zh-CN\Resources.resw">
       <Generator>PublicResXFileCodeGenerator</Generator>

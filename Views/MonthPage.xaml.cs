@@ -23,6 +23,10 @@ namespace CalendarWinUI3.Views
     /// </summary>
     public sealed partial class MonthPage : Page
     {
+
+        DayOfWeek dayOfWeek = DayOfWeek.Sunday;
+        bool isShowWeekNo = false;
+
         public MonthPage()
         {
             this.InitializeComponent();
@@ -57,52 +61,9 @@ namespace CalendarWinUI3.Views
             if (sender is GridView gridView) 
             {
                 var selectedDay = gridView.SelectedValue as Day;
-                //eventListView.ItemsSource = selectedDay.EventList;
-               /* if (selectedDay.EventList.Count > 0)
-                    holidayNameTB.Text = selectedDay.EventList.FirstOrDefault().Summary;
-                else
-                    holidayNameTB.Text = string.Empty;*/
-
-                //公历
-                SolarDay solarDay = SolarDay.FromYmd(selectedDay.YearNo, selectedDay.MonthNo, selectedDay.DayNo);
-                LunarDay lunarDay = solarDay.GetLunarDay();
-                SolarFestival solarFestival = solarDay.Festival;
-                if (solarFestival != null)
-                {
-                    SolarFestivalNameTB.Text = solarFestival.GetName();
-                    SolarFestivalNameTB.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    SolarFestivalNameTB.Text = string.Empty;
-                    SolarFestivalNameTB.Visibility = Visibility.Collapsed;
-                }
-
-                LunarFestival lunarFestival = lunarDay.Festival;
-                if (lunarFestival != null)
-                {
-                    LunarFestivalNameTB.Text = lunarFestival.GetName();
-                    LunarFestivalNameTB.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    LunarFestivalNameTB.Text = string.Empty;
-                    LunarFestivalNameTB.Visibility = Visibility.Collapsed;
-                }
-                // 宜：嫁娶, 祭祀, 理发, 作灶, 修饰垣墙, 平治道涂, 整手足甲, 沐浴, 冠笄
-                List<Taboo> recommends = lunarDay.Recommends;
-                // 忌：破土, 出行, 栽种
-                List<Taboo> avoids = lunarDay.Avoids;
-
-                SolarDayTB.Text = $"{solarDay.Year}/{solarDay.Month}/{solarDay.Day}";
-                lunarTB.Text = $"{lunarDay.LunarMonth.GetName()} {lunarDay.GetName()}";
-                ganzhiTB.Text = lunarDay.SixtyCycle.GetName();       
-                jieqiTB.Text = lunarDay.GetSolarDay().Term.GetName();
-                recommendsTB.Text = string.Join("、", recommends.Select(x => x.GetName())).TrimEnd('、');
-                avoidsTB.Text = string.Join("、", avoids.Select(x => x.GetName())).TrimEnd('、');
-
+                var week = Helper.GetWeek(new DateTime(selectedDay.YearNo, selectedDay.MonthNo, selectedDay.DayNo), DateTime.Today, dayOfWeek, isShowWeekNo);
+                ChineseAlmanacControl.DataContext = week;
             }
-            
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -115,7 +76,6 @@ namespace CalendarWinUI3.Views
 
                 ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 
-                DayOfWeek dayOfWeek = DayOfWeek.Sunday;
                 if (localSettings.Values["StartDay"] is string startDay)
                 {
                     if (startDay == "Monday")
@@ -124,7 +84,7 @@ namespace CalendarWinUI3.Views
                     }               
                 }
 
-                bool isShowWeekNo = localSettings.Values["ShowWeekNo"] is bool;
+                isShowWeekNo = localSettings.Values["ShowWeekNo"] is bool;
 
                 weekGridView.ItemsSource = Helper.GetWeeks(time, dayOfWeek);
 
@@ -133,8 +93,7 @@ namespace CalendarWinUI3.Views
 
                 var selectedDay = dayList.FirstOrDefault(it => it.YearNo == time.Year && it.MonthNo == time.Month && it.DayNo == time.Day);
                 monthGridView.SelectedItem = selectedDay;
-            }
-              
+            }            
         }
 
         private void monthGridView_SizeChanged(object sender, SizeChangedEventArgs e)

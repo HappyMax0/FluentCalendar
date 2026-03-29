@@ -1,17 +1,8 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
+using Microsoft.Windows.ApplicationModel.Resources;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Text;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -28,11 +19,24 @@ namespace CalendarWinUI3.Views
             InitializeComponent();
         }
 
-        private void CalculateBtn_Click(object sender, RoutedEventArgs e)
+        private async void CalculateBtn_Click(object sender, RoutedEventArgs e)
         {
             var timeSpan = datePicker2.Date - datePicker1.Date;
 
-            ResultTB.Text = timeSpan.Days.ToString() + "Days";
+            var loader = new ResourceLoader();
+            string dayText = loader.GetString("Interval_Days");
+
+            string interval = $"{timeSpan.Days} {dayText}";
+
+            var dialog = new ContentDialog
+            {
+                Title = loader.GetString("Interval_Title"),
+                Content = interval,
+                PrimaryButtonText = loader.GetString("Interval_OK"),
+                XamlRoot = this.XamlRoot
+            };
+
+            await dialog.ShowAsync();
         }
 
         private void BackBtn_Click(object sender, RoutedEventArgs e)

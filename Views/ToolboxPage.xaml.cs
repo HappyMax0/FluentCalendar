@@ -31,12 +31,14 @@ namespace CalendarWinUI3.Views
 
         private void ConversionSC_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(LunarConversionPage));
+            var mainWindow = App.M_Window as MainWindow;
+            mainWindow.ContentFrame?.Navigate(typeof(LunarConversionPage));
         }
 
         private void IntervalSC_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(IntervalCalculatePage));
+            var mainWindow = App.M_Window as MainWindow;
+            mainWindow.ContentFrame?.Navigate(typeof(IntervalCalculatePage));
         }
     }
 }

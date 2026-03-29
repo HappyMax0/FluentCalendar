@@ -1,12 +1,12 @@
-﻿using Ical.Net.DataTypes;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
+using tyme.culture;
 using tyme.festival;
+using tyme.lunar;
 using tyme.solar;
 using Calendar = Windows.Globalization.Calendar;
 using String = System.String;
@@ -224,32 +224,64 @@ namespace CalendarWinUI3.Models.Utils
             {
                 var weekDate = startDay.AddDays(i);
 
-                int weeks = new GregorianCalendar().GetWeekOfYear(
-            weekDate,
-            CalendarWeekRule.FirstDay, // 定义一年第一周的规则
-            firstDayOfWeek          // 定义每周的第一天
-        );
-
-                var showWeekNo = (weekDate.DayOfWeek == firstDayOfWeek) && isShowWeekNo;
-
-                var week = new Week() { WeekNo = weekDate.DayOfWeek, DayNo = weekDate.Day, Weeks = weeks, ShowWeekNo = showWeekNo, IsToday = (weekDate.Day == today.Day && weekDate.Month == today.Month && weekDate.Year == today.Year) };
-                week.YearNo = weekDate.Year;
-                week.MonthNo = weekDate.Month;
-                week.Events = new();
-
-                var holidayData = HolidayProvider.HolidayDatas.FirstOrDefault(h => h.Year == weekDate.Year);
-                if(holidayData != null)
-                {
-                    var holidayDateTime = holidayData.Days.FirstOrDefault(x=>x.Date == weekDate.Date);
-                    if (holidayDateTime != null)
-                        week.Events.Add(new Time() { Summary = holidayDateTime.Name, Description = holidayDateTime.IsOffDay ? "放假" : "补班" });
-
-                }
-
+                var week = GetWeek(weekDate, today, firstDayOfWeek, isShowWeekNo);
+               
                 weekList.Add(week);
             }
 
             return weekList;
+        }
+
+        public static Week GetWeek(DateTime weekDate, DateTime today, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday, bool isShowWeekNo = false)
+        {
+            int weeks = new GregorianCalendar().GetWeekOfYear(
+           weekDate,
+           CalendarWeekRule.FirstDay, // 定义一年第一周的规则
+           firstDayOfWeek          // 定义每周的第一天
+       );
+
+            var showWeekNo = (weekDate.DayOfWeek == firstDayOfWeek) && isShowWeekNo;
+
+            var week = new Week() { WeekNo = weekDate.DayOfWeek, DayNo = weekDate.Day, Weeks = weeks, ShowWeekNo = showWeekNo, IsToday = (weekDate.Day == today.Day && weekDate.Month == today.Month && weekDate.Year == today.Year) };
+            week.YearNo = weekDate.Year;
+            week.MonthNo = weekDate.Month;
+            week.Events = new();
+
+            var holidayData = HolidayProvider.HolidayDatas.FirstOrDefault(h => h.Year == weekDate.Year);
+            if (holidayData != null)
+            {
+                var holidayDateTime = holidayData.Days.FirstOrDefault(x => x.Date == weekDate.Date);
+                if (holidayDateTime != null)
+                    week.Events.Add(new Time() { Summary = holidayDateTime.Name, Description = holidayDateTime.IsOffDay ? "放假" : "补班" });
+            }
+
+            //公历
+            SolarDay solarDay = SolarDay.FromYmd(week.YearNo, week.MonthNo, week.DayNo);
+            LunarDay lunarDay = solarDay.GetLunarDay();
+            SolarFestival solarFestival = solarDay.Festival;
+            if (solarFestival != null)
+            {
+                week.SolarFestival = solarFestival.GetName();
+            }
+
+            LunarFestival lunarFestival = lunarDay.Festival;
+            if (lunarFestival != null)
+            {
+                week.LunarFestival = lunarFestival.GetName();
+            }
+            // 宜：嫁娶, 祭祀, 理发, 作灶, 修饰垣墙, 平治道涂, 整手足甲, 沐浴, 冠笄
+            List<Taboo> recommends = lunarDay.Recommends;
+            // 忌：破土, 出行, 栽种
+            List<Taboo> avoids = lunarDay.Avoids;
+
+            week.SolarDay = $"{solarDay.Year}/{solarDay.Month}/{solarDay.Day}";
+            week.LunarDay = $"{lunarDay.LunarMonth.GetName()} {lunarDay.GetName()}";
+            week.StemsAndBranches = lunarDay.SixtyCycle.GetName();
+            week.SolarTerms = lunarDay.GetSolarDay().Term.GetName();
+            week.Recommends = string.Join("、", recommends.Select(x => x.GetName())).TrimEnd('、');
+            week.Avoids = string.Join("、", avoids.Select(x => x.GetName())).TrimEnd('、');
+
+            return week;
         }
 
         public static Day GetDay(DateTime time)

@@ -7,25 +7,27 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:CalendarWinUI3.Models"
-    xmlns:converter="using:CalendarWinUI3.Views.Converter"
+    xmlns:converter="using:CalendarWinUI3.Views.Converter" xmlns:usercontrols="using:CalendarWinUI3.Views.UserControls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <converter:BoolToAccentColorConverter x:Key="BoolToAccentColorConverter"/>
         <converter:TimeConverter x:Key="TimeConverter"/>
+        <converter:WeekNoToStringConverter x:Key="WeekNoToStringConverter"/>
         <DataTemplate x:Key="WeekTemplate" x:DataType="models:Week">
             <Border x:Name="weekBlockBorder">
-                <Grid>
+                <Grid Width="300">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="12"/>
+                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="{x:Bind Weeks}" FontSize="10" HorizontalAlignment="Center" Visibility="{x:Bind ShowWeekNo, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
-                    <TextBlock Grid.Row="1" Text="{x:Bind WeekNo}" FontSize="14" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Row="1" Text="{x:Bind WeekNo,Converter={StaticResource WeekNoToStringConverter}}" FontSize="14" HorizontalAlignment="Center"/>
 
                     <Border Grid.Row="2" Width="30" Height="30"
                             BorderBrush="{x:Bind IsToday, Converter={StaticResource BoolToAccentColorConverter}}" 
@@ -46,6 +48,8 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </Border>
+
+                    <usercontrols:ChineseAlmanac Grid.Row="4"/>
                 </Grid>
             </Border>
         </DataTemplate>

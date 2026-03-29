@@ -117,12 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Conversion_Gregorian.Header" xml:space="preserve">
-    <value>農曆</value>
-  </data>
-  <data name="Conversion_Lunar.Header" xml:space="preserve">
-    <value>公曆</value>
-  </data>
   <data name="Holiday_DatePicker.Header" xml:space="preserve">
     <value>選取年份</value>
   </data>
@@ -137,15 +131,6 @@
   </data>
   <data name="Holiday_Workingdays.Text" xml:space="preserve">
     <value>補班</value>
-  </data>
-  <data name="Interval_Calculate.Content" xml:space="preserve">
-    <value>計算</value>
-  </data>
-  <data name="Interval_DatePicker1.Header" xml:space="preserve">
-    <value>選取一個日期</value>
-  </data>
-  <data name="Interval_DatePicker2.Header" xml:space="preserve">
-    <value>選取一個日期</value>
   </data>
   <data name="MainPage_Combobox_Month.Content" xml:space="preserve">
     <value>月份</value>
@@ -177,9 +162,6 @@
   <data name="SettingsCard_About.Text" xml:space="preserve">
     <value>關於</value>
   </data>
-  <data name="SettingsCard_BugRequest.Header" xml:space="preserve">
-    <value>提交錯誤報告或請求新樣本</value>
-  </data>
   <data name="SettingsCard_Calendar.Text" xml:space="preserve">
     <value>日曆</value>
   </data>
@@ -201,9 +183,6 @@
   <data name="SettingsCard_Calendar_Header_WeekCount.Header" xml:space="preserve">
     <value>周數</value>
   </data>
-  <data name="SettingsCard_CloneRepository.Header" xml:space="preserve">
-    <value>克隆此倉庫</value>
-  </data>
   <data name="SettingsCard_Data.Text" xml:space="preserve">
     <value>數據</value>
   </data>
@@ -215,9 +194,6 @@
   </data>
   <data name="SettingsCard_Data_Reset.Header" xml:space="preserve">
     <value>清除緩存</value>
-  </data>
-  <data name="SettingsCard_Dependencies.Header" xml:space="preserve">
-    <value>依賴項和引用</value>
   </data>
   <data name="SettingsCard_ShowSeconds.Description" xml:space="preserve">
     <value>顯示時間秒數</value>
@@ -246,10 +222,64 @@
   <data name="Settings_Header.Text" xml:space="preserve">
     <value>設定</value>
   </data>
+  <data name="Conversion_Gregorian.Header" xml:space="preserve">
+    <value>農曆</value>
+  </data>
+  <data name="Conversion_Lunar.Header" xml:space="preserve">
+    <value>公曆</value>
+  </data>
+  <data name="Interval_Calculate.Content" xml:space="preserve">
+    <value>計算</value>
+  </data>
+  <data name="Interval_DatePicker1.Header" xml:space="preserve">
+    <value>選取一個日期</value>
+  </data>
+  <data name="Interval_DatePicker2.Header" xml:space="preserve">
+    <value>選取一個日期</value>
+  </data>
+  <data name="SettingsCard_BugRequest.Header" xml:space="preserve">
+    <value>提交錯誤報告或請求新樣本</value>
+  </data>
+  <data name="SettingsCard_CloneRepository.Header" xml:space="preserve">
+    <value>克隆此倉庫</value>
+  </data>
+  <data name="SettingsCard_Dependencies.Header" xml:space="preserve">
+    <value>依賴項和引用</value>
+  </data>
   <data name="Toolbox_Conversion.Header" xml:space="preserve">
     <value>農曆轉換</value>
   </data>
   <data name="Toolbox_Interval.Header" xml:space="preserve">
     <value>相隔天數</value>
+  </data>
+  <data name="Week_Sunday" xml:space="preserve">
+    <value>日</value>
+  </data>
+  <data name="Week_Monday" xml:space="preserve">
+    <value>一</value>
+  </data>
+  <data name="Week_Tuesday" xml:space="preserve">
+    <value>二</value>
+  </data>
+  <data name="Week_Wednesday" xml:space="preserve">
+    <value>三</value>
+  </data>
+  <data name="Week_Thursday" xml:space="preserve">
+    <value>四</value>
+  </data>
+  <data name="Week_Friday" xml:space="preserve">
+    <value>五</value>
+  </data>
+  <data name="Week_Saturday" xml:space="preserve">
+    <value>六</value>
+  </data>
+  <data name="Interval_Days" xml:space="preserve">
+    <value>天</value>
+  </data>
+  <data name="Interval_Title" xml:space="preserve">
+    <value>相距</value>
+  </data>
+  <data name="Interval_OK" xml:space="preserve">
+    <value>確認</value>
   </data>
 </root>

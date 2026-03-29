@@ -28,12 +28,15 @@ namespace CalendarWinUI3
     {
         private UISettings _settings;
         public Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue;
+        public Frame ContentFrame;
 
         public ObservableCollection<Subscription> Subscriptions { get; set; } = new ObservableCollection<Subscription>();
 
         public MainWindow()
         {
             this.InitializeComponent();
+
+            ContentFrame = contentFrame;
 
             dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
 

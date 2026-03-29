@@ -24,6 +24,9 @@
     <None Update="Package.appxmanifest">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Views\UserControls\ChineseAlmanac.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\LunarConversionPage.xaml">
       <SubType>Designer</SubType>
     </Page>

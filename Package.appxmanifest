@@ -27,7 +27,6 @@
 
   <Resources>
 	  <Resource Language="en-US"/>
-	  <Resource Language="es-ES"/>
 	  <Resource Language="zh-CN"/>
 	  <Resource Language="zh-TW"/>
 	  <Resource Language="zh-HK"/>
