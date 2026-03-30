@@ -38,7 +38,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="CalendarWinUI3"
+        DisplayName="PerpetualCalendarWinUI3"
         Description="CalendarWinUI3"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
