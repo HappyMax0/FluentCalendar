@@ -38,10 +38,5 @@ namespace CalendarWinUI3.Views
 
             await dialog.ShowAsync();
         }
-
-        private void BackBtn_Click(object sender, RoutedEventArgs e)
-        {
-            this.Frame.GoBack();
-        }
     }
 }

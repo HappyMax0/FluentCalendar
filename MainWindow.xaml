@@ -12,7 +12,8 @@
     <NavigationView x:Name="navigationView"
                     ItemInvoked="navigationView_ItemInvoked"
                     SelectionChanged="navigationView_SelectionChanged"
-                    BackRequested="navigationView_BackRequested">
+                    BackRequested="navigationView_BackRequested"
+                    IsBackButtonVisible="Visible">
         <NavigationView.AutoSuggestBox>
             <AutoSuggestBox/>
         </NavigationView.AutoSuggestBox>

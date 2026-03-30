@@ -32,6 +32,14 @@ namespace CalendarWinUI3
 
         public ObservableCollection<Subscription> Subscriptions { get; set; } = new ObservableCollection<Subscription>();
 
+        private static readonly HashSet<Type> TopLevelPages = new()
+{
+    typeof(MainPage),
+    typeof(HolidaysPage),
+    typeof(ToolboxPage),
+    typeof(SettingsPage)
+};
+
         public MainWindow()
         {
             this.InitializeComponent();
@@ -64,6 +72,20 @@ namespace CalendarWinUI3
             {
                 calendarView.FirstDayOfWeek = Windows.Globalization.DayOfWeek.Sunday; // default value
             }*/
+            contentFrame.Navigated += ContentFrame_Navigated;
+        }
+
+        private void ContentFrame_Navigated(object sender, Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            var pageType = e.SourcePageType;
+            if (TopLevelPages.Contains(pageType)) 
+            {
+                navigationView.IsBackEnabled = false;
+            }
+            else
+            {
+                navigationView.IsBackEnabled = ContentFrame.CanGoBack;
+            }
         }
 
 

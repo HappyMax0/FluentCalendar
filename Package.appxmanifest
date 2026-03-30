@@ -15,8 +15,8 @@
   <mp:PhoneIdentity PhoneProductId="1bc7ad07-e7ee-412e-9c3f-51369c0ab909" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>CalendarWinUI3</DisplayName>
-    <PublisherDisplayName>Jihao</PublisherDisplayName>
+    <DisplayName>PerpetualCalendarWinUI3</DisplayName>
+    <PublisherDisplayName>HappyMax</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -38,7 +38,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="PerpetualCalendarWinUI3"
+        DisplayName="Fluent Calendar"
         Description="CalendarWinUI3"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
@@ -51,5 +51,6 @@
 
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
+    <Capability Name="internetClient"/>
   </Capabilities>
 </Package>

@@ -52,10 +52,5 @@ namespace CalendarWinUI3.Views
             SolarDay solarDay = lunarDay.GetSolarDay();
             GregorianPicker.Date = new DateTime(solarDay.Year, solarDay.Month, solarDay.Day);
         }
-
-        private void BackBtn_Click(object sender, RoutedEventArgs e)
-        {
-            this.Frame.GoBack();
-        }
     }
 }
