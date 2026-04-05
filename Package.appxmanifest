@@ -8,15 +8,15 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="1bc7ad07-e7ee-412e-9c3f-51369c0ab909"
-    Publisher="CN=Jihao"
+    Name="MAX.FluentCalendarWinUI3-"
+    Publisher="CN=87FE97BE-6C0A-49EB-9F90-E24CB6A596CE"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="1bc7ad07-e7ee-412e-9c3f-51369c0ab909" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="4daaf0c5-758e-4566-a670-5dc370ebafe7" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>PerpetualCalendarWinUI3</DisplayName>
-    <PublisherDisplayName>HappyMax</PublisherDisplayName>
+    <DisplayName>FluentCalendar（WinUI3）-万年历、黄历、节假日调休</DisplayName>
+    <PublisherDisplayName>乐MAX</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
