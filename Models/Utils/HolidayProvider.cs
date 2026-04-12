@@ -4,15 +4,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading;
 using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 #nullable enable
 
@@ -41,14 +37,21 @@ namespace CalendarWinUI3.Models.Utils
             }
             else
             {
-                string url = baseURL + year.ToString() + ".json";
+                try
+                {
+                    string url = baseURL + year.ToString() + ".json";
 
-                using HttpClient client = new HttpClient();
+                    using HttpClient client = new HttpClient();
 
-                json = await client.GetStringAsync(url);
+                    json = await client.GetStringAsync(url);
 
-                //Save Json Data
-                File.WriteAllText(path, json);
+                    //Save Json Data
+                    File.WriteAllText(path, json);
+                }
+                catch (Exception)
+                {
+
+                }
             }
 
             try
@@ -136,29 +139,6 @@ namespace CalendarWinUI3.Models.Utils
                     }
                 }
             }
-        }
-
-        public static async Task<HuangLiDto?> GetHuangli(string date)
-        {
-            string json = string.Empty;
-            try
-            {
-                using HttpClient client = new();
-
-                json = await client.GetStringAsync(
-                    $"http://127.0.0.1:8000/huangli/{date}");
-            }
-            catch (Exception)
-            {
-                
-            }
-
-            if (string.IsNullOrEmpty(json))
-                return null;
-
-            HuangLiDto? data = JsonSerializer.Deserialize<HuangLiDto>(json);
-
-            return data;
         }
 
         public static string GetHolidayName(DateTime date)

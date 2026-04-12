@@ -15,7 +15,6 @@
 	<DefaultLanguage>zh-CN</DefaultLanguage>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Assets\holidays.json" />
     <None Remove="Views\DayPage.xaml" />
     <None Remove="Views\HolidaysPage.xaml" />
     <None Remove="Views\IntervalCalculatePage.xaml" />
@@ -111,11 +110,6 @@
     <Page Update="Views\Style\TemplateDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="Assets\holidays.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\LunarConversionPage.xaml">

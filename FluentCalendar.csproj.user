@@ -10,7 +10,7 @@
     <SplashScreenSource>D:\Users\Shomn\OneDrive - MSFT\Downloads\Frame 1.png</SplashScreenSource>
     <PackageLogoSource>D:\Users\Shomn\OneDrive - MSFT\Downloads\Frame 1.png</PackageLogoSource>
     <ActiveDebugProfile>CalendarWinUI3 (Package)</ActiveDebugProfile>
-    <_LastSelectedProfileId>C:\Users\Jihao\Documents\Github\FluentCalendar\Properties\PublishProfiles\win10-arm64.pubxml</_LastSelectedProfileId>
+    <_LastSelectedProfileId>C:\Users\Jihao\Documents\Github\FluentCalendar\Properties\PublishProfiles\win10-x64.pubxml</_LastSelectedProfileId>
     <AppxShowAllApps>False</AppxShowAllApps>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
