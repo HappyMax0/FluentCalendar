@@ -1,5 +1,6 @@
 using CalendarWinUI3.Models;
 using CalendarWinUI3.Models.Utils;
+using CalendarWinUI3.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -17,9 +18,9 @@ namespace CalendarWinUI3.Views
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private DispatcherTimer _timer;
+        public MainViewModel ViewModel { get; } = new MainViewModel();
 
-        public DateTime Time { get; set; } = DateTime.Now;
+        private DispatcherTimer _timer;
 
         private bool showClockSeconds = true;
 
@@ -49,8 +50,6 @@ namespace CalendarWinUI3.Views
             {
                 calendarDatePicker.FirstDayOfWeek = Windows.Globalization.DayOfWeek.Sunday; // default value
             }
-
-            
         }
 
         private void MainPage_Unloaded(object sender, RoutedEventArgs e)
@@ -66,10 +65,6 @@ namespace CalendarWinUI3.Views
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            //await iCalendarHelper.GetICS();
-
-            calendarDatePicker.Date = Time;
-
             NavView_Navigate(typeof(MonthPage));
         }
 
@@ -78,45 +73,39 @@ namespace CalendarWinUI3.Views
             var selectedItem = viewComboBox.SelectedItem as ComboBoxItem;
             if (selectedItem != null)
             {
+                var time = ViewModel.SelectedDay;
                 switch (selectedItem.Tag.ToString())
                 {
                     case "Year":
                         break;
                     case "Month":
-                        if (Time.Month == 1)
+                        if (time.Month == 1)
                         {
-                            Time = new DateTime(Time.Year - 1, 12, 1);
+                            ViewModel.SelectedDay = new DateTime(time.Year - 1, 12, 1);
                         }
                         else
                         {
-                            Time = new DateTime(Time.Year, Time.Month - 1, 1);
+                            ViewModel.SelectedDay = new DateTime(time.Year, time.Month - 1, 1);
                         }
 
-                        calendarDatePicker.Date = Time;
-
-                        contentFrame?.Navigate(typeof(MonthPage), Time, new SlideNavigationTransitionInfo()
+                        contentFrame?.Navigate(typeof(MonthPage), ViewModel, new SlideNavigationTransitionInfo()
                         { Effect = SlideNavigationTransitionEffect.FromLeft });
 
                         break;
                     case "Week":
                         // 计算周日的日期
-                        int daysToSunday = (int)Time.DayOfWeek; // DayOfWeek.Sunday = 0
-                        Time = Time.AddDays(-daysToSunday).Date;
+                        int daysToSunday = (int)time.DayOfWeek;
 
-                        Time = Time.AddDays(-7).Date;
+                        ViewModel.SelectedDay = time.AddDays(-7).Date;
 
-                        calendarDatePicker.Date = Time;
-
-                        contentFrame?.Navigate(typeof(WeekPage), Time, new SlideNavigationTransitionInfo()
+                        contentFrame?.Navigate(typeof(WeekPage), ViewModel, new SlideNavigationTransitionInfo()
                         { Effect = SlideNavigationTransitionEffect.FromLeft });
 
                         break;
                     case "Day":
-                        Time = Time.AddDays(-1);
+                        ViewModel.SelectedDay = time.AddDays(-1);
 
-                        calendarDatePicker.Date = Time;
-
-                        contentFrame?.Navigate(typeof(DayPage), Time, new SlideNavigationTransitionInfo()
+                        contentFrame?.Navigate(typeof(DayPage), ViewModel, new SlideNavigationTransitionInfo()
                         { Effect = SlideNavigationTransitionEffect.FromLeft });
 
                         break;
@@ -130,27 +119,27 @@ namespace CalendarWinUI3.Views
             var selectedItem = viewComboBox.SelectedItem as ComboBoxItem;
             if (selectedItem != null)
             {
+                var time = ViewModel.SelectedDay;
+
                 switch (selectedItem.Tag.ToString())
                 {
                     case "Year":
                         break;
                     case "Month":
-                        if (Time.Month == 12)
+                        if (time.Month == 12)
                         {
                             //当前为12月，年份+1
-                            Time = new DateTime(Time.Year + 1, 1, 1);
+                            ViewModel.SelectedDay = new DateTime(time.Year + 1, 1, 1);
 
-                            await HolidayProvider.GetHolidayData(Time.Year);
+                            await HolidayProvider.GetHolidayData(time.Year);
 
                         }
                         else
                         {
-                            Time = new DateTime(Time.Year, Time.Month + 1, 1);
+                            ViewModel.SelectedDay = new DateTime(time.Year, time.Month + 1, 1);
                         }
 
-                        calendarDatePicker.Date = Time;
-
-                        contentFrame?.Navigate(typeof(MonthPage), Time, new SlideNavigationTransitionInfo()
+                        contentFrame?.Navigate(typeof(MonthPage), ViewModel, new SlideNavigationTransitionInfo()
                         { Effect = SlideNavigationTransitionEffect.FromRight });
 
                         break;
@@ -159,26 +148,22 @@ namespace CalendarWinUI3.Views
                         /*int daysToSunday = (int)Time.DayOfWeek; // DayOfWeek.Sunday = 0
                         Time = Time.AddDays(-daysToSunday).Date;*/
 
-                        var newTime = Time.AddDays(7).Date;
+                        var newTime = time.AddDays(7).Date;
 
-                        if (newTime.Year != Time.Year)
+                        if (newTime.Year != time.Year)
                             await HolidayProvider.GetHolidayData(newTime.Year);
                         else if(newTime.AddDays(7).Year != newTime.Year)
                             await HolidayProvider.GetHolidayData(newTime.AddDays(7).Year);
 
-                        Time = newTime;
+                        ViewModel.SelectedDay = newTime;
 
-                        calendarDatePicker.Date = Time;
-
-                        contentFrame?.Navigate(typeof(WeekPage), Time, new SlideNavigationTransitionInfo()
+                        contentFrame?.Navigate(typeof(WeekPage), ViewModel, new SlideNavigationTransitionInfo()
                         { Effect = SlideNavigationTransitionEffect.FromRight });
                         break;
                     case "Day":
-                        Time = Time.AddDays(1);
+                        ViewModel.SelectedDay = time.AddDays(1);
 
-                        calendarDatePicker.Date = Time;
-
-                        contentFrame?.Navigate(typeof(DayPage), Time, new SlideNavigationTransitionInfo()
+                        contentFrame?.Navigate(typeof(DayPage), ViewModel, new SlideNavigationTransitionInfo()
                         { Effect = SlideNavigationTransitionEffect.FromRight });
 
                         break;
@@ -189,9 +174,7 @@ namespace CalendarWinUI3.Views
 
         private void HomeBtn_Click(object sender, RoutedEventArgs e)
         {
-            Time = DateTime.Now;
-
-            calendarDatePicker.Date = Time;
+            ViewModel.SelectedDay = DateTime.Now;
 
             var selectedItem = viewComboBox.SelectedItem as ComboBoxItem;
             if(selectedItem != null)
@@ -199,16 +182,16 @@ namespace CalendarWinUI3.Views
                 switch (selectedItem.Tag.ToString())
                 {
                     case "Year":
-                        contentFrame?.Navigate(typeof(YearPage), Time, new DrillInNavigationTransitionInfo());
+                        contentFrame?.Navigate(typeof(YearPage), ViewModel, new DrillInNavigationTransitionInfo());
                         break;
                     case "Month":
-                        contentFrame?.Navigate(typeof(MonthPage), Time, new DrillInNavigationTransitionInfo());
+                        contentFrame?.Navigate(typeof(MonthPage), ViewModel, new DrillInNavigationTransitionInfo());
                         break;
                     case "Week":
-                        contentFrame?.Navigate(typeof(WeekPage), Time, new DrillInNavigationTransitionInfo());
+                        contentFrame?.Navigate(typeof(WeekPage), ViewModel, new DrillInNavigationTransitionInfo());
                         break;
                     case "Day":
-                        contentFrame?.Navigate(typeof(DayPage), Time, new DrillInNavigationTransitionInfo());
+                        contentFrame?.Navigate(typeof(DayPage), ViewModel, new DrillInNavigationTransitionInfo());
                         break;
                 }
             }
@@ -222,7 +205,7 @@ namespace CalendarWinUI3.Views
             
             if (navPageType is not null)
             {
-                contentFrame.Navigate(navPageType, Time, new EntranceNavigationTransitionInfo());
+                contentFrame.Navigate(navPageType, ViewModel, new EntranceNavigationTransitionInfo());
             }
         }
 
@@ -232,8 +215,6 @@ namespace CalendarWinUI3.Views
             var selectedItem = comboBox.SelectedItem as ComboBoxItem;
             if (selectedItem != null)
             {
-                Time = DateTime.Now;
-                calendarDatePicker.Date = Time;
                 switch (selectedItem.Tag.ToString())
                 {
                     case "Year":
@@ -257,7 +238,7 @@ namespace CalendarWinUI3.Views
             // 检查是否选择了有效日期
             if (args.NewDate.HasValue)
             {
-                Time = args.NewDate.Value.Date; // 获取选择的日期
+                ViewModel.SelectedDay = args.NewDate.Value.Date; // 获取选择的日期
 
                 if(args.OldDate == null || args.NewDate.Value.Year != args.OldDate.Value.Year)
                     await HolidayProvider.GetHolidayData(args.NewDate.Value.Year);

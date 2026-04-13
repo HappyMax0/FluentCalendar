@@ -15,6 +15,7 @@ using Microsoft.UI.Xaml.Navigation;
 using CalendarWinUI3.Models;
 using CalendarWinUI3.Models.Utils;
 using Windows.Globalization;
+using CalendarWinUI3.ViewModels;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -26,6 +27,8 @@ namespace CalendarWinUI3.Views
     /// </summary>
     public sealed partial class DayPage : Page
     {
+        private MainViewModel viewModel;
+
         public DayPage()
         {
             this.InitializeComponent();
@@ -35,8 +38,10 @@ namespace CalendarWinUI3.Views
         {
             base.OnNavigatedTo(e);
 
-            if(e.Parameter is DateTime time)
+            if(e.Parameter is MainViewModel mainViewModel)
             {
+                viewModel = mainViewModel;
+                var time = mainViewModel.SelectedDay;
                 Day day = Helper.GetDay(time);
 
                 timeListView.ItemsSource = day.EventList;

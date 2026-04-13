@@ -1,5 +1,6 @@
 using CalendarWinUI3.Models;
 using CalendarWinUI3.Models.Utils;
+using CalendarWinUI3.ViewModels;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;
@@ -17,6 +18,8 @@ namespace CalendarWinUI3.Views
     /// </summary>
     public sealed partial class WeekPage : Page
     {
+        private MainViewModel viewModel;
+
         public WeekPage()
         {
             this.InitializeComponent();
@@ -27,8 +30,12 @@ namespace CalendarWinUI3.Views
         {
             base.OnNavigatedTo(e);
 
-            if (e.Parameter is DateTime time)
+            if (e.Parameter is MainViewModel mainViewModel)
             {
+                viewModel = mainViewModel;
+
+                var time = viewModel.SelectedDay;
+
                 ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 
                 DayOfWeek dayOfWeek = DayOfWeek.Sunday;

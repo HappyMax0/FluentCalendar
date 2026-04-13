@@ -15,7 +15,7 @@ namespace CalendarWinUI3.Models.Utils
 {
     public static class Helper
     {
-        public static List<Day> GetDayList(DateTime time, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday, bool isShowWeekNo = false)
+        public static List<Day> GetDayList(DateTimeOffset time, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday, bool isShowWeekNo = false)
         {         
             List<Day> dayList = new List<Day>();       
 
@@ -199,7 +199,7 @@ namespace CalendarWinUI3.Models.Utils
         }
 
 
-        public static List<Week> GetWeeks(DateTime time, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday, bool isShowWeekNo = false)
+        public static List<Week> GetWeeks(DateTimeOffset time, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday, bool isShowWeekNo = false)
         {
             DateTime today = DateTime.Today;
 
@@ -284,7 +284,7 @@ namespace CalendarWinUI3.Models.Utils
             return week;
         }
 
-        public static Day GetDay(DateTime time)
+        public static Day GetDay(DateTimeOffset time)
         {      
             Day day = new Day();
 

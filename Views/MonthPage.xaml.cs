@@ -1,5 +1,6 @@
 using CalendarWinUI3.Models;
 using CalendarWinUI3.Models.Utils;
+using CalendarWinUI3.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
@@ -23,6 +24,7 @@ namespace CalendarWinUI3.Views
     /// </summary>
     public sealed partial class MonthPage : Page
     {
+        private MainViewModel viewModel;
 
         DayOfWeek dayOfWeek = DayOfWeek.Sunday;
         bool isShowWeekNo = false;
@@ -70,8 +72,11 @@ namespace CalendarWinUI3.Views
         {
             base.OnNavigatedTo(e);
 
-            if (e.Parameter is DateTime time)
+            if (e.Parameter is MainViewModel mainViewModel)
             {
+                viewModel = mainViewModel;
+
+                var time = viewModel.SelectedDay;
                 //weekGridView.ItemsSource = Enum.GetValues(typeof(System.DayOfWeek)).Cast<System.DayOfWeek>().ToList();
 
                 ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
