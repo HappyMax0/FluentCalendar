@@ -236,7 +236,7 @@ namespace CalendarWinUI3.Views
         private async void calendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             // 检查是否选择了有效日期
-            if (args.NewDate.HasValue)
+            if (args.NewDate.HasValue && !ViewModel.IsUpdatingDateFromCode)
             {
                 ViewModel.SelectedDay = args.NewDate.Value.Date; // 获取选择的日期
 

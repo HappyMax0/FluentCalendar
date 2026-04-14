@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using Windows.Globalization;
 using Windows.Storage;
 using DayOfWeek = System.DayOfWeek;
 
@@ -23,7 +24,8 @@ namespace CalendarWinUI3.Views
         public WeekPage()
         {
             this.InitializeComponent();
-            
+
+            weekGridView.SelectionChanged += WeekGridView_SelectionChanged;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -54,6 +56,20 @@ namespace CalendarWinUI3.Views
                 weekGridView.ItemsSource = weeks;
             }
 
+        }
+
+        private void WeekGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is GridView gridView)
+            {
+                var selectedDay = gridView.SelectedValue as Week;
+                
+                viewModel.IsUpdatingDateFromCode = true;
+
+                viewModel.SelectedDay = new DateTimeOffset(selectedDay.YearNo, selectedDay.MonthNo, selectedDay.DayNo, 0, 0, 0, TimeSpan.Zero);
+
+                viewModel.IsUpdatingDateFromCode = false;
+            }
         }
     }
 }

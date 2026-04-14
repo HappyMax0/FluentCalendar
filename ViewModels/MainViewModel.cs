@@ -9,6 +9,8 @@ namespace CalendarWinUI3.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
+        public bool IsUpdatingDateFromCode { get; set; }
+
 
         private DateTimeOffset _selectedDay = DateTime.Now;
         public DateTimeOffset SelectedDay
