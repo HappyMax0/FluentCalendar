@@ -6,15 +6,22 @@
     xmlns:local="using:CalendarWinUI3.Views.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="using:CalendarWinUI3.Views.Converter"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <converter:NullToVisibilityConverter x:Name="NullToVisibilityConverter" />
+    </UserControl.Resources>
 
     <StackPanel Margin="12">
-        <TextBlock x:Name="SolarDayTB" Text="{Binding SolarDay, Mode=OneWay}"/>
-        <TextBlock x:Name="SolarFestivalNameTB" FontSize="26" Text="{Binding SolarFestival, Mode=OneWay}" />
-        <TextBlock x:Name="LunarFestivalNameTB" FontSize="26" Text="{Binding LunarFestival, Mode=OneWay}" />
         <TextBlock x:Name="lunarTB" FontSize="24" TextWrapping="WrapWholeWords" Text="{Binding LunarDay, Mode=OneWay}"/>
+        <TextBlock x:Name="SolarDayTB" FontSize="20"  Text="{Binding SolarDay, Mode=OneWay}"/>
+        <TextBlock x:Name="LunarFestivalNameTB" FontSize="26" Text="{Binding LunarFestival, Mode=OneWay}" 
+                   Visibility="{Binding LunarFestival, Converter={StaticResource NullToVisibilityConverter}}"/>
+        <TextBlock x:Name="SolarFestivalNameTB" FontSize="26" Text="{Binding SolarFestival, Mode=OneWay}" 
+                   Visibility="{Binding SolarFestival, Converter={StaticResource NullToVisibilityConverter}}"/>
         <TextBlock x:Name="ganzhiTB" FontSize="18" TextWrapping="WrapWholeWords" Text="{Binding StemsAndBranches, Mode=OneWay}"/>
         <TextBlock x:Name="jieqiTB" FontSize="16" TextWrapping="WrapWholeWords" Text="{Binding SolarTerms, Mode=OneWay}"/>
+        <TextBlock FontSize="16" Text="{Binding PlumRainDay}" Visibility="{Binding PlumRainDay, Converter={StaticResource NullToVisibilityConverter}}"/>
         <TextBlock x:Uid="MonthPage_Recommended" x:Name="suitableTB" FontSize="22" IsColorFontEnabled="True" Foreground="Green" TextWrapping="WrapWholeWords"/>
         <TextBlock x:Name="recommendsTB" FontSize="16" TextWrapping="WrapWholeWords" Text="{Binding Recommends, Mode=OneWay}"/>
         <TextBlock x:Uid="MonthPage_Prohibited" x:Name="notSuitableTB" FontSize="22" IsColorFontEnabled="True" Foreground="Red" TextWrapping="WrapWholeWords"/>

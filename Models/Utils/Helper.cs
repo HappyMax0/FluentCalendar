@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using tyme.culture;
+using tyme.culture.plumrain;
 using tyme.festival;
 using tyme.lunar;
+using tyme.sixtycycle;
 using tyme.solar;
 using Calendar = Windows.Globalization.Calendar;
 using String = System.String;
@@ -255,6 +257,7 @@ namespace CalendarWinUI3.Models.Utils
                     week.Events.Add(new Time() { Summary = holidayDateTime.Name, Description = holidayDateTime.IsOffDay ? "放假" : "补班" });
             }
 
+           
             //公历
             SolarDay solarDay = SolarDay.FromYmd(week.YearNo, week.MonthNo, week.DayNo);
             LunarDay lunarDay = solarDay.GetLunarDay();
@@ -263,7 +266,6 @@ namespace CalendarWinUI3.Models.Utils
             {
                 week.SolarFestival = solarFestival.GetName();
             }
-
             LunarFestival lunarFestival = lunarDay.Festival;
             if (lunarFestival != null)
             {
@@ -275,7 +277,10 @@ namespace CalendarWinUI3.Models.Utils
             List<Taboo> avoids = lunarDay.Avoids;
 
             week.SolarDay = $"{solarDay.Year}/{solarDay.Month}/{solarDay.Day}";
-            week.LunarDay = $"{lunarDay.LunarMonth.GetName()} {lunarDay.GetName()}";
+            //干支年
+            SixtyCycleYear sixtyCycleYear = SixtyCycleYear.FromYear(week.YearNo);
+            week.LunarDay = $"{sixtyCycleYear.ToString()}{lunarDay.LunarMonth.GetName()} {lunarDay.GetName()}";
+            week.PlumRainDay = solarDay.PlumRainDay == null? null : solarDay.PlumRainDay.ToString();
             week.StemsAndBranches = lunarDay.SixtyCycle.GetName();
             week.SolarTerms = lunarDay.GetSolarDay().Term.GetName();
             week.Recommends = string.Join("、", recommends.Select(x => x.GetName())).TrimEnd('、');

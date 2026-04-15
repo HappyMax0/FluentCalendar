@@ -128,6 +128,23 @@ namespace CalendarWinUI3.Models
         private string _solarTerms;
 
         /// <summary>
+        /// 梅雨天
+        /// </summary>
+        public string PlumRainDay
+        {
+            get => _plumRainDay;
+            set
+            {
+                if(value != _plumRainDay)
+                {
+                    _plumRainDay = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private string _plumRainDay;
+
+        /// <summary>
         /// 宜
         /// </summary>
         public string Recommends

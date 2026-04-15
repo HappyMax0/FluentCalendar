@@ -91,7 +91,7 @@
                 </toolkit:SettingsCard>
 
                 <TextBlock x:Uid="SettingsCard_About" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
-                <toolkit:SettingsExpander Description="© 2025 HappyMax. All rights reserved." Header="FluentCalendar">
+                <toolkit:SettingsExpander Description="© 2026 HappyMax. All rights reserved." Header="FluentCalendar">
                     <toolkit:SettingsExpander.HeaderIcon>
                         <BitmapIcon ShowAsMonochrome="False" UriSource="/Assets/Tiles/SmallTile-sdk.png" />
                     </toolkit:SettingsExpander.HeaderIcon>
