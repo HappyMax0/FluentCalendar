@@ -94,21 +94,21 @@ namespace CalendarWinUI3.Models
         private string _lunarDay;
 
         /// <summary>
-        /// 天干地支
+        /// 干支日期
         /// </summary>
-        public string StemsAndBranches
+        public string SixtyCycle
         {
-            get => _stemsAndBranches;
+            get => _sixtyCycle;
             set
             {
-                if (_stemsAndBranches != value)
+                if (_sixtyCycle != value)
                 {
-                    _stemsAndBranches = value;
+                    _sixtyCycle = value;
                     OnPropertyChanged();
                 }
             }
         }
-        private string _stemsAndBranches;
+        private string _sixtyCycle;
 
         /// <summary>
         /// 二十四節氣
@@ -126,6 +126,20 @@ namespace CalendarWinUI3.Models
             }
         }
         private string _solarTerms;
+
+        public string Constellation
+        {
+            get => _constellation;
+            set
+            {
+                if(value != _constellation)
+                {
+                    _constellation = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private string _constellation;
 
         /// <summary>
         /// 梅雨天

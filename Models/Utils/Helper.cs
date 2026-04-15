@@ -277,11 +277,12 @@ namespace CalendarWinUI3.Models.Utils
             List<Taboo> avoids = lunarDay.Avoids;
 
             week.SolarDay = $"{solarDay.Year}/{solarDay.Month}/{solarDay.Day}";
-            //干支年
-            SixtyCycleYear sixtyCycleYear = SixtyCycleYear.FromYear(week.YearNo);
-            week.LunarDay = $"{sixtyCycleYear.ToString()}{lunarDay.LunarMonth.GetName()} {lunarDay.GetName()}";
+            //干支日期
+            SixtyCycleDay sixtyCycleDay = solarDay.GetSixtyCycleDay();
+            week.SixtyCycle = sixtyCycleDay.ToString();
+            week.LunarDay = $"{lunarDay.LunarMonth.GetName()} {lunarDay.GetName()}";
+            week.Constellation = solarDay.Constellation.ToString();
             week.PlumRainDay = solarDay.PlumRainDay == null? null : solarDay.PlumRainDay.ToString();
-            week.StemsAndBranches = lunarDay.SixtyCycle.GetName();
             week.SolarTerms = lunarDay.GetSolarDay().Term.GetName();
             week.Recommends = string.Join("、", recommends.Select(x => x.GetName())).TrimEnd('、');
             week.Avoids = string.Join("、", avoids.Select(x => x.GetName())).TrimEnd('、');

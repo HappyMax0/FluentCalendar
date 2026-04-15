@@ -24,8 +24,6 @@
     <None Remove="Views\SettingsPage.xaml" />
     <None Remove="Views\Styles\AddSubscriptionDialogControl.xaml" />
     <None Remove="Views\Styles\Colors.xaml" />
-    <None Remove="Views\Styles\DarkTheme.xaml" />
-    <None Remove="Views\Styles\LightTheme.xaml" />
     <None Remove="Views\Styles\Style.xaml" />
     <None Remove="Views\ToolboxPage.xaml" />
     <None Remove="Views\UserControls\ChineseAlmanac.xaml" />
@@ -60,16 +58,6 @@
   -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Views\Styles\DarkTheme.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Views\Styles\LightTheme.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\Styles\Style.xaml">
