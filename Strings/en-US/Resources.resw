@@ -282,4 +282,13 @@
   <data name="Interval_OK" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="SettingsCard_Language.Header" xml:space="preserve">
+    <value>Display Language</value>
+  </data>
+  <data name="SettingsCard_Language_Auto.Content" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="SettingsCard_Language.Description" xml:space="preserve">
+    <value>Change after restarting the application</value>
+  </data>
 </root>
