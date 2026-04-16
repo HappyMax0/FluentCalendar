@@ -62,16 +62,6 @@ namespace CalendarWinUI3
                 TitleBarHelper.SetCaptionButtonColors(this, Colors.Black);
             }
 
-            ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-
-            /*if (localSettings.Values["StartDay"] is string startDay)
-            {
-                calendarView.FirstDayOfWeek = startDay.Equals("Monday") ? Windows.Globalization.DayOfWeek.Monday : Windows.Globalization.DayOfWeek.Sunday;
-            }
-            else
-            {
-                calendarView.FirstDayOfWeek = Windows.Globalization.DayOfWeek.Sunday; // default value
-            }*/
             contentFrame.Navigated += ContentFrame_Navigated;
         }
 

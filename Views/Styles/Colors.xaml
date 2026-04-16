@@ -3,11 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:models="using:CalendarWinUI3.Models">
-    <Color x:Key="SystemAccentColor">#E81123</Color>
-    <Color x:Key="SystemAccentColorLight1">#F1707B</Color>
-    <Color x:Key="SystemAccentColorLight2">#FF7AB9EB</Color>
-    <Color x:Key="SystemAccentColorLight3">#FFB1D6F3</Color>
-    <Color x:Key="SystemAccentColorDark1">#FF005A9E</Color>
-    <Color x:Key="SystemAccentColorDark2">#FF004578</Color>
-    <Color x:Key="SystemAccentColorDark3">#FF00335A</Color>
+    <SolidColorBrush x:Key="AccentColor" Color="{ThemeResource SystemAccentColor}"/>
+    <SolidColorBrush x:Key="AccentColorDark1" Color="{ThemeResource SystemAccentColorDark1}"/>
 </ResourceDictionary>
