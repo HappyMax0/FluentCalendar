@@ -7,6 +7,8 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Linq;
+using Windows.ApplicationModel;
+using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.ViewManagement;
@@ -25,7 +27,7 @@ namespace CalendarWinUI3.Views
         {
             get
             {
-                var version = System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
+                var version = Package.Current.Id.Version;
                 return string.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
             }
         }
@@ -67,6 +69,23 @@ namespace CalendarWinUI3.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+
+            var lang = ApplicationData.Current.LocalSettings.Values["AppLanguage"] as string;
+            if (!string.IsNullOrEmpty(lang))
+            {
+                if(lang == "auto")
+                {
+                    displayLang.SelectedIndex = 0;
+                }
+                else
+                {
+                    displayLang.SelectedItem = displayLang.Items.Cast<ComboBoxItem>().FirstOrDefault(item => item.Tag.ToString() == lang);
+                }
+            }
+            else
+            {
+                displayLang.SelectedIndex = 0;
+            }
         }
 
         private void OnSettingsPageLoaded(object sender, RoutedEventArgs e)
@@ -162,6 +181,26 @@ namespace CalendarWinUI3.Views
         {
             HolidayProvider.RemoveAllHolidayDataFiles();
             HolidayProvider.RemoveAllHolidayDatas();
+        }
+
+        private void displayLang_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = (ComboBoxItem)((ComboBox)sender).SelectedItem;
+            var lang = item.Tag.ToString();
+
+            // 保存用户选择
+            ApplicationData.Current.LocalSettings.Values["AppLanguage"] = lang;
+
+            // 设置语言
+            if (lang == "auto")
+            {
+                ApplicationLanguages.PrimaryLanguageOverride = string.Empty;
+            }
+            else
+            {
+                ApplicationLanguages.PrimaryLanguageOverride = lang;
+            }
+
         }
     }
 }

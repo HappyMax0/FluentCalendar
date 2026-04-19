@@ -41,12 +41,6 @@
     <Page Update="Views\HolidaysPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\Styles\DarkTheme.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\Styles\LightTheme.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Views\Styles\Style.xaml">
       <SubType>Designer</SubType>
     </Page>

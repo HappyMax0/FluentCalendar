@@ -46,8 +46,10 @@
 
                     <TextBlock Text="{x:Bind WeekNo}" FontSize="10" HorizontalAlignment="Center" Visibility="{x:Bind ShowWeekNo, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
-                    <Border Grid.Row="1" BorderBrush="{x:Bind IsToday, Converter={StaticResource BoolToAccentColorConverter}}" 
-                            BorderThickness="0" Background="{x:Bind IsToday, Converter={StaticResource BoolToAccentColorConverter}}" 
+                    <Border Grid.Row="1" 
+                            BorderBrush="{x:Bind IsToday, Converter={StaticResource BoolToAccentColorConverter}}" 
+                            BorderThickness="0" 
+                            Background="{x:Bind IsToday, Converter={StaticResource BoolToAccentColorConverter}}" 
                             CornerRadius="14" Width="32" Height="32" Margin="5,0">
                         <TextBlock Text="{x:Bind DayNo}" 
                                    Opacity="{x:Bind IsCurrentMonth, Converter={StaticResource BoolToOpacityConverter}}" 

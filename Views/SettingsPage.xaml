@@ -48,7 +48,7 @@
                     <RepositionThemeTransition IsStaggeringEnabled="False" />
                 </StackPanel.ChildrenTransitions>
                 <TextBlock x:Uid="Settings_Appearance" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Appearance" />
-                <toolkit:SettingsCard x:Uid="SettingsCard_Theme" Description="Select which app theme to display" Header="App theme">
+                <toolkit:SettingsCard x:Uid="SettingsCard_Theme">
                     <toolkit:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE790;" />
                     </toolkit:SettingsCard.HeaderIcon>
@@ -56,6 +56,17 @@
                         <ComboBoxItem x:Uid="SettingsCard_Theme_Light" Content="Light" Tag="Light" />
                         <ComboBoxItem x:Uid="SettingsCard_Theme_Dark" Content="Dark" Tag="Dark" />
                         <ComboBoxItem x:Uid="SettingsCard_Theme_Default" Content="Use system setting" Tag="Default" />
+                    </ComboBox>
+                </toolkit:SettingsCard>
+                <toolkit:SettingsCard x:Uid="SettingsCard_Language">
+                    <toolkit:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xF2B7;" />
+                    </toolkit:SettingsCard.HeaderIcon>
+                    <ComboBox x:Name="displayLang" SelectionChanged="displayLang_SelectionChanged">
+                        <ComboBoxItem x:Uid="SettingsCard_Language_Auto" Tag="auto"/>
+                        <ComboBoxItem Tag="en-US" Content="English"/>
+                        <ComboBoxItem Tag="zh-CN" Content="简体中文"/>
+                        <ComboBoxItem Tag="zh-TW" Content="繁體中文"/>
                     </ComboBox>
                 </toolkit:SettingsCard>
                 <toolkit:SettingsCard x:Uid="SettingsCard_ShowSeconds">
@@ -91,7 +102,7 @@
                 </toolkit:SettingsCard>
 
                 <TextBlock x:Uid="SettingsCard_About" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
-                <toolkit:SettingsExpander Description="© 2025 HappyMax. All rights reserved." Header="FluentCalendar">
+                <toolkit:SettingsExpander Description="© 2026 HappyMax. All rights reserved." Header="FluentCalendar">
                     <toolkit:SettingsExpander.HeaderIcon>
                         <BitmapIcon ShowAsMonochrome="False" UriSource="/Assets/Tiles/SmallTile-sdk.png" />
                     </toolkit:SettingsExpander.HeaderIcon>

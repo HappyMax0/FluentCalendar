@@ -25,6 +25,9 @@ namespace CalendarWinUI3.Models
 
         public ObservableCollection<Time> Events { get; set; }
 
+        /// <summary>
+        /// 公历现代节日
+        /// </summary>
         public string SolarFestival
         {
             get => _solarFestival;
@@ -56,6 +59,9 @@ namespace CalendarWinUI3.Models
         }
         private string _lunarFestival;
 
+        /// <summary>
+        /// 公历日期
+        /// </summary>
         public string SolarDay
         {
             get => _solarDay;
@@ -71,7 +77,7 @@ namespace CalendarWinUI3.Models
         private string _solarDay;
 
         /// <summary>
-        /// 農曆日
+        /// 農曆日期
         /// </summary>
         public string LunarDay
         {
@@ -88,24 +94,24 @@ namespace CalendarWinUI3.Models
         private string _lunarDay;
 
         /// <summary>
-        /// 干支
+        /// 干支日期
         /// </summary>
-        public string StemsAndBranches
+        public string SixtyCycle
         {
-            get => _stemsAndBranches;
+            get => _sixtyCycle;
             set
             {
-                if (_stemsAndBranches != value)
+                if (_sixtyCycle != value)
                 {
-                    _stemsAndBranches = value;
+                    _sixtyCycle = value;
                     OnPropertyChanged();
                 }
             }
         }
-        private string _stemsAndBranches;
+        private string _sixtyCycle;
 
         /// <summary>
-        /// 節氣
+        /// 二十四節氣
         /// </summary>
         public string SolarTerms
         {
@@ -120,6 +126,37 @@ namespace CalendarWinUI3.Models
             }
         }
         private string _solarTerms;
+
+        public string Constellation
+        {
+            get => _constellation;
+            set
+            {
+                if(value != _constellation)
+                {
+                    _constellation = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private string _constellation;
+
+        /// <summary>
+        /// 梅雨天
+        /// </summary>
+        public string PlumRainDay
+        {
+            get => _plumRainDay;
+            set
+            {
+                if(value != _plumRainDay)
+                {
+                    _plumRainDay = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private string _plumRainDay;
 
         /// <summary>
         /// 宜
@@ -156,10 +193,10 @@ namespace CalendarWinUI3.Models
         private string _avoids;
 
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(
-            [CallerMemberName] string? propertyName = null)
+            [CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this,
                 new PropertyChangedEventArgs(propertyName));

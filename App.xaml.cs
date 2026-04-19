@@ -5,6 +5,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Reflection;
+using Windows.Globalization;
+using Windows.Storage;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -25,6 +27,12 @@ namespace CalendarWinUI3
         public App()
         {
             this.InitializeComponent();
+
+            var lang = ApplicationData.Current.LocalSettings.Values["AppLanguage"] as string;
+            if (!string.IsNullOrEmpty(lang) && lang != "auto")
+            {
+                ApplicationLanguages.PrimaryLanguageOverride = lang;
+            }
 
         }
 

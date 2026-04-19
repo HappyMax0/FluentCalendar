@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using tyme.culture;
+using tyme.culture.plumrain;
 using tyme.festival;
 using tyme.lunar;
+using tyme.sixtycycle;
 using tyme.solar;
 using Calendar = Windows.Globalization.Calendar;
 using String = System.String;
@@ -15,7 +17,7 @@ namespace CalendarWinUI3.Models.Utils
 {
     public static class Helper
     {
-        public static List<Day> GetDayList(DateTime time, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday, bool isShowWeekNo = false)
+        public static List<Day> GetDayList(DateTimeOffset time, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday, bool isShowWeekNo = false)
         {         
             List<Day> dayList = new List<Day>();       
 
@@ -199,7 +201,7 @@ namespace CalendarWinUI3.Models.Utils
         }
 
 
-        public static List<Week> GetWeeks(DateTime time, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday, bool isShowWeekNo = false)
+        public static List<Week> GetWeeks(DateTimeOffset time, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday, bool isShowWeekNo = false)
         {
             DateTime today = DateTime.Today;
 
@@ -255,6 +257,7 @@ namespace CalendarWinUI3.Models.Utils
                     week.Events.Add(new Time() { Summary = holidayDateTime.Name, Description = holidayDateTime.IsOffDay ? "放假" : "补班" });
             }
 
+           
             //公历
             SolarDay solarDay = SolarDay.FromYmd(week.YearNo, week.MonthNo, week.DayNo);
             LunarDay lunarDay = solarDay.GetLunarDay();
@@ -263,7 +266,6 @@ namespace CalendarWinUI3.Models.Utils
             {
                 week.SolarFestival = solarFestival.GetName();
             }
-
             LunarFestival lunarFestival = lunarDay.Festival;
             if (lunarFestival != null)
             {
@@ -275,8 +277,12 @@ namespace CalendarWinUI3.Models.Utils
             List<Taboo> avoids = lunarDay.Avoids;
 
             week.SolarDay = $"{solarDay.Year}/{solarDay.Month}/{solarDay.Day}";
+            //干支日期
+            SixtyCycleDay sixtyCycleDay = solarDay.GetSixtyCycleDay();
+            week.SixtyCycle = sixtyCycleDay.ToString();
             week.LunarDay = $"{lunarDay.LunarMonth.GetName()} {lunarDay.GetName()}";
-            week.StemsAndBranches = lunarDay.SixtyCycle.GetName();
+            week.Constellation = solarDay.Constellation.ToString();
+            week.PlumRainDay = solarDay.PlumRainDay == null? null : solarDay.PlumRainDay.ToString();
             week.SolarTerms = lunarDay.GetSolarDay().Term.GetName();
             week.Recommends = string.Join("、", recommends.Select(x => x.GetName())).TrimEnd('、');
             week.Avoids = string.Join("、", avoids.Select(x => x.GetName())).TrimEnd('、');
@@ -284,7 +290,7 @@ namespace CalendarWinUI3.Models.Utils
             return week;
         }
 
-        public static Day GetDay(DateTime time)
+        public static Day GetDay(DateTimeOffset time)
         {      
             Day day = new Day();
 

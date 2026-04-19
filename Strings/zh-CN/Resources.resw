@@ -337,4 +337,16 @@
     <value>确认</value>
     <comment>OK</comment>
   </data>
+  <data name="SettingsCard_Language.Header" xml:space="preserve">
+    <value>显示语言</value>
+    <comment>DisplayLanguage</comment>
+  </data>
+  <data name="SettingsCard_Language_Auto.Content" xml:space="preserve">
+    <value>跟随系统</value>
+    <comment>Default</comment>
+  </data>
+  <data name="SettingsCard_Language.Description" xml:space="preserve">
+    <value>重启应用后生效</value>
+    <comment>Change after restarting the application</comment>
+  </data>
 </root>

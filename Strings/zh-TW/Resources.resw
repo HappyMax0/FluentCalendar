@@ -282,4 +282,13 @@
   <data name="Interval_OK" xml:space="preserve">
     <value>確認</value>
   </data>
+  <data name="SettingsCard_Language.Header" xml:space="preserve">
+    <value>顯示語言</value>
+  </data>
+  <data name="SettingsCard_Language_Auto.Content" xml:space="preserve">
+    <value>跟隨系統</value>
+  </data>
+  <data name="SettingsCard_Language.Description" xml:space="preserve">
+    <value>重啓應用后生效</value>
+  </data>
 </root>

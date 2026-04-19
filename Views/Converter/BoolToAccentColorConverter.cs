@@ -14,7 +14,7 @@ namespace CalendarWinUI3.Views.Converter
             if(boolValue)
             {
                 UISettings uiSettings = new UISettings();
-                return new SolidColorBrush(uiSettings.GetColorValue(UIColorType.Accent));
+                return new SolidColorBrush(Colors.Red);
             }
             else
             {

@@ -1,5 +1,6 @@
 using CalendarWinUI3.Models;
 using CalendarWinUI3.Models.Utils;
+using CalendarWinUI3.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
@@ -23,6 +24,7 @@ namespace CalendarWinUI3.Views
     /// </summary>
     public sealed partial class MonthPage : Page
     {
+        private MainViewModel viewModel;
 
         DayOfWeek dayOfWeek = DayOfWeek.Sunday;
         bool isShowWeekNo = false;
@@ -34,6 +36,55 @@ namespace CalendarWinUI3.Views
             monthGridView.SelectionChanged += MonthGridView_SelectionChanged;
          
             this.SizeChanged += MonthPage_SizeChanged;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (e.Parameter is MainViewModel mainViewModel)
+            {
+                viewModel = mainViewModel;
+
+                var time = viewModel.SelectedDay;
+                //weekGridView.ItemsSource = Enum.GetValues(typeof(System.DayOfWeek)).Cast<System.DayOfWeek>().ToList();
+
+                ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+
+                if (localSettings.Values["StartDay"] is string startDay)
+                {
+                    if (startDay == "Monday")
+                    {
+                        dayOfWeek = DayOfWeek.Monday;
+                    }
+                }
+
+                isShowWeekNo = localSettings.Values["ShowWeekNo"] is bool;
+
+                weekGridView.ItemsSource = Helper.GetWeeks(time, dayOfWeek);
+
+                var dayList = Helper.GetDayList(time, dayOfWeek, isShowWeekNo);
+                monthGridView.ItemsSource = dayList;
+
+                var selectedDay = dayList.FirstOrDefault(it => it.YearNo == time.Year && it.MonthNo == time.Month && it.DayNo == time.Day);
+                monthGridView.SelectedItem = selectedDay;
+            }
+        }
+
+        private async void MonthGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is GridView gridView)
+            {
+                var selectedDay = gridView.SelectedValue as Day;
+                var week = Helper.GetWeek(new DateTime(selectedDay.YearNo, selectedDay.MonthNo, selectedDay.DayNo), DateTime.Today, dayOfWeek, isShowWeekNo);
+                ChineseAlmanacControl.DataContext = week;
+
+                viewModel.IsUpdatingDateFromCode = true;
+
+                viewModel.SelectedDay = new DateTimeOffset(selectedDay.YearNo, selectedDay.MonthNo, selectedDay.DayNo, 0, 0, 0, TimeSpan.Zero);
+
+                viewModel.IsUpdatingDateFromCode = false;
+            }
         }
 
         private void MonthPage_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -55,47 +106,7 @@ namespace CalendarWinUI3.Views
                 //monthGridViewItemsWrapGrid.ItemHeight = monthGridView.ActualHeight / 6f;
             }
         }
-
-        private async void MonthGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (sender is GridView gridView) 
-            {
-                var selectedDay = gridView.SelectedValue as Day;
-                var week = Helper.GetWeek(new DateTime(selectedDay.YearNo, selectedDay.MonthNo, selectedDay.DayNo), DateTime.Today, dayOfWeek, isShowWeekNo);
-                ChineseAlmanacControl.DataContext = week;
-            }
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            if (e.Parameter is DateTime time)
-            {
-                //weekGridView.ItemsSource = Enum.GetValues(typeof(System.DayOfWeek)).Cast<System.DayOfWeek>().ToList();
-
-                ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-
-                if (localSettings.Values["StartDay"] is string startDay)
-                {
-                    if (startDay == "Monday")
-                    {                       
-                        dayOfWeek = DayOfWeek.Monday;
-                    }               
-                }
-
-                isShowWeekNo = localSettings.Values["ShowWeekNo"] is bool;
-
-                weekGridView.ItemsSource = Helper.GetWeeks(time, dayOfWeek);
-
-                var dayList = Helper.GetDayList(time, dayOfWeek, isShowWeekNo);
-                monthGridView.ItemsSource = dayList;
-
-                var selectedDay = dayList.FirstOrDefault(it => it.YearNo == time.Year && it.MonthNo == time.Month && it.DayNo == time.Day);
-                monthGridView.SelectedItem = selectedDay;
-            }            
-        }
-
+     
         private void monthGridView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             ItemsWrapGrid monthGridViewItemsWrapGrid = Helper.FindVisualChild<ItemsWrapGrid>(monthGridView);
