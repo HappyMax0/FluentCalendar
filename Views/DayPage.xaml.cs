@@ -41,10 +41,9 @@ namespace CalendarWinUI3.Views
             if(e.Parameter is MainViewModel mainViewModel)
             {
                 viewModel = mainViewModel;
-                var time = mainViewModel.SelectedDay;
-                Day day = Helper.GetDay(time);
-
-                timeListView.ItemsSource = day.EventList;
+                var selectedDay = mainViewModel.SelectedDay;
+                var week = Helper.GetWeek(new DateTime(selectedDay.Year, selectedDay.Month, selectedDay.Day), DateTime.Today, System.DayOfWeek.Monday, false);
+                ChineseAlmanacControl.DataContext = week;
             }
             
         }

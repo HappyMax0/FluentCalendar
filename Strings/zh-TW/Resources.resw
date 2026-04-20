@@ -291,4 +291,7 @@
   <data name="SettingsCard_Language.Description" xml:space="preserve">
     <value>重啓應用后生效</value>
   </data>
+  <data name="MainPage_Combobox_Day.Content" xml:space="preserve">
+    <value>天</value>
+  </data>
 </root>

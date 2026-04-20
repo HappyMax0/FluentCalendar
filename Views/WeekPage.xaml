@@ -7,7 +7,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:CalendarWinUI3.Models"
-    xmlns:converter="using:CalendarWinUI3.Views.Converter" xmlns:usercontrols="using:CalendarWinUI3.Views.UserControls"
+    xmlns:converter="using:CalendarWinUI3.Views.Converter" 
+    xmlns:usercontrols="using:CalendarWinUI3.Views.UserControls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>

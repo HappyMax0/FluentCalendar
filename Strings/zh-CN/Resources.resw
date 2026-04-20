@@ -349,4 +349,8 @@
     <value>重启应用后生效</value>
     <comment>Change after restarting the application</comment>
   </data>
+  <data name="MainPage_Combobox_Day.Content" xml:space="preserve">
+    <value>日</value>
+    <comment>Day</comment>
+  </data>
 </root>

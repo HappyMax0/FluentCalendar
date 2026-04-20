@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:CalendarWinUI3.Models"
     xmlns:converter="using:CalendarWinUI3.Views.Converter"
+    xmlns:usercontrols="using:CalendarWinUI3.Views.UserControls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
@@ -27,11 +28,11 @@
     </Page.Resources>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="10"/>
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <ListView x:Name="timeListView" Grid.Row="1" ItemTemplate="{StaticResource TimeListTemplate}"/>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <usercontrols:ChineseAlmanac x:Name="ChineseAlmanacControl" Grid.Column="1"/>
     </Grid>
 </Page>
