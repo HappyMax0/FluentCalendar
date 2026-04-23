@@ -294,4 +294,16 @@
   <data name="MainPage_Combobox_Day.Content" xml:space="preserve">
     <value>Day</value>
   </data>
+  <data name="MainWindow_OldAlmanacItem.Text" xml:space="preserve">
+    <value>OldAlmanac</value>
+  </data>
+  <data name="GoodGods.Text" xml:space="preserve">
+    <value>Ji</value>
+  </data>
+  <data name="BadGods.Text" xml:space="preserve">
+    <value>Xiong</value>
+  </data>
+  <data name="OldAlmanacPage_PengZu.Text" xml:space="preserve">
+    <value>PengZu</value>
+  </data>
 </root>

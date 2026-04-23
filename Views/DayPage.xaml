@@ -27,10 +27,10 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid>
+    <Grid Margin="24">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="4*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <usercontrols:ChineseAlmanac x:Name="ChineseAlmanacControl" Grid.Column="1"/>

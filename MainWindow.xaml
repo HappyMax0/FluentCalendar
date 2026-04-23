@@ -22,6 +22,9 @@
                 <TextBlock x:Uid="MainWindow_CalendarItem"/>
             </NavigationViewItem>
             <NavigationViewItemSeparator/>
+            <NavigationViewItem Icon="CalendarDay" Tag="OldAlmanac">
+                <TextBlock x:Uid="MainWindow_OldAlmanacItem"/>
+            </NavigationViewItem>
             <NavigationViewItem Icon="Clock" Tag="Holidays">
                 <TextBlock x:Uid="MainWindow_HolidayItem"/>
             </NavigationViewItem>

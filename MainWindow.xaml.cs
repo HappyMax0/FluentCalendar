@@ -35,6 +35,7 @@ namespace CalendarWinUI3
         private static readonly HashSet<Type> TopLevelPages = new()
 {
     typeof(MainPage),
+    typeof(OldAlmanacPage),
     typeof(HolidaysPage),
     typeof(ToolboxPage),
     typeof(SettingsPage)
@@ -121,6 +122,10 @@ namespace CalendarWinUI3
                 if("Calendar".Equals(args.InvokedItemContainer.Tag))
                 {
                     NavView_Navigate(typeof(MainPage), args.RecommendedNavigationTransitionInfo);
+                }
+                else if ("OldAlmanac".Equals(args.InvokedItemContainer.Tag))
+                {
+                    NavView_Navigate(typeof(OldAlmanacPage), args.RecommendedNavigationTransitionInfo);
                 }
                 else if ("Holidays".Equals(args.InvokedItemContainer.Tag))
                 {

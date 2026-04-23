@@ -21,6 +21,7 @@
     <None Remove="Views\LunarConversionPage.xaml" />
     <None Remove="Views\MainPage.xaml" />
     <None Remove="Views\MonthPage.xaml" />
+    <None Remove="Views\OldAlmanacPage.xaml" />
     <None Remove="Views\SettingsPage.xaml" />
     <None Remove="Views\Styles\AddSubscriptionDialogControl.xaml" />
     <None Remove="Views\Styles\Colors.xaml" />
@@ -144,6 +145,11 @@
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
+  <ItemGroup>
+    <Page Update="Views\OldAlmanacPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
   <ItemGroup>
     <Page Update="Views\UserControls\ChineseAlmanac.xaml">
       <Generator>MSBuild:Compile</Generator>

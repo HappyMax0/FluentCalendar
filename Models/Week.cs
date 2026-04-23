@@ -159,6 +159,24 @@ namespace CalendarWinUI3.Models
         private string _plumRainDay;
 
         /// <summary>
+        /// 三伏天
+        /// </summary>
+        public string DogDay
+        {
+            get => _dogDay;
+            set
+            {
+                if (value != _dogDay)
+                {
+                    _dogDay = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private string _dogDay;
+
+
+        /// <summary>
         /// 宜
         /// </summary>
         public string Recommends
@@ -192,6 +210,56 @@ namespace CalendarWinUI3.Models
         }
         private string _avoids;
 
+        /// <summary>
+        /// 吉煞
+        /// </summary>
+        public string GoodGods
+        {
+            get => _goodGods;
+            set
+            {
+                if (_goodGods != value)
+                {
+                    _goodGods = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private string _goodGods;
+
+        /// <summary>
+        /// 凶煞
+        /// </summary>
+        public string BadGods
+        {
+            get => _badGods;
+            set
+            {
+                if (_badGods != value)
+                {
+                    _badGods = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private string _badGods;
+
+        /// <summary>
+        /// 彭祖
+        /// </summary>
+        public string PengZu
+        {
+            get => _pengZu;
+            set
+            {
+                if (_pengZu != value)
+                {
+                    _pengZu = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private string _pengZu;
 
         public event PropertyChangedEventHandler PropertyChanged;
 

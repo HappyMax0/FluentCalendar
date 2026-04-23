@@ -353,4 +353,20 @@
     <value>日</value>
     <comment>Day</comment>
   </data>
+  <data name="MainWindow_OldAlmanacItem.Text" xml:space="preserve">
+    <value>老黄历</value>
+    <comment>老黄历</comment>
+  </data>
+  <data name="GoodGods.Text" xml:space="preserve">
+    <value>吉神宜趋</value>
+    <comment>吉</comment>
+  </data>
+  <data name="BadGods.Text" xml:space="preserve">
+    <value>凶神宜忌</value>
+    <comment>凶</comment>
+  </data>
+  <data name="OldAlmanacPage_PengZu.Text" xml:space="preserve">
+    <value>彭祖百忌</value>
+    <comment>PengZu</comment>
+  </data>
 </root>

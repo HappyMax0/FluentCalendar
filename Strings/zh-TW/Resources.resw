@@ -294,4 +294,16 @@
   <data name="MainPage_Combobox_Day.Content" xml:space="preserve">
     <value>天</value>
   </data>
+  <data name="MainWindow_OldAlmanacItem.Text" xml:space="preserve">
+    <value>老黃曆</value>
+  </data>
+  <data name="GoodGods.Text" xml:space="preserve">
+    <value>吉神宜趨</value>
+  </data>
+  <data name="BadGods.Text" xml:space="preserve">
+    <value>凶神宜忌</value>
+  </data>
+  <data name="OldAlmanacPage_PengZu.Text" xml:space="preserve">
+    <value>彭祖百忌</value>
+  </data>
 </root>

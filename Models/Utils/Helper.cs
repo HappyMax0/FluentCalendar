@@ -283,9 +283,35 @@ namespace CalendarWinUI3.Models.Utils
             week.LunarDay = $"{lunarDay.LunarMonth.GetName()} {lunarDay.GetName()}";
             week.Constellation = solarDay.Constellation.ToString();
             week.PlumRainDay = solarDay.PlumRainDay == null? null : solarDay.PlumRainDay.ToString();
+            week.DogDay = solarDay.DogDay == null ? null : solarDay.DogDay.ToString();
             week.SolarTerms = lunarDay.GetSolarDay().Term.GetName();
             week.Recommends = string.Join("、", recommends.Select(x => x.GetName())).TrimEnd('、');
             week.Avoids = string.Join("、", avoids.Select(x => x.GetName())).TrimEnd('、');
+
+            var gods =lunarDay.Gods;
+
+            // 吉神宜趋
+            List<God> goodGods = new List<God>();
+            // 凶神宜忌
+            List<God> badGods = new List<God>();
+
+            // 遍历，根据神煞吉凶区分吉神和凶神
+            foreach (God god in gods)
+            {
+                if ("吉".Equals(god.Luck.GetName()))
+                {
+                    goodGods.Add(god);
+                }
+                else
+                {
+                    badGods.Add(god);
+                }
+            }
+
+            week.GoodGods = string.Join("、", goodGods.Select(x => x.GetName())).TrimEnd('、');
+            week.BadGods = string.Join("、", badGods.Select(x => x.GetName())).TrimEnd('、');
+            var pengZu = lunarDay.SixtyCycle.PengZu;
+            week.PengZu = $"{pengZu.PengZuHeavenStem} {pengZu.PengZuEarthBranch}";
 
             return week;
         }

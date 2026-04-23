@@ -80,7 +80,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="350"/>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="280"/>
+            <ColumnDefinition Width="380"/>
         </Grid.ColumnDefinitions>
         <GridView x:Name="weekGridView" 
                   ItemTemplate="{StaticResource WeekTemplate}" 
@@ -109,7 +109,7 @@
         </GridView>
 
         <toolkit:GridSplitter Grid.Row="0" Grid.RowSpan="3" Grid.Column="1"
-            Width="5"
+            Width="2"
 Background="DarkGray"
 HorizontalAlignment="Stretch"
 VerticalAlignment="Stretch"
