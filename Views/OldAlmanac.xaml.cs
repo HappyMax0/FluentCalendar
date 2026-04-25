@@ -42,17 +42,17 @@ public sealed partial class OldAlmanac : Page
 
             ViewModel = oldAlmanacViewModel;
 
-            var week = Helper.GetWeek(new DateTime(selectedDay.Year, selectedDay.Month, selectedDay.Day), DateTime.Today, System.DayOfWeek.Monday, false);
-            ViewModel.SolarDate = $"{week.YearNo}年{week.MonthNo}月{week.DayNo}日";
-            ViewModel.LunarDate = week.LunarDay;
-            ViewModel.SixtyCycleDate = week.SixtyCycle;
-            ViewModel.Recommends = week.Recommends;
-            ViewModel.Avoids = week.Avoids;
-            ViewModel.GoodGods = week.GoodGods;
-            ViewModel.BadGods = week.BadGods;
-            ViewModel.PengZu = week.PengZu;
-            ViewModel.FetusDay = week.FetusDay;
-            ViewModel.NineStar = week.NineStar;
+            var chineseDay = Helper.GetChineseDay(new DateTime(selectedDay.Year, selectedDay.Month, selectedDay.Day), DateTime.Today, System.DayOfWeek.Monday, false);
+            ViewModel.SolarDate = $"{chineseDay.YearNo}年{chineseDay.MonthNo}月{chineseDay.DayNo}日";
+            ViewModel.LunarDate = chineseDay.LunarDay;
+            ViewModel.SixtyCycleDate = chineseDay.SixtyCycle;
+            ViewModel.Recommends = chineseDay.Recommends;
+            ViewModel.Avoids = chineseDay.Avoids;
+            ViewModel.GoodGods = chineseDay.GoodGods;
+            ViewModel.BadGods = chineseDay.BadGods;
+            ViewModel.PengZu = chineseDay.PengZu;
+            ViewModel.FetusDay = chineseDay.FetusDay;
+            ViewModel.NineStar = chineseDay.NineStar;
         }
     }
 }

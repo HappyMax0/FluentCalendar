@@ -219,7 +219,7 @@ namespace CalendarWinUI3.Models.Utils
         }
 
 
-        public static List<Week> GetWeeks(DateTimeOffset time, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday, bool isShowWeekNo = false)
+        public static List<ChineseDay> GetChineseDays(DateTimeOffset time, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday, bool isShowWeekNo = false)
         {
             DateTime today = DateTime.Today;
 
@@ -239,20 +239,20 @@ namespace CalendarWinUI3.Models.Utils
             }
 
             // 生成一周的日期列表（周日到周六）
-            List<Week> weekList = new List<Week>();
+            List<ChineseDay> weekList = new List<ChineseDay>();
             for (int i = 0; i < 7; i++)
             {
                 var weekDate = startDay.AddDays(i);
 
-                var week = GetWeek(weekDate, today, firstDayOfWeek, isShowWeekNo);
+                var chineseDay = GetChineseDay(weekDate, today, firstDayOfWeek, isShowWeekNo);
 
-                weekList.Add(week);
+                weekList.Add(chineseDay);
             }
 
             return weekList;
         }
 
-        public static Week GetWeek(DateTime weekDate, DateTime today, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday, bool isShowWeekNo = false)
+        public static ChineseDay GetChineseDay(DateTime weekDate, DateTime today, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday, bool isShowWeekNo = false)
         {
             int weeks = new GregorianCalendar().GetWeekOfYear(
            weekDate,
@@ -262,50 +262,50 @@ namespace CalendarWinUI3.Models.Utils
 
             var showWeekNo = (weekDate.DayOfWeek == firstDayOfWeek) && isShowWeekNo;
 
-            var week = new Week() { WeekNo = weekDate.DayOfWeek, DayNo = weekDate.Day, Weeks = weeks, ShowWeekNo = showWeekNo, IsToday = (weekDate.Day == today.Day && weekDate.Month == today.Month && weekDate.Year == today.Year) };
-            week.YearNo = weekDate.Year;
-            week.MonthNo = weekDate.Month;
-            week.Events = new();
+            var chineseDay = new ChineseDay() { WeekNo = weekDate.DayOfWeek, DayNo = weekDate.Day, Weeks = weeks, ShowWeekNo = showWeekNo, IsToday = (weekDate.Day == today.Day && weekDate.Month == today.Month && weekDate.Year == today.Year) };
+            chineseDay.YearNo = weekDate.Year;
+            chineseDay.MonthNo = weekDate.Month;
+            chineseDay.Events = new();
 
             var holidayData = HolidayProvider.HolidayDatas.FirstOrDefault(h => h.Year == weekDate.Year);
             if (holidayData != null)
             {
                 var holidayDateTime = holidayData.Days.FirstOrDefault(x => x.Date == weekDate.Date);
                 if (holidayDateTime != null)
-                    week.Events.Add(new Time() { Summary = holidayDateTime.Name, Description = holidayDateTime.IsOffDay ? "放假" : "补班" });
+                    chineseDay.Events.Add(new Time() { Summary = holidayDateTime.Name, Description = holidayDateTime.IsOffDay ? "放假" : "补班" });
             }
 
 
             //公历
-            SolarDay solarDay = SolarDay.FromYmd(week.YearNo, week.MonthNo, week.DayNo);
+            SolarDay solarDay = SolarDay.FromYmd(chineseDay.YearNo, chineseDay.MonthNo, chineseDay.DayNo);
             LunarDay lunarDay = solarDay.GetLunarDay();
             SolarFestival solarFestival = solarDay.Festival;
             if (solarFestival != null)
             {
-                week.SolarFestival = solarFestival.GetName();
+                chineseDay.SolarFestival = solarFestival.GetName();
             }
             LunarFestival lunarFestival = lunarDay.Festival;
             if (lunarFestival != null)
             {
-                week.LunarFestival = lunarFestival.GetName();
+                chineseDay.LunarFestival = lunarFestival.GetName();
             }
             // 宜：嫁娶, 祭祀, 理发, 作灶, 修饰垣墙, 平治道涂, 整手足甲, 沐浴, 冠笄
             List<Taboo> recommends = lunarDay.Recommends;
             // 忌：破土, 出行, 栽种
             List<Taboo> avoids = lunarDay.Avoids;
 
-            week.SolarDay = $"{solarDay.Year}/{solarDay.Month}/{solarDay.Day}";
+            chineseDay.SolarDay = $"{solarDay.Year}/{solarDay.Month}/{solarDay.Day}";
             //干支日期
             SixtyCycleDay sixtyCycleDay = solarDay.GetSixtyCycleDay();
-            week.SixtyCycle = sixtyCycleDay.ToString();
-            week.LunarDay = $"{lunarDay.LunarMonth.GetName()} {lunarDay.GetName()}";
-            week.Constellation = solarDay.Constellation.ToString();
-            week.PlumRainDay = solarDay.PlumRainDay == null ? null : solarDay.PlumRainDay.ToString();
-            week.DogDay = solarDay.DogDay == null ? null : solarDay.DogDay.ToString();
-            week.NineDay = solarDay.NineDay == null ? null : solarDay.NineDay.ToString();
-            week.SolarTerms = lunarDay.GetSolarDay().Term.GetName();
-            week.Recommends = string.Join("、", recommends.Select(x => x.GetName())).TrimEnd('、');
-            week.Avoids = string.Join("、", avoids.Select(x => x.GetName())).TrimEnd('、');
+            chineseDay.SixtyCycle = sixtyCycleDay.ToString();
+            chineseDay.LunarDay = $"{lunarDay.LunarMonth.GetName()} {lunarDay.GetName()}";
+            chineseDay.Constellation = solarDay.Constellation.ToString();
+            chineseDay.PlumRainDay = solarDay.PlumRainDay == null ? null : solarDay.PlumRainDay.ToString();
+            chineseDay.DogDay = solarDay.DogDay == null ? null : solarDay.DogDay.ToString();
+            chineseDay.NineDay = solarDay.NineDay == null ? null : solarDay.NineDay.ToString();
+            chineseDay.SolarTerms = lunarDay.GetSolarDay().Term.GetName();
+            chineseDay.Recommends = string.Join("、", recommends.Select(x => x.GetName())).TrimEnd('、');
+            chineseDay.Avoids = string.Join("、", avoids.Select(x => x.GetName())).TrimEnd('、');
 
             var gods = lunarDay.Gods;
 
@@ -327,13 +327,13 @@ namespace CalendarWinUI3.Models.Utils
                 }
             }
 
-            week.GoodGods = string.Join("、", goodGods.Select(x => x.GetName())).TrimEnd('、');
-            week.BadGods = string.Join("、", badGods.Select(x => x.GetName())).TrimEnd('、');
+            chineseDay.GoodGods = string.Join("、", goodGods.Select(x => x.GetName())).TrimEnd('、');
+            chineseDay.BadGods = string.Join("、", badGods.Select(x => x.GetName())).TrimEnd('、');
             var pengZu = lunarDay.SixtyCycle.PengZu;
-            week.PengZu = $"{pengZu.PengZuHeavenStem} {pengZu.PengZuEarthBranch}";
-            week.FetusDay = lunarDay.FetusDay.ToString();
+            chineseDay.PengZu = $"{pengZu.PengZuHeavenStem} {pengZu.PengZuEarthBranch}";
+            chineseDay.FetusDay = lunarDay.FetusDay.ToString();
 
-            return week;
+            return chineseDay;
         }
 
         public static Day GetDay(DateTimeOffset time)

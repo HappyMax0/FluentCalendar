@@ -16,7 +16,7 @@
         <converter:BoolToAccentColorConverter x:Key="BoolToAccentColorConverter"/>
         <converter:TimeConverter x:Key="TimeConverter"/>
         <converter:WeekNoToStringConverter x:Key="WeekNoToStringConverter"/>
-        <DataTemplate x:Key="WeekTemplate" x:DataType="models:Week">
+        <DataTemplate x:Key="WeekTemplate" x:DataType="models:ChineseDay">
             <Border x:Name="weekBlockBorder">
                 <Grid Width="300">
                     <Grid.RowDefinitions>
@@ -34,20 +34,6 @@
                             BorderBrush="{x:Bind IsToday, Converter={StaticResource BoolToAccentColorConverter}}" 
          BorderThickness="5" Background="{x:Bind IsToday, Converter={StaticResource BoolToAccentColorConverter}}" CornerRadius="20">
                         <TextBlock Text="{x:Bind DayNo}" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    </Border>
-                   
-                    <Border Grid.Row="3" BorderThickness="1,1,0,0" BorderBrush="{StaticResource AccentColor}" >
-                        <ItemsControl ItemsSource="{x:Bind Events, Mode=OneWay}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate x:DataType="models:Time">
-                                    <StackPanel Margin="5">
-                                        <TextBlock Text="{x:Bind StartTime, Converter={StaticResource TimeConverter}}" FontSize="14"/>
-                                        <TextBlock Text="{x:Bind Summary}" FontSize="18"/>
-                                        <TextBlock Text="{x:Bind Description}" FontSize="12" TextWrapping="WrapWholeWords"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
                     </Border>
 
                     <usercontrols:ChineseAlmanac Grid.Row="4"/>

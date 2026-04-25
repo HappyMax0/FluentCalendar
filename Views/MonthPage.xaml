@@ -27,7 +27,7 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="14"/>
         </Style>
-        <DataTemplate x:Key="WeekTemplate" x:DataType="models:Week">
+        <DataTemplate x:Key="WeekTemplate" x:DataType="models:ChineseDay">
             <Border x:Name="weekBlockBorder" HorizontalAlignment="Stretch">
                 <Grid>
                     <TextBlock Text="{x:Bind WeekNo, Converter={StaticResource WeekNoToStringConverter}}" FontSize="14"/>
@@ -110,7 +110,6 @@
 
         <toolkit:GridSplitter Grid.Row="0" Grid.RowSpan="3" Grid.Column="1"
             Width="2"
-Background="DarkGray"
 HorizontalAlignment="Stretch"
 VerticalAlignment="Stretch"
 ResizeBehavior="PreviousAndNext"

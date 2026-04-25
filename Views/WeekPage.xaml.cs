@@ -51,9 +51,9 @@ namespace CalendarWinUI3.Views
 
                 bool isShowWeekNo = localSettings.Values["ShowWeekNo"] is bool;
 
-                List<Week> weeks = Helper.GetWeeks(time, dayOfWeek, isShowWeekNo);
+                List<ChineseDay> chineseDayList = Helper.GetChineseDays(time, dayOfWeek, isShowWeekNo);
 
-                weekGridView.ItemsSource = weeks;
+                weekGridView.ItemsSource = chineseDayList;
             }
 
         }
@@ -62,7 +62,7 @@ namespace CalendarWinUI3.Views
         {
             if (sender is GridView gridView)
             {
-                var selectedDay = gridView.SelectedValue as Week;
+                var selectedDay = gridView.SelectedValue as ChineseDay;
                 
                 viewModel.IsUpdatingDateFromCode = true;
 

@@ -8,7 +8,7 @@ using tyme.culture.nine;
 
 namespace CalendarWinUI3.Models
 {
-    public class Week : INotifyPropertyChanged
+    public class ChineseDay : INotifyPropertyChanged
     {
         public DayOfWeek WeekNo { get; set; }
 
