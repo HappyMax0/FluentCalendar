@@ -4,6 +4,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using tyme.culture.nine;
 
 namespace CalendarWinUI3.Models
 {
@@ -175,6 +176,22 @@ namespace CalendarWinUI3.Models
         }
         private string _dogDay;
 
+        /// <summary>
+        /// 数九天
+        /// </summary>
+        public string NineDay
+        {
+            get => _nineDay;
+            set
+            {
+                if (_nineDay != value)
+                {
+                    _nineDay = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private string _nineDay;
 
         /// <summary>
         /// 宜
@@ -260,6 +277,40 @@ namespace CalendarWinUI3.Models
             }
         }
         private string _pengZu;
+
+        /// <summary>
+        /// 胎神
+        /// </summary>
+        public string FetusDay
+        {
+            get => _fetusDay;
+            set
+            {
+                if (_fetusDay != value)
+                {
+                    _fetusDay = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private string _fetusDay;
+
+        /// <summary>
+        /// 日九星
+        /// </summary>
+        public string NineStar
+        {
+            get => _nineStar;
+            set
+            {
+                if (_nineStar != value)
+                {
+                    _nineStar = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private string _nineStar;
 
         public event PropertyChangedEventHandler PropertyChanged;
 

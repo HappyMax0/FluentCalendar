@@ -8,68 +8,32 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Margin="48">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <Grid Margin="0 12 0 10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
 
-        <Border
-    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-    CornerRadius="8"
-    Padding="16"
-    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-    BorderThickness="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="100"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="1" HorizontalAlignment="Center">
-                    <TextBlock Text="{x:Bind ViewModel.SolarDate}" FontSize="20"/>
-                    <TextBlock Text="{x:Bind ViewModel.SixtyCycleDate}"/>
-                    <TextBlock Text="{x:Bind ViewModel.LunarDate}"/>
-                </StackPanel>
-            </Grid>
-        </Border>
-
-        <Border Grid.Row="1"
-Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-CornerRadius="8"
-Padding="16"
-BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-BorderThickness="1">
-            <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="12">
-                <TextBlock x:Uid="MonthPage_Recommended" Margin="0,10,0,5" FontSize="22" IsColorFontEnabled="True" Foreground="Green" TextWrapping="WrapWholeWords"/>
-                <TextBlock Text="{x:Bind ViewModel.Recommends}"/>
-                <TextBlock x:Uid="MonthPage_Prohibited" Margin="0,10,0,5" FontSize="22" IsColorFontEnabled="True" Foreground="Red" TextWrapping="WrapWholeWords"/>
-                <TextBlock Text="{x:Bind ViewModel.Avoids}"/>
+            <StackPanel Margin="24 0 0 0" Orientation="Horizontal" >
+                <CalendarDatePicker x:Name="calendarDatePicker" Date="{x:Bind ViewModel.SelectedDay, Mode=TwoWay}" Margin="0 0 0 0" VerticalAlignment="Bottom" DateChanged="calendarDatePicker_DateChanged"/>
             </StackPanel>
-        </Border>
 
-        <Border Grid.Row="2"
-Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-CornerRadius="8"
-Padding="16"
-BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-BorderThickness="1">
-            <StackPanel HorizontalAlignment="Left" Margin="12">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock x:Uid="GoodGods" Margin="10" FontSize="18" TextWrapping="WrapWholeWords" Foreground="Red"/>
-                    <TextBlock Text="{x:Bind ViewModel.GoodGods}" VerticalAlignment="Center"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock x:Uid="BadGods" Margin="10" FontSize="18" TextWrapping="WrapWholeWords" Foreground="Red"/>
-                    <TextBlock Text="{x:Bind ViewModel.BadGods}" VerticalAlignment="Center"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock x:Uid="OldAlmanacPage_PengZu" Margin="10" FontSize="18" TextWrapping="WrapWholeWords" Foreground="Red"/>
-                    <TextBlock Text="{x:Bind ViewModel.PengZu}" VerticalAlignment="Center"/>
-                </StackPanel>
+            <Button Grid.Column="4" x:Uid="MainPage_Today" x:Name="HomeBtn" Margin="12,0" Click="HomeBtn_Click" VerticalAlignment="Bottom"/>
+
+            <StackPanel Grid.Column="5" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 24 0">
+                <Button x:Name="preBtn" Margin="5,0" Height="30" FontFamily="Segoe MDL2 Assets" Content="&#xE76B;" Click="preBtn_Click"/>
+                <Button x:Name="nextBtn" Margin="5,0" Height="30" FontFamily="Segoe MDL2 Assets" Content="&#xE76C;" Click="nextBtn_Click"/>
             </StackPanel>
-        </Border>
-
+        </Grid>
+        <Frame x:Name="contentFrame" Grid.Row="1"/>
     </Grid>
 </Page>

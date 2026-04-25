@@ -9,6 +9,22 @@ namespace CalendarWinUI3.ViewModels
 {
     public class OldAlmanacViewModel : INotifyPropertyChanged
     {
+        public bool IsUpdatingDateFromCode { get; set; }
+
+
+        private DateTimeOffset _selectedDay = DateTime.Now;
+        public DateTimeOffset SelectedDay
+        {
+            get => _selectedDay;
+            set
+            {
+                _selectedDay = value;
+                PropertyChanged?.Invoke(this,
+                    new PropertyChangedEventArgs(nameof(SelectedDay)));
+            }
+        }
+
+
         private String _solarDate;
         public String SolarDate
         {
@@ -102,6 +118,30 @@ namespace CalendarWinUI3.ViewModels
                 _pengZu = value;
                 PropertyChanged?.Invoke(this,
                     new PropertyChangedEventArgs(nameof(PengZu)));
+            }
+        }
+
+        private String _fetusDay;
+        public String FetusDay
+        {
+            get => _fetusDay;
+            set
+            {
+                _fetusDay = value;
+                PropertyChanged?.Invoke(this,
+                    new PropertyChangedEventArgs(nameof(FetusDay)));
+            }
+        }
+
+        private String _nineStar;
+        public String NineStar
+        {
+            get => _nineStar;
+            set
+            {
+                _nineStar = value;
+                PropertyChanged?.Invoke(this,
+                    new PropertyChangedEventArgs(nameof(NineStar)));
             }
         }
 

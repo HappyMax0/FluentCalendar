@@ -32,6 +32,8 @@ BorderThickness="1">
             <TextBlock FontSize="16" TextWrapping="WrapWholeWords" Text="{Binding SolarTerms, Mode=OneWay}"/>
             <TextBlock FontSize="16" Text="{Binding PlumRainDay}" Visibility="{Binding PlumRainDay, Converter={StaticResource NullToVisibilityConverter}}"/>
             <TextBlock FontSize="16" Text="{Binding DogDay}" Visibility="{Binding DogDay, Converter={StaticResource NullToVisibilityConverter}}"/>
+            <TextBlock FontSize="16" Text="{Binding NineDay}" Visibility="{Binding NineDay, Converter={StaticResource NullToVisibilityConverter}}"/>
+
             <TextBlock x:Uid="MonthPage_Recommended" Margin="0,10,0,5" FontSize="22" IsColorFontEnabled="True" Foreground="Green" TextWrapping="WrapWholeWords"/>
             <TextBlock FontSize="16" TextWrapping="WrapWholeWords" Text="{Binding Recommends, Mode=OneWay}"/>
             <TextBlock x:Uid="MonthPage_Prohibited" Margin="0,10,0,5" FontSize="22" IsColorFontEnabled="True" Foreground="Red" TextWrapping="WrapWholeWords"/>

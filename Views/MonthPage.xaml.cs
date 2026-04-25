@@ -47,7 +47,6 @@ namespace CalendarWinUI3.Views
                 viewModel = mainViewModel;
 
                 var time = viewModel.SelectedDay;
-                //weekGridView.ItemsSource = Enum.GetValues(typeof(System.DayOfWeek)).Cast<System.DayOfWeek>().ToList();
 
                 ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 

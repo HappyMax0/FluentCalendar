@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using tyme.culture;
 using tyme.culture.plumrain;
 using tyme.festival;
@@ -18,8 +19,8 @@ namespace CalendarWinUI3.Models.Utils
     public static class Helper
     {
         public static List<Day> GetDayList(DateTimeOffset time, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday, bool isShowWeekNo = false)
-        {         
-            List<Day> dayList = new List<Day>();       
+        {
+            List<Day> dayList = new List<Day>();
 
             int currentMonth = time.Month;
             int currentYear = time.Year;
@@ -46,9 +47,14 @@ namespace CalendarWinUI3.Models.Utils
                 int lunarYear = chineseCalendar.GetYear(dateTime);
                 int lunarMonth = chineseCalendar.GetMonth(dateTime);
                 int lunarDay = chineseCalendar.GetDayOfMonth(dateTime);
-
-                string lunarDayStr = Helper.GetLunarFestival(dateTime);
-                if (string.IsNullOrEmpty(lunarDayStr))
+                string lunarDayStr = string.Empty;
+                string lunarFestival = Helper.GetLunarFestival(dateTime);
+                string solarFestival = Helper.GetSolarFestival(dateTime);
+                if (!string.IsNullOrEmpty(lunarFestival))
+                    lunarDayStr = lunarFestival;
+                else if(!string.IsNullOrEmpty(solarFestival))
+                    lunarDayStr = solarFestival;
+                else
                     lunarDayStr = Helper.ConvertToLunarDay(lunarDay);
 
                 int weekNo = new GregorianCalendar().GetWeekOfYear(
@@ -67,21 +73,21 @@ namespace CalendarWinUI3.Models.Utils
                 var holidayData = HolidayProvider.HolidayDatas.FirstOrDefault(h => h.Year == dateTime.Year);
                 if (holidayData != null)
                 {
-                    var holidayDay = holidayData.Days.FirstOrDefault(x=>x.Date == dateTime);
-                    if(holidayDay != null)
+                    var holidayDay = holidayData.Days.FirstOrDefault(x => x.Date == dateTime);
+                    if (holidayDay != null)
                     {
                         isHoliday = holidayDay.IsOffDay;
                         isOverrideWorkday = !holidayDay.IsOffDay;
                         name = holidayDay.Name;
                     }
                 }
-                
+
                 singleDay.IsHoliday = isHoliday;
-                if(isHoliday)
+                if (isHoliday)
                     singleDay.EventList.Add(new Time() { Summary = name });
 
                 singleDay.IsWorkdayOverride = isOverrideWorkday && !string.IsNullOrEmpty(name);
-                if(isOverrideWorkday)
+                if (isOverrideWorkday)
                     singleDay.EventList.Add(new Time() { Summary = name });
 
                 dayList.Add(singleDay);
@@ -91,7 +97,7 @@ namespace CalendarWinUI3.Models.Utils
             for (int day = 1; day <= daysInCurrentMonth; day++)
             {
                 var dateTime = new DateTime(currentYear, currentMonth, day);
-                
+
                 DayOfWeek week = dateTime.DayOfWeek;
 
                 bool isToday = day == today.Day && currentMonth == today.Month;
@@ -102,8 +108,14 @@ namespace CalendarWinUI3.Models.Utils
                 int lunarMonth = chineseCalendar.GetMonth(dateTime);
                 int lunarDay = chineseCalendar.GetDayOfMonth(dateTime);
 
-                string lunarDayStr = Helper.GetLunarFestival(dateTime);
-                if (string.IsNullOrEmpty(lunarDayStr))
+                string lunarDayStr = string.Empty;
+                string lunarFestival = Helper.GetLunarFestival(dateTime);
+                string solarFestival = Helper.GetSolarFestival(dateTime);
+                if (!string.IsNullOrEmpty(lunarFestival))
+                    lunarDayStr = lunarFestival;
+                else if (!string.IsNullOrEmpty(solarFestival))
+                    lunarDayStr = solarFestival;
+                else
                     lunarDayStr = Helper.ConvertToLunarDay(lunarDay);
 
                 int weekNo = new GregorianCalendar().GetWeekOfYear(
@@ -135,7 +147,7 @@ namespace CalendarWinUI3.Models.Utils
                 if (isHoliday)
                     singleDay.EventList.Add(new Time() { Summary = name });
 
-               
+
                 singleDay.IsWorkdayOverride = isOverrideWorkday && !string.IsNullOrEmpty(name);
                 if (isOverrideWorkday)
                     singleDay.EventList.Add(new Time() { Summary = name });
@@ -145,7 +157,7 @@ namespace CalendarWinUI3.Models.Utils
 
             // 下一月补齐天数（确保总共 42 天）
             int nextMonth = currentMonth == 12 ? 1 : currentMonth + 1;
-            int nextYear = currentMonth == 12 ? currentYear + 1 : currentYear;   
+            int nextYear = currentMonth == 12 ? currentYear + 1 : currentYear;
             int remainingDays = 42 - dayList.Count;
 
             for (int i = 1; i <= remainingDays; i++)
@@ -157,8 +169,14 @@ namespace CalendarWinUI3.Models.Utils
                 int lunarDay = chineseCalendar.GetDayOfMonth(dateTime);
                 string str = chineseCalendar.ToString();
 
-                string lunarDayStr = Helper.GetLunarFestival(dateTime);
-                if (string.IsNullOrEmpty(lunarDayStr))
+                string lunarDayStr = string.Empty;
+                string lunarFestival = Helper.GetLunarFestival(dateTime);
+                string solarFestival = Helper.GetSolarFestival(dateTime);
+                if (!string.IsNullOrEmpty(lunarFestival))
+                    lunarDayStr = lunarFestival;
+                else if (!string.IsNullOrEmpty(solarFestival))
+                    lunarDayStr = solarFestival;
+                else
                     lunarDayStr = Helper.ConvertToLunarDay(lunarDay);
 
                 int weekNo = new GregorianCalendar().GetWeekOfYear(
@@ -187,9 +205,9 @@ namespace CalendarWinUI3.Models.Utils
                 }
 
                 singleDay.IsHoliday = isHoliday;
-                if(isHoliday)
+                if (isHoliday)
                     singleDay.EventList.Add(new Time() { Summary = name });
-                
+
                 singleDay.IsWorkdayOverride = isOverrideWorkday && !string.IsNullOrEmpty(name); ;
                 if (isOverrideWorkday)
                     singleDay.EventList.Add(new Time() { Summary = name });
@@ -206,14 +224,14 @@ namespace CalendarWinUI3.Models.Utils
             DateTime today = DateTime.Today;
 
             DateTime startDay;
-           if(firstDayOfWeek == DayOfWeek.Sunday)
-           {
+            if (firstDayOfWeek == DayOfWeek.Sunday)
+            {
                 // 计算周日的日期
                 int daysToSunday = (int)time.DayOfWeek; // DayOfWeek.Sunday = 0
                 startDay = time.AddDays(-daysToSunday).Date;
-           }
-           else
-           {
+            }
+            else
+            {
                 // 计算周一的日期
                 int daysToMonday = (int)time.DayOfWeek - (int)DayOfWeek.Monday;
                 if (daysToMonday < 0) daysToMonday += 7; // 处理周日（DayOfWeek.Sunday = 0）
@@ -227,7 +245,7 @@ namespace CalendarWinUI3.Models.Utils
                 var weekDate = startDay.AddDays(i);
 
                 var week = GetWeek(weekDate, today, firstDayOfWeek, isShowWeekNo);
-               
+
                 weekList.Add(week);
             }
 
@@ -257,7 +275,7 @@ namespace CalendarWinUI3.Models.Utils
                     week.Events.Add(new Time() { Summary = holidayDateTime.Name, Description = holidayDateTime.IsOffDay ? "放假" : "补班" });
             }
 
-           
+
             //公历
             SolarDay solarDay = SolarDay.FromYmd(week.YearNo, week.MonthNo, week.DayNo);
             LunarDay lunarDay = solarDay.GetLunarDay();
@@ -282,13 +300,14 @@ namespace CalendarWinUI3.Models.Utils
             week.SixtyCycle = sixtyCycleDay.ToString();
             week.LunarDay = $"{lunarDay.LunarMonth.GetName()} {lunarDay.GetName()}";
             week.Constellation = solarDay.Constellation.ToString();
-            week.PlumRainDay = solarDay.PlumRainDay == null? null : solarDay.PlumRainDay.ToString();
+            week.PlumRainDay = solarDay.PlumRainDay == null ? null : solarDay.PlumRainDay.ToString();
             week.DogDay = solarDay.DogDay == null ? null : solarDay.DogDay.ToString();
+            week.NineDay = solarDay.NineDay == null ? null : solarDay.NineDay.ToString();
             week.SolarTerms = lunarDay.GetSolarDay().Term.GetName();
             week.Recommends = string.Join("、", recommends.Select(x => x.GetName())).TrimEnd('、');
             week.Avoids = string.Join("、", avoids.Select(x => x.GetName())).TrimEnd('、');
 
-            var gods =lunarDay.Gods;
+            var gods = lunarDay.Gods;
 
             // 吉神宜趋
             List<God> goodGods = new List<God>();
@@ -312,12 +331,13 @@ namespace CalendarWinUI3.Models.Utils
             week.BadGods = string.Join("、", badGods.Select(x => x.GetName())).TrimEnd('、');
             var pengZu = lunarDay.SixtyCycle.PengZu;
             week.PengZu = $"{pengZu.PengZuHeavenStem} {pengZu.PengZuEarthBranch}";
+            week.FetusDay = lunarDay.FetusDay.ToString();
 
             return week;
         }
 
         public static Day GetDay(DateTimeOffset time)
-        {      
+        {
             Day day = new Day();
 
             day.YearNo = time.Year;
@@ -375,12 +395,12 @@ namespace CalendarWinUI3.Models.Utils
         public static string ConvertToLunarDay(int day)
         {
             ChineseLunisolarCalendar chineseCalendar = new ChineseLunisolarCalendar();
-           
+
             string[] chineseMonths = { "正", "二", "三", "四", "五", "六", "七", "八", "九", "十", "冬", "腊" };
             string[] chineseDays = { "初一", "初二", "初三", "初四", "初五", "初六", "初七", "初八", "初九", "初十", "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "二十", "廿一", "廿二", "廿三", "廿四", "廿五", "廿六", "廿七", "廿八", "廿九", "三十" };
-          
+
             string lunarDay = chineseDays[day - 1];
-           
+
             return lunarDay;
         }
 
@@ -399,7 +419,25 @@ namespace CalendarWinUI3.Models.Utils
                 return lunarFestival.GetName();
             }
             else
-            {          
+            {
+                return string.Empty;
+            }
+        }
+
+        public static string GetSolarFestival(DateTime date)
+        {
+            SolarDay solarDay = SolarDay.FromYmd(date.Year, date.Month, date.Day);
+            SolarFestival solarFestival = solarDay.Festival;
+            if (solarFestival != null)
+            {
+                string name = solarFestival.GetName();
+                string chineseNumbers = "一二三四五六七八九十零〇两";
+                string pattern = $"[{chineseNumbers}]+";
+
+                return Regex.Replace(name, pattern, "");
+            }
+            else
+            {
                 return string.Empty;
             }
         }

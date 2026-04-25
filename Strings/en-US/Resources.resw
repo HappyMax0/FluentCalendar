@@ -306,4 +306,10 @@
   <data name="OldAlmanacPage_PengZu.Text" xml:space="preserve">
     <value>PengZu</value>
   </data>
+  <data name="OldAlmanacPage_FetusDay.Text" xml:space="preserve">
+    <value>Fetus God</value>
+  </data>
+  <data name="OldAlmanacPage_NineStar.Text" xml:space="preserve">
+    <value>Five Elements</value>
+  </data>
 </root>

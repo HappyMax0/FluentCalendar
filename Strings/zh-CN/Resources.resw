@@ -369,4 +369,12 @@
     <value>彭祖百忌</value>
     <comment>PengZu</comment>
   </data>
+  <data name="OldAlmanacPage_FetusDay.Text" xml:space="preserve">
+    <value>今日胎神</value>
+    <comment>Fetus God</comment>
+  </data>
+  <data name="OldAlmanacPage_NineStar.Text" xml:space="preserve">
+    <value>五行</value>
+    <comment>Five Elements</comment>
+  </data>
 </root>
