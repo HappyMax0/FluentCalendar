@@ -10,7 +10,7 @@
   <Identity
     Name="MAX.FluentCalendarWinUI3-"
     Publisher="CN=87FE97BE-6C0A-49EB-9F90-E24CB6A596CE"
-    Version="1.2.0.0" />
+    Version="2.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="4daaf0c5-758e-4566-a670-5dc370ebafe7" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -38,7 +38,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="Fluent Calendar"
+        DisplayName="FluentCalendar"
         Description="CalendarWinUI3"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
