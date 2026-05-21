@@ -13,6 +13,7 @@ using tyme.lunar;
 using tyme.sixtycycle;
 using tyme.solar;
 using Windows.Storage;
+using static CommunityToolkit.WinUI.Controls.GridSplitter;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -103,6 +104,84 @@ namespace CalendarWinUI3.Views
             {
                 monthGridViewItemsWrapGrid.ItemWidth = monthGridView.ActualWidth / 7.5f;
                 //monthGridViewItemsWrapGrid.ItemHeight = monthGridView.ActualHeight / 6f;
+            }
+
+            // Ensure layout switches correctly on resize (fallback to code-behind if VisualState triggers don't apply)
+            if (this.ActualWidth < 720)
+            {
+                // Narrow layout: splitter below monthGridView, ChineseAlmanac below splitter
+                Grid.SetRow(GridSplitter, 2);
+                Grid.SetColumn(GridSplitter, 0);
+                Grid.SetRowSpan(GridSplitter, 1);
+                Grid.SetColumnSpan(GridSplitter, 3);
+                GridSplitter.ResizeDirection = GridResizeDirection.Rows;
+                GridSplitter.Height = 8;
+                GridSplitter.VerticalAlignment = VerticalAlignment.Center;
+                GridSplitter.HorizontalAlignment = HorizontalAlignment.Stretch;
+                GridSplitter.ResizeBehavior = GridResizeBehavior.PreviousAndNext;
+
+                // Make monthGridView row and ChineseAlmanac row resizable (star sizing)
+                if (rootGrid.RowDefinitions.Count > 3)
+                {
+                    rootGrid.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Star);
+                    rootGrid.RowDefinitions[3].Height = new GridLength(1, GridUnitType.Star);
+                }
+
+                Grid.SetRow(ChineseAlmanacControl, 3);
+                Grid.SetColumn(ChineseAlmanacControl, 0);
+                Grid.SetRowSpan(ChineseAlmanacControl, 1);
+                Grid.SetColumnSpan(ChineseAlmanacControl, 1);
+                // show horizontal splitter, hide vertical splitter
+                if (HorizontalSplitter != null)
+                {
+                    HorizontalSplitter.Visibility = Visibility.Visible;
+                    HorizontalSplitter.IsEnabled = true;
+                    Canvas.SetZIndex(HorizontalSplitter, 100);
+                }
+                if (GridSplitter != null)
+                {
+                    GridSplitter.Visibility = Visibility.Collapsed;
+                    GridSplitter.IsEnabled = false;
+                }
+            }
+            else
+            {
+                // Wide layout: splitter as vertical divider, almanac on the right
+                Grid.SetRow(GridSplitter, 0);
+                Grid.SetColumn(GridSplitter, 1);
+                Grid.SetRowSpan(GridSplitter, 4);
+                Grid.SetColumnSpan(GridSplitter, 1);
+                GridSplitter.ResizeDirection = GridResizeDirection.Columns;
+                GridSplitter.Height = double.NaN;
+                GridSplitter.VerticalAlignment = VerticalAlignment.Stretch;
+                GridSplitter.HorizontalAlignment = HorizontalAlignment.Center;
+                GridSplitter.ResizeBehavior = GridResizeBehavior.PreviousAndNext;
+
+                // Restore original row sizing: month row auto, bottom row star
+                if (rootGrid.RowDefinitions.Count > 3)
+                {
+                    rootGrid.RowDefinitions[1].Height = GridLength.Auto;
+                    rootGrid.RowDefinitions[3].Height = new GridLength(1, GridUnitType.Star);
+                }
+
+                Grid.SetRow(ChineseAlmanacControl, 0);
+                Grid.SetColumn(ChineseAlmanacControl, 2);
+                Grid.SetRowSpan(ChineseAlmanacControl, 4);
+                Grid.SetColumnSpan(ChineseAlmanacControl, 1);
+                // restore ChineseAlmanac width in wide mode (use explicit width from column)
+                ChineseAlmanacControl.Width = double.NaN;
+                // show vertical splitter, hide horizontal splitter
+                if (GridSplitter != null)
+                {
+                    GridSplitter.Visibility = Visibility.Visible;
+                    GridSplitter.IsEnabled = true;
+                    Canvas.SetZIndex(GridSplitter, 100);
+                }
+                if (HorizontalSplitter != null)
+                {
+                    HorizontalSplitter.Visibility = Visibility.Collapsed;
+                    HorizontalSplitter.IsEnabled = false;
+                }
             }
         }
      

@@ -72,15 +72,55 @@
     </Page.Resources>
     
     <Grid x:Name="rootGrid" Margin="24">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <!-- 窄窗口 -->
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="GridSplitter.(Grid.Row)" Value="2"/>
+                        <Setter Target="GridSplitter.(Grid.Column)" Value="0"/>
+                        <Setter Target="GridSplitter.ResizeDirection" Value="Rows"/>
+                        <Setter Target="GridSplitter.(Grid.RowSpan)" Value="1"/>
+                        <Setter Target="GridSplitter.(Grid.ColumnSpan)" Value="3"/>
+                        <Setter Target="GridSplitter.Height" Value="2"/>
+                        <Setter Target="ChineseAlmanacControl.(Grid.Row)" Value="3"/>
+                        <Setter Target="ChineseAlmanacControl.(Grid.Column)" Value="0"/>
+                        <Setter Target="ChineseAlmanacControl.(Grid.RowSpan)" Value="1"/>
+                        <Setter Target="ChineseAlmanacControl.(Grid.ColumnSpan)" Value="3"/>
+                        <Setter Target="ChineseAlmanacControl.Width" Value="Auto"/>
+                    </VisualState.Setters>
+                </VisualState>
+
+                <!-- 宽窗口 -->
+                <VisualState x:Name="Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="GridSplitter.(Grid.Row)" Value="0"/>
+                        <Setter Target="GridSplitter.(Grid.Column)" Value="1"/>
+                        <Setter Target="GridSplitter.ResizeDirection" Value="Columns"/>
+                        <Setter Target="GridSplitter.(Grid.RowSpan)" Value="4"/>
+                        <Setter Target="ChineseAlmanacControl.(Grid.Row)" Value="0"/>
+                        <Setter Target="ChineseAlmanacControl.(Grid.Column)" Value="2"/>
+                        <Setter Target="ChineseAlmanacControl.(Grid.RowSpan)" Value="4"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="350"/>
+            <ColumnDefinition Width="auto" MinWidth="400"/>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="380"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <GridView x:Name="weekGridView" 
                   ItemTemplate="{StaticResource WeekTemplate}" 
@@ -97,7 +137,7 @@
 
         <GridView x:Name="monthGridView" Grid.Row="1" 
                   ItemTemplate="{StaticResource MonthTemplate}"
-                  VerticalAlignment="Top"
+                  VerticalAlignment="Stretch"
                   SizeChanged="monthGridView_SizeChanged">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -108,15 +148,27 @@
             </GridView.ItemsPanel>
         </GridView>
 
-        <toolkit:GridSplitter Grid.Row="0" Grid.RowSpan="3" Grid.Column="1"
-            Width="2"
-HorizontalAlignment="Stretch"
-VerticalAlignment="Stretch"
-ResizeBehavior="PreviousAndNext"
-ResizeDirection="Columns" />
+        <!-- 竖向分隔(宽窗口) -->
+        <toolkit:GridSplitter x:Name="GridSplitter" Grid.Row="0" Grid.RowSpan="4" Grid.Column="1"
+            Width="2" MinHeight="8" Height="Auto"
+            Background="Transparent"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            ResizeBehavior="PreviousAndNext"
+            ResizeDirection="Columns" />
 
-        <usercontrols:ChineseAlmanac x:Name="ChineseAlmanacControl" 
-                                     Grid.Row="0" Grid.RowSpan="3" Grid.Column="2" />
+        <!-- 横向分隔(窄窗口)，默认隐藏，由代码在窄模式下启用布局和可见性 -->
+        <toolkit:GridSplitter x:Name="HorizontalSplitter" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+            Height="8" MinHeight="8" Width="Auto"
+            Background="#01FFFFFF"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            ResizeBehavior="PreviousAndNext"
+            ResizeDirection="Rows"
+            Visibility="Collapsed" />
+
+        <usercontrols:ChineseAlmanac x:Name="ChineseAlmanacControl"
+                                     Grid.Row="0" Grid.RowSpan="4" Grid.Column="2" />
        
     </Grid>
 
